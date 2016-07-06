@@ -49,8 +49,8 @@ function try_to_login($id, $password) {
 }
 
 function check_user_account($id, $password) {
-    $conn = get_connection('kocia.cytzyor3ndjk.ap-northeast-2.rds.amazonaws.com', 'kimjongchan', 'password', 'kimjongchan');
-	$stmt = mysqli_prepare($conn, "SELECT hash FROM user_account WHERE user_name = ?");
+    $conn = get_connection('kocia.cytzyor3ndjk.ap-northeast-2.rds.amazonaws.com', 'hangman', 'hangman', 'hangman');
+	$stmt = mysqli_prepare($conn, "SELECT password_hash FROM user_account WHERE id = ?");
 	mysqli_stmt_bind_param($stmt, "s", $id);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
@@ -58,7 +58,7 @@ function check_user_account($id, $password) {
 		header('Location: error.php?error_code=1');
 	} else {
 		$row = mysqli_fetch_assoc($result);
-		$hash = $row["hash"];
+		$hash = $row["password_hash"];
 		return password_verify($password, $hash);
 	}
 	mysqli_free_result($result);
