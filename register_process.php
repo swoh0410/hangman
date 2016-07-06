@@ -4,7 +4,7 @@
 	if (isset ($_POST['id'], $_POST['password'])) {
 		$id = $_POST['id'];
 		$password = $_POST['password'];
-		if ($id && $password == false) {
+		if (($id && $password) === false) {
 			header('Location: error.php?error_code=1');
 		} else {	
 			$conn = get_connection ('kocia.cytzyor3ndjk.ap-northeast-2.rds.amazonaws.com', 'hangman', 'hangman', 'hangman');

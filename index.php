@@ -18,7 +18,7 @@
 		</div>
 		<div id="content_r">
 			<div id="login">
-				<form action="login_process.php" method="POST">
+				<form action="login_process.php" method="post">
 					<table>
 						<tr>
 							<th>ID</th>
@@ -31,8 +31,9 @@
 					</table>
 					<td rowspan="2"><input type="submit" name="login_btn" value="로그인"></td>
 				</form>
-				<form action="register.php" method="POST">
-					<input type="button" name="register" value="회원가입">
+
+				<form action="register_page.php" method="get">
+					<input type="submit" value="회원가입">
 				</form>
 			</div>
 		</div>
