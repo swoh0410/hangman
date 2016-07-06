@@ -4,6 +4,10 @@
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>2조 PROJECT - HANGMAN GAME</title>
+<?php 
+	require_once '../includes/session.php'; 
+	start_session();
+?>
 </head>
 <body>
 
@@ -18,6 +22,21 @@
 		</div>
 		<div id="content_r">
 			<div id="login">
+			<?php 
+				if(check_login()){
+					echo '<table>';
+					echo '<td>'.$_GET['id'].'님 환영합니다.</td>';
+					
+			?>
+					<td><form action="logout.php" method="get">
+					<input type="submit" value="로그아웃"></td>
+					</form></td>
+					</tr>
+					</table>
+					</div>
+			<?php		
+				} else {				
+			?>					
 				<form action="login_process.php" method="post">
 					<table>
 						<tr>
@@ -35,6 +54,7 @@
 				<form action="register_page.php" method="get">
 					<input type="submit" value="회원가입">
 				</form>
+				<?php } ?>
 			</div>
 		</div>
 	</div>
