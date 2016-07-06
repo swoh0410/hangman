@@ -31,8 +31,8 @@
 						</tr>
 					</table>
 				</form>
-				<form action="" method="post">
-					<input type="button" name="register" value="회원가입">
+				<form action="register_page.php" method="get">
+					<input type="submit" value="회원가입">
 				</form>
 			</div>
 		</div>
