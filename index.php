@@ -18,20 +18,20 @@
 		</div>
 		<div id="content_r">
 			<div id="login">
-				<form action="" method="post">
+				<form action="login_process.php" method="POST">
 					<table>
 						<tr>
 							<th>ID</th>
-							<td><input type="text" name="user_id"></td>
-							<td rowspan="2"><input type="button" name="login_btn" value="로그인"></td>
+							<td><input type="text" name="id"></td>
 						</tr>
 						<tr>
 							<th>PW</th>
-							<td><input type="text" name="user_pw"></td>
+							<td><input type="password" name="password"></td>
 						</tr>
 					</table>
+					<td rowspan="2"><input type="submit" name="login_btn" value="로그인"></td>
 				</form>
-				<form action="" method="post">
+				<form action="register.php" method="POST">
 					<input type="button" name="register" value="회원가입">
 				</form>
 			</div>
