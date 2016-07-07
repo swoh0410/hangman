@@ -21,8 +21,9 @@ $return = check_character($ansArray,'a',$unseenArray);
 print_r(check_character($ansArray,'p',$return));
 
 
-
-function check_character($ansArray, $character, $unseenArray){
+//parameters: (답-사전에서 찾아온 단어(array), 입력받는 값 (charater), 아직 공개되지 않은 글자 array)
+function check_character($ansArray, $character, $unseenArray){ 
+	
 	foreach($ansArray as $key => $value){
 		$char_check_result = $unseenArray;
 		if($value === $character){
@@ -32,6 +33,5 @@ function check_character($ansArray, $character, $unseenArray){
 	}
 	return $char_check_result;
 }
-
 
 ?>
