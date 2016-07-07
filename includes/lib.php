@@ -1,9 +1,9 @@
 <?php
-	function get_connection ($host, $user, $pass, $db) {
-		$hostname = $host;
-		$username =	$user;
-		$password = $pass;
-		$dbname = $db;
+	function get_connection () {
+		$hostname = 'kocia.cytzyor3ndjk.ap-northeast-2.rds.amazonaws.com';
+		$username =	'hangman';
+		$password = 'hangman';
+		$dbname = 'hangman';
 		$conn = mysqli_connect($hostname, $username, $password, $dbname);
 		mysqli_query($conn, "SET NAMES 'utf8'");
 		return ($conn);
