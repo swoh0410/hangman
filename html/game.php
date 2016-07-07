@@ -1,20 +1,4 @@
 <?php
-	require_once '../includes/lib.php'; //서버 연결 함수 있는곳
-
-	function get_random_word () {
-		$conn = get_connection ();
-		$get_word = "SELECT word FROM vocabulary ORDER BY rand() LIMIT 1"; //랜덤 단어
-		$data = mysqli_query ($conn, $get_word);
-		if ($data === false) {
-			echo mysqli_error($conn);
-			die;
-		}	
-		$row = mysqli_fetch_assoc($data);
-		$word = $row['word'];
-		mysqli_close($conn);
-		return $word;
-	}
-	
 $ans = "apple";
 
 $ansArray= str_split($ans);
@@ -37,11 +21,8 @@ $return = check_character($ansArray,'a',$unseenArray);
 print_r(check_character($ansArray,'p',$return));
 
 
-//parameters: (답-사전에서 찾아온 단어(array), 입력받는 값 (charater), 아직 공개되지 않은 글자 array)
-//EX : apple이 들어오고 첫턴에 사용자가 p를 입력했다면 
-// ('a', 'p', 'p', 'l', 'e'), ('p'), (0, 0, 0, 0, 0) => (0, 'p', 'p', 0, 0)
-function check_character($ansArray, $character, $unseenArray){ 
-	
+
+function check_character($ansArray, $character, $unseenArray){
 	foreach($ansArray as $key => $value){
 		$char_check_result = $unseenArray;
 		if($value === $character){
@@ -51,5 +32,30 @@ function check_character($ansArray, $character, $unseenArray){
 	}
 	return $char_check_result;
 }
+
+
+
+	// 사용자 : 단어입력 - DB에서 제공한 단어와 같은지 비교
+	$ans = "apple";
+	$wrongInput ="hello";
+	$shortInput ="app";
+	$longInput ="appleab";
+	
+	$user_input = $_POST['user_word'];
+	$correct_answer = 'apple';
+	
+	// 사용자가 입력한 단어 : 소문자로 변경 및 space 삭제
+	function clean_input ($input_text) {
+		$input_text_lower = strtolower($input_text);
+		return str_replace(' ','',$input_text_lower);
+	}
+	
+	// 사용자가 입력한 값과, DB에서 제공한 단어를 clean_input 함수를 이용해 같은 형태로 변경한 후 값이 같은지 비교
+	function check_input ($correct_answer, $user_input) {
+		return clean_input ($correct_answer) === clean_input ($user_input);
+	}
+	echo '정답은 apple 입니다.<br>';
+	echo '단어 : '.$user_input.'<br>결과 : ';
+	var_dump(check_input($correct_answer, $user_input));
 
 ?>
