@@ -10,8 +10,7 @@
 <body>
 <p>
 <?php 
-	$a = implode($_SESSION['current'], ' ');
-	echo $a.'<br><br>';
+	
 	$b = implode($_SESSION['correct_answer'], ' ');
 	echo $b.'<br><br>';
 	//if(isset($_SESSION['wrong'])){
