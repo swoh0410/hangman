@@ -7,10 +7,7 @@
 <?php 
 	require_once '../includes/session.php'; 
 	start_session();
-	if(isset($_POST['status'])){
-		$status = $_POST['status'];
-		$_SESSION['status'] = $status;		
-	}
+	
 ?>
 </head>
 <body>

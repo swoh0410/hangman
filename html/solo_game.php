@@ -62,8 +62,12 @@
 ?>
 
 	<form action="test.php" method="post">
+		<input type="hidden" value="solo_game" name="status">
+		<input type="submit" value="리셋">		
+	</form>
+	<form action="test.php" method="post">
 		<input type="hidden" value="lobby" name="status">
-		<input type="submit" value="로비">
+		<input type="submit" value="로비">		
 	</form>
 </body>
 
