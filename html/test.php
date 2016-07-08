@@ -11,9 +11,7 @@
 		if ($status === 'solo_game') { //게임시작을 클릭했을때
 			get_random_word();
 			$_SESSION['status'] = $status;
-			$a = implode($_SESSION['current'], ' ');
-			echo $a;
-			header("Location: index.php?array=$a");
+			header("Location: index.php");
 		} else if ($status === 'lobby') { //리셋했을때
 			$_SESSION['status'] = $status;
 			header("Location: index.php");

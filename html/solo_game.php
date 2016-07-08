@@ -7,10 +7,11 @@
 
 </head>
 <?php 
-	if(isset($_GET['array'])) {
-		$a = $_GET['array'];
-		echo $a;
-	}
+	$a = implode($_SESSION['current'], ' ');
+	echo $a;
+	$b = implode($_SESSION['correct_answer'], ' ');
+	echo $b;
+	
 ?>
 <body>
 <?php 
