@@ -9,7 +9,7 @@
 </head>
 <?php if(isset($_GET['array'])){
 	$a = $_GET['array'];
-	echo "echo : ". $a;
+	echo $a;
 }
 ?>
 <body>
@@ -38,6 +38,10 @@
 			<li>&nbsp;</li>
 		</ul>
 	</div>
+	<form action="test.php" method="post">
+		<input type="hidden" value="lobby" name="status">
+		<input type="submit" value="로비">
+	</form>
 </body>
 
 

@@ -7,6 +7,10 @@
 <?php 
 	require_once '../includes/session.php'; 
 	start_session();
+	if(isset($_POST['status'])){
+		$status = $_POST['status'];
+		$_SESSION['status'] = $status;		
+	}
 ?>
 </head>
 <body>
@@ -53,7 +57,7 @@
 						<table>
 							<tr>
 								<td>
-									<?phpecho $_GET['id']?> 님 환영합니다!
+									<?php echo $_SESSION['id']; ?> 님 환영합니다!
 								</td>
 							</tr>
 							
