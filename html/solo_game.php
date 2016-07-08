@@ -6,34 +6,39 @@
 <head>
 
 </head>
-<?php if(isset($_GET['array'])){
-	$a = $_GET['array'];
-	echo $a;
-}
+<?php 
+	if(isset($_GET['array'])) {
+		$a = $_GET['array'];
+		echo $a;
+	}
 ?>
 <body>
 <?php 
-	
 	$status = 'solo_game';
 	$correct_answer = array('a', 'p', 'p', 'l', 'e');
 	$current_answer = array('_', 'p', 'p', '_', 'e');
 	
 	if ($status === 'solo_game') {
 ?>
-	
+<div id="wrap">
 	<div class="solo_game_panel">
 		<ul class="user_info">
 			<li>USER 1</li>
 		</ul>
 		<div class="panel_box">
-			<div>
+			<div class="user_output">
+				<ul>
+				<?php 
+					foreach ($current_answer as $key => $value) {
+				?>
+					<li>a</li>
+				<?php
+					}
+				?>
+				</ul>
+			</div>
 
-			</div>
-			<div>
-				틀린횟수 : X
-			</div>
-		</div>
-		<div class="user_input">
+			<div class="user_input">
 				<form action = "test.php" method = "post">
 					<ul>
 						<li> <input type="text" name="user_input" autofocus> </li>
@@ -41,6 +46,7 @@
 					</ul>
 				</form>
 			</div>
+		</div>
 	</div>
 	<div class="wrong_answer">
 		<ul>
@@ -60,19 +66,23 @@
 <?php
 	}
 ?>
+	<div class="page_btn">
+		<ul>
+			<li>
+				<form action="test.php" method="post">
+					<input type="hidden" value="solo_game" name="status">
+					<input type="submit" value="리셋">		
+				</form>
+			</li>
+			<li>
+				<form action="test.php" method="post">
+					<input type="hidden" value="lobby" name="status">
+					<input type="submit" value="로비">		
+				</form>
+			</li>
+		</ul>
+	</div>
 
-	<form action="test.php" method="post">
-		<input type="hidden" value="solo_game" name="status">
-		<input type="submit" value="리셋">		
-	</form>
-	<form action="test.php" method="post">
-		<input type="hidden" value="lobby" name="status">
-		<input type="submit" value="로비">		
-	</form>
-</body>
-
-
-
-	
+</div>
 </body>
 <html>

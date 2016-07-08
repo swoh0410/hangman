@@ -1,5 +1,8 @@
 /* hangman project style*/
 html,body{height:100%;margin:0;padding:0;font-size:13px;}
+ul li {list-style:none;}
+input[type='text'], input[type='submit'] {padding:7px 10px;}
+
 
 /* Layout */
 #wrap {width:100%;min-height:100%;padding:0;margin:-100px 0;}
@@ -16,13 +19,20 @@ html,body{height:100%;margin:0;padding:0;font-size:13px;}
 #footer {width:100%;margin:0;padding:50px 0;text-align:center;background:#E0E0E0;color:#000;}
 
 /* solo_game_panel */
-.solo_game_panel ul{border-bottom:1px solid #ddd;}
-.solo_game_panel ul li {list-style:none;}
-.solo_game_panel .user_info {padding:20px 0;}
-.solo_game_panel .user_input ul{margin:0;padding:50px 0;width:100%;text-align:center;}
-.solo_game_panel .user_input ul li{display:inline;float;left;}
-.solo_game_panel .user_input input[type='text'] {padding:7px 10px;}
-.solo_game_panel .user_input input[type='submit'] {padding:7px 20px;}
-.solo_game_panel .panel_box {padding:50px 20px;text-align:center;}
-.wrong_answer ul{margin:0;padding:0;width:100%;}
+.solo_game_panel {width:100%;padding:0;margin:0 auto;}
+.solo_game_panel .user_info {padding:20px 0;border-bottom:1px solid #ddd;}
+
+.solo_game_panel .panel_box {padding:50px 20px;text-align:center;border-bottom:1px solid #ddd;}
+.user_output ul {width:100%;padding:0;margin:0;text-align:center;}
+.user_output ul li{display:inline;float:left;padding:5px;margin:5px;border:3px solid #000;}
+.wrong_number {clear:both;width:100%;border-bottom:1px solid #ddd;}
+.user_input ul{margin:0;padding:50px 0;width:100%;text-align:center;}
+.user_input ul li{display:inline;float;left;}
+
+.solo_game_panel .wrong_answer ul{margin:0;padding:0;width:100%;}
+.wrong_answer {width:100%;height:300px;background:#ededed;}
 .wrong_answer ul li {display:inline;float;left;}
+
+.page_btn {width:100%;margin:0 auto;padding:0;text-align:center;}
+.page_btn ul {width:100%;padding:0;margin:0;}
+.page_btn li{display:inline;float:left;margin:0 5px;}
