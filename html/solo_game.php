@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 
 <head>
-<?php require_once 'test.php';?>
+
 </head>
 <?php if(isset($_GET['array'])){
 	$a = $_GET['array'];
@@ -26,7 +26,7 @@
 				<form action = "test.php" method = "post">
 					<ul>
 						<li><input type="text" name="user_input"></li>
-						<li> <input type="button" value  = "Entre" onclick = <?php get_random_word();?>> </li>
+						<li> <input type="submit" value  = "Entre"> </li>
 					</ul>
 				</form>
 			</div>

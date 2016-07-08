@@ -1,10 +1,18 @@
 <?php
 	require_once '../includes/session.php';
-	
+	start_session();
 	//게임 시작시, 사전에서 불러온 단어가 없을때, 단어 선정.
 	get_random_word();
 	
-	if (isset($_POST['user_input'])){
+	if(isset($_POST['status'])){ //게임시작을 클릭했을떄
+		$status = $_POST['status'];
+		$_SESSION['status'] = 'solo_game';
+		$a = implode($_SESSION['current'], ' ');
+			echo $a;
+		header("Location: index.php?array=$a");
+	}
+	
+	if (isset($_POST['user_input'])){ //'a'입력시
 		$user_input = $_POST['user_input'];
 		$result = check_character ($_SESSION['correct_answer'], 
 			$user_input, $_SESSION['current']);
@@ -15,7 +23,7 @@
 		header("Location: index.php?array=$a");
 	} 
 	
-	function get_random_word () {
+	function get_random_word () {//나중에 이름 바꿔야함.
 		if (!(isset ($_SESSION['correct_answer']))){ //처음 들어옴
 			$conn = get_connection ();
 			$get_word_query = "SELECT word FROM vocabulary ORDER BY rand() LIMIT 1"; //랜덤으로 단어 하나 불러오는 query.
@@ -36,9 +44,9 @@
 			$_SESSION['correct_answer'] = str_split($word); //(a,p,p,l,e)
 			$_SESSION['current'] = create_empty_array (count($_SESSION['correct_answer'])); //(_,_,_,_,_)	
 		}else {
-		$a = implode($_SESSION['current'], ' ');
-		echo $a;
-	}
+			$a = implode($_SESSION['current'], ' ');
+			echo $a;
+		}
 	}
 
 	function check_character($ansArray, $character, $unseenArray){ 
