@@ -42,7 +42,7 @@
 			<div class="user_input">
 				<form action = "test.php" method = "post">
 					<ul>
-						<li><input type="text" name="user_input"></li>
+						<li> <input type="text" name="user_input" autofocus> </li>
 						<li> <input type="submit" value  = "Entre"> </li>
 					</ul>
 				</form>
