@@ -24,6 +24,7 @@ a {text-decoration:none;}
 .login_btn input[type='submit'] {padding:25px 15px;}
 .please_login {width:100%;margin:0;padding:0;height:900px;text-align:center;background:url('/images/hangman.png') left top no-repeat;text-align:center;}
 .please_login h1 {padding:20px;margin-top:650px;display:inline-block;background:#fff;}
+.please_start {width:100%;margin:400px 0 0 0;padding:0;height:900px;text-align:center;text-align:center;}
 
 /* solo_game_panel */
 #panel_wrap {width:100%;}
