@@ -83,4 +83,11 @@ function try_to_logout() {
 	}
 }
 
+function status ($status){
+	$_SESSION['status'] = $status;
+	return ($_SESSION['status']);
+}
+
+
+
  ?>

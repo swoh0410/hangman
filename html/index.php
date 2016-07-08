@@ -7,6 +7,10 @@
 <?php 
 	require_once '../includes/session.php'; 
 	start_session();
+	if(isset($_POST['status'])){
+		$status = $_POST['status'];
+		$_SESSION['status'] = $status;		
+	}
 ?>
 </head>
 <body>
@@ -20,23 +24,27 @@
 				<div id="content_l">
 					<?php //require 'solo_game.php'?>
 						<?php
-							if (isset($_POST['status'])){
-								$status = $_POST['status'];
-								$_SESSION['status'] = $status;
-							} else {
-								$_SESSION['status'] = 'lobby';
+							if (isset($_SESSION['status'])){
+								
+							} else { // 처음 들어옴.
+								$_SESSION['status'] = 'lobby'; // 나중에 변경해야함.
+								
+								//여기서 끝내야함.
 							}
 							
 							
-							if($_SESSION['status'] === 'lobby'){						
+							if($_SESSION['status'] === 'lobby'){
+								
 						?>
-							<form action="index.php" method="post">
+							<form action="test.php" method="post">
 								<input type="hidden" value="solo_game" name="status">
 								<input type="submit" value="솔로 게임">
 							</form>
-						<?php
+						<?php							
 							}else if($_SESSION['status'] === 'solo_game'){
 								require 'solo_game.php';
+							} else {
+								echo $_SESSION['status'];
 							}
 						?>
 					
@@ -47,7 +55,7 @@
 						<table>
 							<tr>
 								<td>
-									<?phpecho $_GET['id']?> 님 환영합니다!
+									<?php echo $_SESSION['id']; ?> 님 환영합니다!
 								</td>
 							</tr>
 							

@@ -7,8 +7,8 @@
 		$password = $_POST['password'];
 		//echo "ID: ".$id. "<br> PW: " . $password;
 		
-		if (try_to_login($id, $password) == true) {
-			header("Location: index.php?id=$id");
+		if (try_to_login($id, $password) == true) {			
+			header("Location: index.php");			
 		} else {
 			header('Location: error.php?error_code=1');
 		}
