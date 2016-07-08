@@ -1,33 +1,33 @@
 <?php
 $ans = "apple";
 
-$ansArray= str_split($ans);
-print_r($ansArray);
+$ans_array= str_split($ans);
+print_r($ans_array);
 echo "<br>";
-$ansLength = count($ansArray);
-$unseenArray = Array();
+$ansLength = count($ans_array);
+$current = Array();
 
 for($i = 0; $i < $ansLength; $i++){
-	$unseenArray[] = 0;
+	$current[] = 0;
 }
 
-print_r($unseenArray);
-$wrongArray = Array();
+print_r($current);
+$wrong = Array();
 
 
 
-$return = check_character($ansArray,'a',$unseenArray);
+$return = check_character($ans_array,'a',$current);
 
-print_r(check_character($ansArray,'p',$return));
+print_r(check_character($ans_array,'p',$return));
 
 
 
-function check_character($ansArray, $character, $unseenArray){
-	foreach($ansArray as $key => $value){
-		$char_check_result = $unseenArray;
+function check_character($ans_array, $character, $current){
+	foreach($ans_array as $key => $value){
+		$char_check_result = $current;
 		if($value === $character){
-			$unseenArray[$key] = $character;
-			$char_check_result = $unseenArray;
+			$current[$key] = $character;
+			$char_check_result = $current;
 		}
 	}
 	return $char_check_result;

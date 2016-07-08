@@ -9,7 +9,7 @@
 		$status = $_POST['status'];
 		
 		if ($status === 'solo_game') { //게임시작을 클릭했을때
-			get_random_word();
+			reset_correct_answer();
 			$_SESSION['status'] = $status;
 			header("Location: index.php");
 		} else if ($status === 'lobby') { //리셋했을때
@@ -21,15 +21,13 @@
 	if (isset($_POST['user_input'])){ //'a'입력시
 		$user_input = $_POST['user_input'];
 		$result = check_character ($_SESSION['correct_answer'], 
-			$user_input, $_SESSION['current']);
-		$_SESSION['current'] = $result;
-		
-		$a = implode($_SESSION['current'], ' ');
-		echo $a;
-		header("Location: index.php?array=$a");
+			$user_input, $_SESSION['current'],$_SESSION['wrong']);
+		$_SESSION['current'] = $result[0];
+		$_SESSION['wrong'] = $result[1];
+		header("Location: index.php");
 	} 
 	
-	function get_random_word () {//나중에 이름 바꿔야함.
+	function reset_correct_answer() {
 	
 		$conn = get_connection ();
 		$get_word_query = "SELECT word FROM vocabulary ORDER BY rand() LIMIT 1"; //랜덤으로 단어 하나 불러오는 query.
@@ -48,21 +46,33 @@
 	
 	
 		$_SESSION['correct_answer'] = str_split($word); //(a,p,p,l,e)
-		$_SESSION['current'] = create_empty_array (count($_SESSION['correct_answer'])); //(_,_,_,_,_)	
+		$current = create_empty_array (count($_SESSION['correct_answer'])); //(_,_,_,_,_)
+		
+		
+		$_SESSION['current'] = $current;
+		$_SESSION['wrong'] = array();
+			
 	}/*else {
 		$a = implode($_SESSION['current'], ' ');
 		echo $a;
 	}*/
 	
 
-	function check_character($ansArray, $character, $unseenArray){ 
-	
-		foreach($ansArray as $key => $value){
-			$char_check_result = $unseenArray;
+	function check_character($ans_array, $character, $current, $wrong){ 
+		$match_found = false;
+		$char_check_result[0] = $current;
+		$char_check_result[1] = $wrong;
+		foreach($ans_array as $key => $value){
 			if($value === $character){
-				$unseenArray[$key] = $character;
-				$char_check_result = $unseenArray;
+				$current[$key] = $character;
+				$char_check_result[0] = $current;
+				$match_found = true;
 			}
+			
+		}
+		
+		if($match_found === false){
+			$char_check_result[1][] = $character;
 		}
 		return $char_check_result;
 	}
@@ -70,19 +80,22 @@
 	//(0,0,0,0)
 	function create_empty_array ($length){ 
 		for($i = 0; $i < $length; $i++){
-			$unseenArray[] = ' ';
+
+			$current[] = '_ ';
 		}
-		return $unseenArray;
+		return $current;
 	}
+	
+	
 	
 	
 	
 	//테스트용
 	//$ans = 'apple';
 
-	/*$ansArray= str_split($ans);
-	print_r($ansArray);
-	foreach ($ansArray as $key => $value) {
+	/*$ans_array= str_split($ans);
+	print_r($ans_array);
+	foreach ($ans_array as $key => $value) {
 		$see = $value;
 		$see = '_ ';
 		echo $see;

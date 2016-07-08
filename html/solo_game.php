@@ -6,13 +6,18 @@
 <head>
 
 </head>
+
+<body>
+<p>
 <?php 
 	$a = implode($_SESSION['current'], ' ');
-	echo $a;
+	echo $a.'<br><br>';
 	$b = implode($_SESSION['correct_answer'], ' ');
-	echo $b;
+	echo $b.'<br><br>';
+	//if(isset($_SESSION['wrong'])){
+	
 ?>
-<body>
+</p>
 <?php 
 	$status = 'solo_game';
 	$correct_answer = $_SESSION ['correct_answer'];
@@ -41,6 +46,7 @@
 			<div class="user_input">
 				<form action = "test.php" method = "post">
 					<ul>
+
 						<li> <input type="text" name="user_input" size="35" autofocus> </li>
 						<li> <input type="submit" value  = "Entre"> </li>
 					</ul>
@@ -50,14 +56,19 @@
 	</div>
 	<div class="wrong_input">
 		<ul>
-			<li>오답 : </li>
-		<?php 
-			foreach ($wrong_input as $key => $value) {
-				echo '<li>';
-				echo $value;
-				echo '</li>';
+
+			<li>틀린답</li>
+			<li>&nbsp;</li><br>
+			<?php		
+			echo '<li>';			
+			if(count($_SESSION['wrong']) === 1){
+				echo $_SESSION['wrong'][0];
+			}else if(count($_SESSION['wrong']) > 1){
+				$c = implode($_SESSION['wrong'], ' ');
+				echo $c;
 			}
-		?>	
+			echo '</li>';
+			?>
 		</ul>
 	</div>
 	<div class="page_btn">
