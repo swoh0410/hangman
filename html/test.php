@@ -70,7 +70,7 @@
 	//(0,0,0,0)
 	function create_empty_array ($length){ 
 		for($i = 0; $i < $length; $i++){
-			$unseenArray[] = '_ ';
+			$unseenArray[] = ' ';
 		}
 		return $unseenArray;
 	}

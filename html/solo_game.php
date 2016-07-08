@@ -11,7 +11,6 @@
 	echo $a;
 	$b = implode($_SESSION['correct_answer'], ' ');
 	echo $b;
-	
 ?>
 <body>
 <?php 
@@ -31,11 +30,9 @@
 				<ul>
 				<?php 
 					foreach ($current as $key => $value) {
-					echo '<li>';
-					
-						
-					
-					echo '</li>';
+						echo '<li>';
+						echo $value;
+						echo '</li>';
 					}
 				?>
 				</ul>

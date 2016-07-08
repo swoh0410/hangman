@@ -8,7 +8,7 @@
 <body>
 
 <div id="header">
-	<h1>HANGMAN GAME</h1>
+	<h1><a href="index.php">HANGMAN GAME</a></h1>
 </div>
 
 </body>
