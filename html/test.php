@@ -81,7 +81,7 @@
 	function create_empty_array ($length){ 
 		for($i = 0; $i < $length; $i++){
 
-			$current[] = '_ ';
+			$current[] = '';
 		}
 		return $current;
 	}

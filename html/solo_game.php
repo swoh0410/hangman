@@ -57,7 +57,6 @@
 		<ul>
 
 			<li>틀린답</li>
-			<li>&nbsp;</li><br>
 			<?php		
 			echo '<li>';			
 			if(count($_SESSION['wrong']) === 1){

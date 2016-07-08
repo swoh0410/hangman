@@ -29,10 +29,12 @@
 							
 							if($_SESSION['status'] === 'lobby'){							
 						?>
+						<div class="please_start">
 							<form action="test.php" method="post">
 								<input type="hidden" value="solo_game" name="status">
 								<input type="submit" value="솔로 게임">
 							</form>
+						</div>
 						<?php							
 							}else if($_SESSION['status'] === 'solo_game'){
 								require 'solo_game.php';
