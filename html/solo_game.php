@@ -7,10 +7,11 @@
 
 </head>
 <?php 
-	if(isset($_GET['array'])) {
-		$a = $_GET['array'];
-		echo $a;
-	}
+	$a = implode($_SESSION['current'], ' ');
+	echo $a;
+	$b = implode($_SESSION['correct_answer'], ' ');
+	echo $b;
+	
 ?>
 <body>
 <?php 
@@ -43,7 +44,7 @@
 			<div class="user_input">
 				<form action = "test.php" method = "post">
 					<ul>
-						<li><input type="text" name="user_input" size="50"></li>
+						<li> <input type="text" name="user_input" size="50" autofocus> </li>
 						<li> <input type="submit" value  = "Entre"> </li>
 					</ul>
 				</form>
