@@ -22,16 +22,12 @@
 					<?php //require 'solo_game.php'?>
 						<?php
 							if (isset($_SESSION['status'])){
-								
-							} else { // 처음 들어옴.
-								$_SESSION['status'] = 'lobby'; // 나중에 변경해야함.
-								
-								//여기서 끝내야함.
-							}
+								// 세션이 있으면 아무 작업도 안함.
+							} else { // 처음 들어 오면 세션을 lobby로.
+								$_SESSION['status'] = 'lobby';								
+							}						
 							
-							
-							if($_SESSION['status'] === 'lobby'){
-								
+							if($_SESSION['status'] === 'lobby'){							
 						?>
 							<form action="test.php" method="post">
 								<input type="hidden" value="solo_game" name="status">
@@ -42,6 +38,7 @@
 								require 'solo_game.php';
 							} else {
 								echo $_SESSION['status'];
+								die ('세션 에러');
 							}
 						?>
 					
