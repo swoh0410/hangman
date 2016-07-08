@@ -15,12 +15,12 @@
 <body>
 <?php 
 	$status = 'solo_game';
-	$correct_answer = array('a', 'p', 'p', 'l', 'e');
-	$current_answer = array('_', 'p', 'p', '_', 'e');
+	$correct_answer = $_SESSION ['correct_answer'];
+	$current = $_SESSION ['current'];
 	
 	if ($status === 'solo_game') {
 ?>
-<div id="wrap">
+<div id="panel_wrap">
 	<div class="solo_game_panel">
 		<ul class="user_info">
 			<li>USER 1</li>
@@ -29,10 +29,12 @@
 			<div class="user_output">
 				<ul>
 				<?php 
-					foreach ($current_answer as $key => $value) {
-				?>
-					<li>a</li>
-				<?php
+					foreach ($current as $key => $value) {
+					echo '<li>';
+					
+						
+					
+					echo '</li>';
 					}
 				?>
 				</ul>
@@ -41,7 +43,7 @@
 			<div class="user_input">
 				<form action = "test.php" method = "post">
 					<ul>
-						<li><input type="text" name="user_input"></li>
+						<li><input type="text" name="user_input" size="50"></li>
 						<li> <input type="submit" value  = "Entre"> </li>
 					</ul>
 				</form>
@@ -54,18 +56,6 @@
 			<li>&nbsp;</li>
 		</ul>
 	</div>
-	
-<?php
-	} else if ($status === 'game_end') {
-?>
-	
-	<div>
-		Game Over
-	</div>
-	
-<?php
-	}
-?>
 	<div class="page_btn">
 		<ul>
 			<li>
@@ -82,6 +72,19 @@
 			</li>
 		</ul>
 	</div>
+	
+<?php
+	} else if ($status === 'game_end') {
+?>
+	
+	<div>
+		Game Over
+	</div>
+	
+<?php
+	}
+?>
+	
 
 </div>
 </body>
