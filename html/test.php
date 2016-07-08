@@ -80,24 +80,13 @@
 	//(0,0,0,0)
 	function create_empty_array ($length){ 
 		for($i = 0; $i < $length; $i++){
+
 			$current[] = '_ ';
 		}
 		return $current;
 	}
 	
-	function check_wrong_character($ans_array, $character){ 
 	
-		foreach($ans_array as $key => $value){
-			
-			if($value !== $character){
-				for ($i = 1; $i <= count($wrong_character_array); $i++) {
-					$wrong_character_array[$i] = $character;
-					$wrong_character = $wrong_character_array;
-				}				
-			}
-		}
-		return $wrong_character;
-	}
 	
 	
 	
