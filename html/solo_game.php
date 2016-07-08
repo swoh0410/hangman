@@ -13,10 +13,6 @@
 ?>
 <body>
 <?php 
-	if(isset($_GET['array'])) {
-		$a = $_GET['array'];
-		echo "echo : ". $a;
-	}
 	
 	$status = 'solo_game';
 	$correct_answer = array('a', 'p', 'p', 'l', 'e');
@@ -31,7 +27,7 @@
 		</ul>
 		<div class="panel_box">
 			<div>
-				<?php echo $current_answer;?>
+
 			</div>
 			<div>
 				틀린횟수 : X
