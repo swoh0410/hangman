@@ -76,13 +76,13 @@
 								<tr>
 									<th>ID</th>
 									<td><input type="text" name="id"></td>
+									<td class="login_btn" rowspan="2"><input type="submit" name="login_btn" value="로그인"></td>
 								</tr>
 								<tr>
 									<th>PW</th>
 									<td><input type="password" name="password"></td>
 								</tr>
 							</table>
-							<td rowspan="2"><input type="submit" name="login_btn" value="로그인"></td>
 						</form>
 						<form action="register_page.php" method="get">
 							<input type="submit" value="회원가입">
@@ -90,7 +90,9 @@
 					</div>
 				</div>
 				<div id="content_l">
-					<h1> 로그인을 해주세요! <h1>
+					<div class="please_login">
+						<h1> 로그인을 해주세요! </h1>
+					</div>
 				</div>
 		<?php } ?>		
 	</div>

@@ -17,6 +17,7 @@
 	$status = 'solo_game';
 	$correct_answer = $_SESSION ['correct_answer'];
 	$current = $_SESSION ['current'];
+	$wrong_input = array('e','p','a','q','j','p','a','q','j');
 	
 	if ($status === 'solo_game') {
 ?>
@@ -37,21 +38,26 @@
 				?>
 				</ul>
 			</div>
-
 			<div class="user_input">
 				<form action = "test.php" method = "post">
 					<ul>
-						<li> <input type="text" name="user_input" size="50" autofocus> </li>
+						<li> <input type="text" name="user_input" size="35" autofocus> </li>
 						<li> <input type="submit" value  = "Entre"> </li>
 					</ul>
 				</form>
 			</div>
 		</div>
 	</div>
-	<div class="wrong_answer">
+	<div class="wrong_input">
 		<ul>
-			<li>틀린답</li>
-			<li>&nbsp;</li>
+			<li>오답 : </li>
+		<?php 
+			foreach ($wrong_input as $key => $value) {
+				echo '<li>';
+				echo $value;
+				echo '</li>';
+			}
+		?>	
 		</ul>
 	</div>
 	<div class="page_btn">
