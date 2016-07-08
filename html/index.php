@@ -11,10 +11,8 @@
 </head>
 <body>
 
-
+<?php include 'header.php'; ?>
 <div id="wrap">
-	<?php include 'header.php'; ?>
-	
 	<div id="content">							
 		<?php 
 			if(check_login()){
