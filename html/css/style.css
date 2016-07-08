@@ -14,3 +14,11 @@ body{margin:0;font-size:13px;padding:0;min-height:100%;}
 /* Header & Footer */
 #header {width:100%;margin:0;padding:15px 0;text-align:center;background:#2F2F2F;color:#fff;}
 #footer {width:100%;margin:0;padding:15px 0;text-align:center;background:#E0E0E0;color:#000;margin-top:-1em;}
+
+/* solo_game_panel */
+.solo_game_panel ul{border-bottom:1px solid #ddd;}
+.solo_game_panel .user_input ul{margin:0;padding:0;width:100%;}
+.solo_game_panel .user_input ul li{display:inline;float;left;list-style:none;}
+.solo_game_panel .panel_box {padding:50px 20px;text-align:center;}
+.wrong_answer ul{margin:0;padding:0;width:100%;}
+.wrong_answer ul li {display:inline;float;left;list-style:none;}

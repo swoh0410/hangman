@@ -1,14 +1,8 @@
 <?php
-	require_once '../includes/lib.php';
 	require_once '../includes/session.php';
-	start_session();
 	
-	if (!(isset ($_SESSION['correct_answer']))){ //처음 들어옴
-		$_SESSION['correct_answer'] = str_split(get_random_word ()); //(a,p,p,l,e)
-		$_SESSION['current'] = create_empty_array (count($_SESSION['correct_answer'])); 
-		//(0,0,0,0,0)	
-				//print_r ($_SESSION['current']);
-	}
+	//게임 시작시, 사전에서 불러온 단어가 없을때, 단어 선정.
+	get_random_word();
 	
 	if (isset($_POST['user_input'])){
 		$user_input = $_POST['user_input'];
@@ -18,20 +12,33 @@
 		
 		$a = implode($_SESSION['current'], ' ');
 		echo $a;
+		header("Location: index.php?array=$a");
 	} 
 	
 	function get_random_word () {
-		$conn = get_connection ();
-		$get_word = "SELECT word FROM vocabulary ORDER BY rand() LIMIT 1";
-		$data = mysqli_query ($conn, $get_word);
-		if ($data === false) {
-			echo mysqli_error($conn);
-			die;
-		}	
-		$row = mysqli_fetch_assoc($data);
-		$word = $row['word'];
-		mysqli_close($conn);
-		return $word;
+		if (!(isset ($_SESSION['correct_answer']))){ //처음 들어옴
+			$conn = get_connection ();
+			$get_word_query = "SELECT word FROM vocabulary ORDER BY rand() LIMIT 1"; //랜덤으로 단어 하나 불러오는 query.
+			$data = mysqli_query ($conn, $get_word_query);
+			
+			if ($data === false) {
+				echo mysqli_error($conn);
+				echo "vocabulary DB 에서 데이터를 불러올 수 없습니다.";
+				die;
+			
+			}	
+			
+			$row = mysqli_fetch_assoc($data);
+			$word = $row['word'];
+			mysqli_close($conn);
+		
+		
+			$_SESSION['correct_answer'] = str_split($word); //(a,p,p,l,e)
+			$_SESSION['current'] = create_empty_array (count($_SESSION['correct_answer'])); //(_,_,_,_,_)	
+		}else {
+		$a = implode($_SESSION['current'], ' ');
+		echo $a;
+	}
 	}
 
 	function check_character($ansArray, $character, $unseenArray){ 
@@ -69,7 +76,10 @@
 	
 	
 ?>
-<form action="test.php" method="post">
-<input type="text" name="user_input">
-<input type="submit" value="제출">
-<form>
+<!--
+	<input type = "button" onclick = <?php ?>>
+	<form action="test.php" method="post">
+	<input type="text" name="user_input">
+	<input type="submit" value="제출">
+	<form>
+-->

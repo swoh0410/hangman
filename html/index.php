@@ -14,27 +14,52 @@
 
 <div id="wrap">
 	<?php include 'header.php'; ?>
+	
 	<div id="content">							
 		<?php 
 			if(check_login()){
-				echo '<table>';
-				echo '<tr>';
-				echo '<td>'.$_GET['id'].'님 환영합니다.</td>';
-				echo '</tr>';
-					
 		?>
 				<div id="content_l">
-					<form>
-						<input type="button" name="start_game" value="게임 참가하기">
-					</form>
+					<?php //require 'solo_game.php'?>
+						<?php
+							if (isset($_POST['status'])){
+								$status = $_POST['status'];
+								$_SESSION['status'] = $status;
+							} else {
+								$_SESSION['status'] = 'lobby';
+							}
+							
+							
+							if($_SESSION['status'] === 'lobby'){						
+						?>
+							<form action="index.php" method="post">
+								<input type="hidden" value="solo_game" name="status">
+								<input type="submit" value="솔로 게임">
+							</form>
+						<?php
+							}else if($_SESSION['status'] === 'solo_game'){
+								require 'solo_game.php';
+							}
+						?>
+					
 				</div>
-				<div id="content_r">
+				
+				<div id="content_r">		
 					<div id="login">
-						<tr>
-							<td><form action="logout.php" method="get">
-							<input type="submit" value="로그아웃"></td>
-							</form></td>
-						</tr>
+						<table>
+							<tr>
+								<td>
+									<?phpecho $_GET['id']?> 님 환영합니다!
+								</td>
+							</tr>
+							
+							<tr>
+								<td>
+									<form action="logout.php" method="get">
+										<input type="submit" value="로그아웃">
+									</form>
+								</td>
+							</tr>
 						</table>
 					</div>
 				</div>	
@@ -60,6 +85,9 @@
 							<input type="submit" value="회원가입">
 						</form>
 					</div>
+				</div>
+				<div id="content_l">
+					<h1> 로그인을 해주세요! <h1>
 				</div>
 		<?php } ?>		
 	</div>
