@@ -28,7 +28,7 @@
 <div id="panel_wrap">
 	<div class="solo_game_panel">
 		<ul class="user_info">
-			<li>USER 1</li>
+			<li>USER: <?php echo $_SESSION['id']; ?></li>
 		</ul>
 		<div class="panel_box">
 			<div class="user_output">
@@ -46,7 +46,7 @@
 				<form action = "test.php" method = "post">
 					<ul>
 
-						<li> <input type="text" name="user_input" size="35" autofocus> </li>
+						<li> <input type="text" name="user_input" size="35"  autocomplete="off" autofocus> </li>
 						<li> <input type="submit" value  = "Entre"> </li>
 					</ul>
 				</form>
