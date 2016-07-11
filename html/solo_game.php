@@ -13,6 +13,8 @@
 	
 	$b = implode($_SESSION['correct_answer'], ' ');
 	echo $b.'<br><br>';
+	//$c = implode($_SESSION['current'], ' ');
+	//echo $c.'<br><br>';
 	//if(isset($_SESSION['wrong'])){
 	
 ?>
@@ -45,7 +47,7 @@
 <div id="panel_wrap">
 	<div class="solo_game_panel">
 		<ul class="user_info">
-			<li>USER 1</li>
+			<li>USER: <?php echo $_SESSION['id']; ?></li>
 		</ul>
 <?php 
 			if ($status === 'waiting') {
