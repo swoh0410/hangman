@@ -122,7 +122,7 @@
 		</ul>
 	</div>
 <?php
-			} else ($status === 'game_end') {
+			} else {
 		
 ?>
 		<div class="user_output">
