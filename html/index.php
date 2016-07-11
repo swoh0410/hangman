@@ -19,15 +19,12 @@
 			if(check_login()){
 		?>
 				<div id="content_l">
+					<?php //require 'solo_game.php'?>
 						<?php
-							if (isset($_SESSION['info'])){
+							if (isset($_SESSION['status'])){
 								// 세션이 있으면 아무 작업도 안함.
 							} else { // 처음 들어 오면 세션을 lobby로.
-								$infoArray['id'] = $_SESSION('id');
-								$infoArray['password'] = $_SESSION('password');
-								$_SESSION['status'] = 'lobby';//모든 수정후 지워야함.
-								$infoArray ['status'] = 'lobby';
-								$_SESSION['info'] = new SessionInfo($infoArray);
+								$_SESSION['status'] = 'lobby';								
 							}						
 							
 							if($_SESSION['status'] === 'lobby'){							

@@ -13,6 +13,8 @@
 	
 	$b = implode($_SESSION['correct_answer'], ' ');
 	echo $b.'<br><br>';
+	//$c = implode($_SESSION['current'], ' ');
+	//echo $c.'<br><br>';
 	//if(isset($_SESSION['wrong'])){
 	
 ?>
