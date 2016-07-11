@@ -31,15 +31,28 @@ class SessionInfo {
 	//isMyTurn
 	public function isMyTurn(){
 		$conn = get_connection();
-		$select_query = printf ('SELECT turn FROM hangman.game_room WHERE game_room_id = %s', $game_room_id);
+		$select_query = printf ('SELECT turn FROM hangman.game_room WHERE user1 = %d', get_user_id_from_user_name($_SESSION['id']));
 		$result = mysqli_query($conn, $select_query);
-		
+		if(mysqli_num_rows($result) === 1){ // 찾아온 줄 이 있다면.
+			$my_position = 1;
+		}else{ // 없다면 유저 2라는 뜻이니까 다시 아이디 찾아오기. 
+			$select_query = printf('SELECT turn FROM hangman.game_room WHERE user2 = %d', get_user_id_from_user_name($_SESSION['id']));
+			$result = mysqli_query($conn, $select_query); 
+			$my_position = 2;
+		}
 		while(NULL !==($row = mysqli_fetch_assoc($result))) {
-			$tableArray[] = $row; 
+			$turn = $row['turn']; 
 		}
 		
 		mysqli_free_result($result);
-		return $tableArray;
+		
+		if($my_position === $turn){
+			$turn = true;
+		}else{
+			$turn = false;
+		}
+		
+		return $turn;
 	}
   
   // id GETTER

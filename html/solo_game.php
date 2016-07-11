@@ -3,8 +3,6 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<head>
-
 </head>
 
 <body>
@@ -48,7 +46,7 @@
 			</div>
 		</div>
 <?php
-	} else if ($status === 'dual_game'){
+	} else if ($status === 'dual_game') {
 ?>
 	<div id="panel_wrap">
 		<div class="game_panel">
