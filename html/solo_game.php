@@ -22,8 +22,9 @@
 <?php 
 	// 현재의 상태 - 이 값을 통해서 화면을 표시하면 됨.
 	//$status = 'waiting';
-	//$status = 'solo_game';
-	$status = 'dual_game';
+	$status = 'solo_game';
+	//$status = 'dual_game';
+	//$status = 'game_end';
 	$correct_answer = $_SESSION ['correct_answer']; // ex) ('a', 'p', 'p', 'l', 'e')
 	$current = $_SESSION ['current'];  // ex) ('a', ' ', ' ', 'l', ' ')
 	$wrong = $_SESSION['wrong'];  // ex) ('b', 't')
@@ -47,7 +48,7 @@
 		</div>
 	</div>
 <?php
-		if ($status === 'dual_game'){
+	} else if ($status === 'dual_game'){
 ?>
 	<div id="panel_wrap">
 		<div class="solo_game_panel">
