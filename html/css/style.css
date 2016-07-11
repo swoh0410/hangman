@@ -49,3 +49,15 @@ a {text-decoration:none;}
 .page_btn {width:100%;margin:0;padding:20px 0;text-align:center;}
 .page_btn ul {display:inline-block;width:150px;margin:0;padding:0;}
 .page_btn ul li {display:inline;float:left;margin:0 5px;}
+
+/* Game Waiting */
+.game_waiting {text-align:center;margin:0 auto;font-size:20px;text-align:center;}
+
+/* Game over */
+.game_result_true {font-size:30px;font-weight:500;}
+.game_win {font-size:40px;color:#0000ff;}
+.game_lose {font-size:40px;color:#ff0000;}
+
+
+
+
