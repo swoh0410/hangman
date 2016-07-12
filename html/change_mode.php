@@ -14,7 +14,7 @@
 			
 			header("Location: index.php");
 		}else if($_SESSION['mode'] === 'dual_game'){ // dual_game 클릭 했을때 
-		echo '11ss1';
+		
 			start_dual_game();
 				echo '111';
 		

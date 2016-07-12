@@ -98,9 +98,9 @@
 			$current = implode($_SESSION ['current'], ' '); //current 변수지정
 			$wrong = implode($_SESSION['wrong'], ' ');
 			$create_query = sprintf("INSERT INTO game_room (answer, current, wrong, user1_id) VALUES ('%s', '%s', '%s', %d);", $answer, $current, $wrong, get_user_id_from_user_name($_SESSION['id']));
-			$_SESSION['game_room_id'] = mysqli_insert_id($conn);
 			//game_room테이블에 answer, current, user1_id INSERT
 			mysqli_query($conn, $create_query);
+			$_SESSION['game_room_id'] = mysqli_insert_id($conn);
 			//echo '방생성';
 			$is_room_created = true;
 		}
@@ -122,7 +122,6 @@
 	function get_game_status() {
 		$conn = get_connection();
 		$room_query = sprintf("SELECT turn, winner FROM game_room WHERE game_room_id=%d;", get_my_game_room_id());
-		
 		$result = mysqli_query ($conn, $room_query);
 		$row = mysqli_fetch_assoc($result);
 		$turn = intval($row['turn']);
