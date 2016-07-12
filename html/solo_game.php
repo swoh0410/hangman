@@ -8,6 +8,10 @@
 <body>
 <p>
 <?php 
+	$status = $_SESSION['status'];
+	if($_SESSION['status'] === 'dual_game'){
+		$gaming_status = $_SESSION['gaming_status'];
+	}
 	
 	$b = implode($_SESSION['correct_answer'], ' ');
 	echo $b.'<br><br>';
@@ -20,14 +24,14 @@
 <?php 
 	// 현재의 상태 - 이 값을 통해서 화면을 표시하면 됨.
 	//$status = 'waiting';
-	$status = 'solo_game';
+	//$status = 'solo_game';
 	//$status = 'dual_game';
 	//$status = 'game_end';
 	$correct_answer = $_SESSION ['correct_answer']; // ex) ('a', 'p', 'p', 'l', 'e')
 	$current = $_SESSION ['current'];  // ex) ('a', ' ', ' ', 'l', ' ')
 	$wrong = $_SESSION['wrong'];  // ex) ('b', 't')
 	//$turn = $_SESSION['turn']; // 0이면 내 turn, 1이면 상대방 turn
-	$turn = 1;
+	$turn = 0;
 	$win = true;
 	//$wrong_input = array('e','p','a','q','j','p','a','q','j'); // 연습용
 
@@ -46,7 +50,7 @@
 		</div>
 	</div>
 <?php
-	} else if ($status === 'dual_game'){
+	} else if ($status === 'dual_game'){ //game_start로 상태 바꿈.
 ?>
 	<div id="panel_wrap">
 		<div class="solo_game_panel">
