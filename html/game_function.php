@@ -1,38 +1,7 @@
 <?php
-	require_once '../includes/session.php';
-	start_session();
+
+	
 	//게임 시작시, 사전에서 불러온 단어가 없을때, 단어 선정.
-	
-	
-	if(isset($_POST['mode'])){ 
-		
-		$_SESSION['mode'] = $_POST['mode'];
-		if ($_SESSION['mode'] === 'solo_game') { // solo_game 시작을 클릭했을때
-			reset_correct_answer();
-			
-			header("Location: index.php");
-		} else if ($_SESSION['mode'] === 'lobby') { //리셋했을때
-			
-			header("Location: index.php");
-		}else if($_SESSION['mode'] === 'dual_game'){ // dual_game 클릭 했을때 
-			if(start_dual_game()){
-				$_SESSION['gaming_status'] = 'waiting';
-			}else{
-				$_SESSION['gaming_status'] = 'playing';
-			}
-			header("Location: index.php");
-		}
-	}
-	
-	if (isset($_POST['user_input'])){ //'a'입력시
-		$user_input = $_POST['user_input'];
-		$result = check_character ($_SESSION['correct_answer'], 
-			$user_input, $_SESSION['current'],$_SESSION['wrong']);
-		$_SESSION['current'] = $result[0];
-		$_SESSION['wrong'] = $result[1];
-		header("Location: index.php");
-	} 
-	
 	function reset_correct_answer() {
 	
 		$conn = get_connection ();
@@ -103,19 +72,21 @@
 		if (mysqli_num_rows($result) > 0) {//대기자가 있는 경우
 			$row = mysqli_fetch_assoc($result);
 			$room = $row['game_room_id']; //방번호
-			$user2_query = sprintf ("UPDATE game_room SET user2_id=%d WHERE game_room_id=%d;", get_user_id_from_user_name($_SESSION['id']), $room);
+			// 방이 다차면 첫번째 플레이어가 할차례
+			$user2_query = sprintf ("UPDATE game_room SET user2_id=%d, turn=1 WHERE game_room_id=%d;", get_user_id_from_user_name($_SESSION['id']), $room);
 			//맞는 방번호에 user2_id 업데이트
 			mysqli_query ($conn, $user2_query);
 			$answer_query = sprintf("SELECT answer, current, wrong FROM game_room WHERE game_room_id=%d;", $room);
 			$result = mysqli_query ($conn, $answer_query);
 			if($result == false) {
 				mysqli_error($conn);
-			}	
+			}
 			while($row = mysqli_fetch_assoc($result)) {
 				$_SESSION ['correct_answer'] = explode(' ', $row['answer']);
 				$_SESSION ['current'] = explode(' ', $row['current']);
 				$_SESSION ['wrong'] = explode(' ', $row['wrong']);
-			}			
+			}
+				$_SESSION ['game_room_id'] = $room;
 			//echo '조인';
 			$is_room_created = false;
 		} else {//없는경우 방생성
@@ -124,6 +95,7 @@
 			$current = implode($_SESSION ['current'], ' '); //current 변수지정
 			$wrong = implode($_SESSION['wrong'], ' ');
 			$create_query = sprintf("INSERT INTO game_room (answer, current, wrong, user1_id) VALUES ('%s', '%s', '%s', %d);", $answer, $current, $wrong, get_user_id_from_user_name($_SESSION['id']));
+			$_SESSION['game_room_id'] = mysqli_insert_id($conn);
 			//game_room테이블에 answer, current, user1_id INSERT
 			mysqli_query($conn, $create_query);
 			//echo '방생성';
@@ -144,4 +116,72 @@
 		return ($id);
 	}
 	
+	function get_game_status() {
+		$conn = get_connection();
+		$room_query = sprintf("SELECT turn, winner FROM game_room WHERE game_room_id=%d;", get_my_game_room_id());
+		
+		$result = mysqli_query ($conn, $room_query);
+		$row = mysqli_fetch_assoc($result);
+		$turn = $row['turn'];
+		$winner = $row['winner'];
+		
+		if ($winner != 0){//게임이 끝남
+			$my_position = get_my_position();
+			
+			if ($winner == $my_position) {
+				return 'win';
+			} else {
+				return 'lose';
+			}
+		} else {
+			if ($turn == 0){
+				return 'waiting';//대기중
+			} else {//진행
+				if (is_my_turn()){
+					return 'my_turn';
+				} else {
+					return 'enemy_turn';
+				}
+			}
+		}
+	
+	}
+	
+	function get_my_position() {
+		$conn = get_connection();
+		$select_query = sprintf ('SELECT turn FROM hangman.game_room WHERE user1_id = %d', get_user_id_from_user_name($_SESSION['id']));
+		$result = mysqli_query($conn, $select_query);
+		if(mysqli_num_rows($result) === 1){ // 찾아온 줄 이 있다면.
+			return 1;
+		} else {
+			return 2;
+		}
+	}
+	function is_my_turn(){
+		$conn = get_connection();
+		$my_position = get_my_position();				
+		$select_query = sprintf ('SELECT turn FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
+		$result = mysqli_query($conn, $select_query);
+		
+		while(NULL !==($row = mysqli_fetch_assoc($result))) {
+			$turn = $row['turn']; 
+		}		
+		mysqli_free_result($result);
+		
+		if($my_position === $turn){
+			$turn = true;
+		}else{
+			$turn = false;
+		}
+		
+		return $turn;
+	}
+	
+	function get_my_game_room_id() {
+		if (isset($_SESSION['game_room_id'])) {
+			return $_SESSION['game_room_id'];
+		} else {
+			die('방번호 지정 에러');
+		}
+	}
 ?>
