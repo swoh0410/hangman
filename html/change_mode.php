@@ -26,8 +26,8 @@
 		$user_input = $_POST['user_input'];
 		$result = check_character ($_SESSION['correct_answer'], 
 			$user_input, $_SESSION['current'],$_SESSION['wrong']);
-		$_SESSION['current'] = $result[0];
-		$_SESSION['wrong'] = $result[1];
+		$_SESSION['current'] = get_current_and_wrong()[0];
+		$_SESSION['wrong'] = get_current_and_wrong()[1];
 		header("Location: index.php");
 	} 
 	
