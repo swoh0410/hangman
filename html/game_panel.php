@@ -57,13 +57,14 @@
 			</div>
 		</div>
 	</div>
-<?php	}else if ($_SESSION['gaming_status'] === 'playing'){
+<?php	}else if ($_SESSION['gaming_status'] === 'my_turn' || 
+					$_SESSION['gaming_status'] === 'enemy_turn'){
 ?>
 		<div id="panel_wrap">
 		<div class="game_panel">
 			<ul class="user_info">
-				<li class="user_1">USER: <?php echo $_SESSION['id']; ?></li>
-				<li class="user_2">USER: <?php echo $_SESSION['id']; ?></li>
+				<li class="user_1">USER: <?php echo get_user_ids()[0]; ?></li>
+				<li class="user_2">USER: <?php echo get_user_ids()[1]; ?></li>
 			</ul>
 			<div class="panel_box">
 				<div class="user_output">
@@ -81,7 +82,7 @@
 					<form action = "change_mode.php" method = "post">
 						<ul>
 						<?php
-							if ($turn === 0) {
+							if ($_SESSION['gaming_status'] === 'my_turn') {
 								printf ("<li><input type='text' name='user_input' size='35' autofocus></li> ");
 								printf ("<li><input type='submit' value='Entre'></li>");
 							} else {

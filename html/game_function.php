@@ -49,6 +49,9 @@
 		if($match_found === false){
 			$char_check_result[1][] = $character;
 		}
+		$conn = get_connection();
+		$update_query = sprintf ("UPDATE game_room SET current='%s', wrong='%s' WHERE game_room_id=%d;", implode($char_check_result[0], ' '), implode($char_check_result[1], ' '), get_my_game_room_id());
+		mysqli_query ($conn, $update_query);
 		return $char_check_result;
 	}
 	
@@ -183,5 +186,12 @@
 		} else {
 			die('방번호 지정 에러');
 		}
+	}
+	function get_user_ids(){
+		$select_query = sprintf ('SELECT user1_id, user2_id FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
+		$result = mysqli_query($conn, $select_query);
+		$row = mysqli_fetch_assoc($result);
+		
+		return array($row['user1_id'], $row['user2_id']);
 	}
 ?>
