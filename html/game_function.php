@@ -227,4 +227,19 @@
 		}
 		mysqli_close($conn);
 	}
+	
+	function get_current_and_wrong() {
+		$conn = get_connection();
+		$select_query = sprintf ('SELECT current, wrong FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
+		$result = mysqli_query($conn, $select_query);
+		$row = mysqli_fetch_assoc($result);
+	
+		return array(explode(' ', $row['current']), explode(' ', $row['wrong']));		
+	}
+	
+	function win_game(){
+		$conn = get_connection();
+		$update_query = sprintf ("UPDATE game_room SET winner=%d WHERE game_room_id=%d;", get_my_position(), get_my_game_room_id());
+		mysqli_query ($conn, $update_query);
+	}
 ?>

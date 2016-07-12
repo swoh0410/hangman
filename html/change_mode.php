@@ -24,9 +24,13 @@
 	if (isset($_POST['user_input'])){ //'a'입력시
 		$user_input = $_POST['user_input'];
 		$result = check_character ($_SESSION['correct_answer'], 
-			$user_input, $_SESSION['current'],$_SESSION['wrong']);
-		$_SESSION['current'] = $result[0];
-		$_SESSION['wrong'] = $result[1];
+			$user_input, get_current_and_wrong()[0], get_current_and_wrong()[1]);
+			// 이사이에 DB에서 current와 wrong이 변경됨
+		$_SESSION['current'] = get_current_and_wrong()[0];
+		$_SESSION['wrong'] = get_current_and_wrong()[1];
+		if (implode($_SESSION['correct_answer'], ' ') === implode($_SESSION['current'], ' ')){
+			win_game();
+		}
 		header("Location: index.php");
 	} 
 	
