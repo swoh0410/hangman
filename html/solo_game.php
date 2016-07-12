@@ -88,7 +88,7 @@
 					</ul>
 				</div>
 				<div class="user_input">
-					<form action = "test.php" method = "post">
+					<form action = "game_function.php" method = "post">
 						<ul>
 						<?php
 							if ($turn === 0) {
@@ -122,13 +122,13 @@
 		<div class="page_btn">
 			<ul>
 				<li>
-					<form action="test.php" method="post">
+					<form action="game_function.php" method="post">
 						<input type="hidden" value="solo_game" name="status">
 						<input type="submit" value="리셋">		
 					</form>
 				</li>
 				<li>
-					<form action="test.php" method="post">
+					<form action="game_function.php" method="post">
 						<input type="hidden" value="lobby" name="status">
 						<input type="submit" value="로비">		
 					</form>
@@ -156,7 +156,7 @@
 					</ul>
 				</div>
 				<div class="user_input">
-					<form action = "test.php" method = "post">
+					<form action = "game_function.php" method = "post">
 					<?php
 						if ($turn === 0) {
 							printf ("<ul>");
@@ -193,13 +193,13 @@
 		<div class="page_btn">
 			<ul>
 				<li>
-					<form action="test.php" method="post">
+					<form action="game_function.php" method="post">
 						<input type="hidden" value="solo_game" name="status">
 						<input type="submit" value="리셋">		
 					</form>
 				</li>
 				<li>
-					<form action="test.php" method="post">
+					<form action="game_function.php" method="post">
 						<input type="hidden" value="lobby" name="status">
 						<input type="submit" value="로비">		
 					</form>
@@ -256,13 +256,13 @@
 		<div class="page_btn">
 			<ul>
 				<li>
-					<form action="test.php" method="post">
+					<form action="game_function.php" method="post">
 						<input type="hidden" value="solo_game" name="status">
 						<input type="submit" value="리셋">		
 					</form>
 				</li>
 				<li>
-					<form action="test.php" method="post">
+					<form action="game_function.php" method="post">
 						<input type="hidden" value="lobby" name="status">
 						<input type="submit" value="로비">		
 					</form>
