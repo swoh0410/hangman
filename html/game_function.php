@@ -231,6 +231,7 @@
 		$select_query = sprintf ('SELECT current, wrong FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
 		$result = mysqli_query($conn, $select_query);
 		$row = mysqli_fetch_assoc($result);
+	
 		return array(explode(' ', $row['current']), explode(' ', $row['wrong']));		
 	}
 	
