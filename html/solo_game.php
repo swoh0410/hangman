@@ -26,6 +26,7 @@
 	//$status = 'waiting';
 	//$status = 'solo_game';
 	//$status = 'dual_game';
+	$status = 'dual_game';
 	//$status = 'game_end';
 	$correct_answer = $_SESSION ['correct_answer']; // ex) ('a', 'p', 'p', 'l', 'e')
 	$current = $_SESSION ['current'];  // ex) ('a', ' ', ' ', 'l', ' ')
@@ -52,79 +53,27 @@
 <?php
 	} else if ($status === 'dual_game'){ //game_start로 상태 바꿈.
 ?>
+
 	<div id="panel_wrap">
-		<div class="solo_game_panel">
+		<div class="game_panel">
 			<ul class="user_info">
-				<li>USER: <?php echo $_SESSION['id']; ?></li>
-				<li>USER: <?php echo $_SESSION['id']; ?></li>
+				<li class="user_1">USER: <?php echo $_SESSION['id']; ?></li>
+				<li class="user_2">상대 PLAYER를 기다리는 중입니다.</li>
 			</ul>
-			<div class="user_output">
-				<ul>
-				<?php 
-					foreach ($current as $key => $value) {
-						echo '<li>';
-						echo $value;
-						echo '</li>';
-					}
-				?>
-				</ul>
-			</div>
-			<div class="user_input">
-				<form action = "test.php" method = "post">
-					<ul>
-					<?php
-						if ($turn === 0) {
-							printf ("<li><input type='text' name='user_input' size='35' autofocus></li> ");
-							printf ("<li><input type='submit' value='Entre'></li>");
-						} else {
-							printf ("<li><input type='text' name='user_input' size='35' autofocus disabled></li> ");
-							printf ("<li><input type='submit' value='Entre' disabled></li>");
-						}
-					?>
-					</ul>
-				</form>
+			<div class="panel_box">
+				<div class="game_waiting">
+				상대 PLAYER를 기다리는 중입니다.
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="wrong_input">
-		<ul>
-			<li>틀린답</li>
-			<?php		
-			echo '<li>';			
-			if(count($_SESSION['wrong']) === 1){
-				echo $_SESSION['wrong'][0];
-			}else if(count($_SESSION['wrong']) > 1){
-				$c = implode($_SESSION['wrong'], ' ');
-				echo $c;
-			}
-			echo '</li>';
-			?>
-		</ul>
-	</div>
-	<div class="page_btn">
-		<ul>
-			<li>
-				<form action="test.php" method="post">
-					<input type="hidden" value="solo_game" name="status">
-					<input type="submit" value="리셋">		
-				</form>
-			</li>
-			<li>
-				<form action="test.php" method="post">
-					<input type="hidden" value="lobby" name="status">
-					<input type="submit" value="로비">		
-				</form>
-			</li>
-		</ul>
-	</div>
 <?php
-
-	} else if ($status === 'solo_game') {
+	} else if ($status === 'dual_game') {
 ?>
 	<div id="panel_wrap">
-		<div class="solo_game_panel">
+		<div class="game_panel">
 			<ul class="user_info">
-				<li>USER: <?php echo $_SESSION['id']; ?></li>
+				<li class="user_1">USER: <?php echo $_SESSION['id']; ?></li>
+				<li class="user_2">USER: <?php echo $_SESSION['id']; ?></li>
 			</ul>
 			<div class="panel_box">
 				<div class="user_output">
@@ -187,6 +136,77 @@
 			</ul>
 		</div>
 <?php
+	} else if ($status === 'solo_game') {
+?>
+	<div id="panel_wrap">
+		<div class="game_panel">
+			<ul class="user_info_solo">
+				<li>USER: <?php echo $_SESSION['id']; ?></li>
+			</ul>
+			<div class="panel_box">
+				<div class="user_output">
+					<ul>
+					<?php 
+						foreach ($current as $key => $value) {
+							echo '<li>';
+							echo $value;
+							echo '</li>';
+						}
+					?>
+					</ul>
+				</div>
+				<div class="user_input">
+					<form action = "test.php" method = "post">
+					<?php
+						if ($turn === 0) {
+							printf ("<ul>");
+							printf ("<li><input type='text' name='user_input' size='35' autofocus></li> ");
+							printf ("<li><input type='submit' value='Entre'></li>");
+							printf ("</ul>");
+						} else {
+							printf ("<ul>");
+							printf ("<li><input type='text' name='user_input' size='35' autofocus disabled></li> ");
+							printf ("<li><input type='submit' value='Entre' disabled></li>");
+							printf ("</ul>");
+							echo '<p>상대 PLAYER 차례입니다.</p>';
+						}
+					?>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="wrong_input">
+			<ul>
+				<li>틀린답</li>
+				<?php		
+				echo '<li>';			
+				if(count($_SESSION['wrong']) === 1){
+					echo $_SESSION['wrong'][0];
+				}else if(count($_SESSION['wrong']) > 1){
+					$c = implode($_SESSION['wrong'], ' ');
+					echo $c;
+				}
+				echo '</li>';
+				?>
+			</ul>
+		</div>
+		<div class="page_btn">
+			<ul>
+				<li>
+					<form action="test.php" method="post">
+						<input type="hidden" value="solo_game" name="status">
+						<input type="submit" value="리셋">		
+					</form>
+				</li>
+				<li>
+					<form action="test.php" method="post">
+						<input type="hidden" value="lobby" name="status">
+						<input type="submit" value="로비">		
+					</form>
+				</li>
+			</ul>
+		</div>
+<?php
 		} else  if($status === 'game_end') {
 		
 ?>
@@ -201,7 +221,8 @@
 			?>
 			</ul>
 		</div>
-		<div class="game_result">
+		<div class="panel_box">
+			<div class="game_result">
 <?php			
 			if ($win === true) {
 ?>
@@ -215,39 +236,39 @@
 <?php
 			}
 ?>
+			</div>
 		</div>
-	</div>
-	<div class="wrong_input">
-		<ul>
-			<li>틀린답</li>
-			<?php		
-			echo '<li>';			
-			if(count($_SESSION['wrong']) === 1){
-				echo $_SESSION['wrong'][0];
-			}else if(count($_SESSION['wrong']) > 1){
-				$c = implode($_SESSION['wrong'], ' ');
-				echo $c;
-			}
-			echo '</li>';
-			?>
-		</ul>
-	</div>
-	<div class="page_btn">
-		<ul>
-			<li>
-				<form action="test.php" method="post">
-					<input type="hidden" value="solo_game" name="status">
-					<input type="submit" value="리셋">		
-				</form>
-			</li>
-			<li>
-				<form action="test.php" method="post">
-					<input type="hidden" value="lobby" name="status">
-					<input type="submit" value="로비">		
-				</form>
-			</li>
-		</ul>
-	</div>
+		<div class="wrong_input">
+			<ul>
+				<li>틀린답</li>
+				<?php		
+				echo '<li>';			
+				if(count($_SESSION['wrong']) === 1){
+					echo $_SESSION['wrong'][0];
+				}else if(count($_SESSION['wrong']) > 1){
+					$c = implode($_SESSION['wrong'], ' ');
+					echo $c;
+				}
+				echo '</li>';
+				?>
+			</ul>
+		</div>
+		<div class="page_btn">
+			<ul>
+				<li>
+					<form action="test.php" method="post">
+						<input type="hidden" value="solo_game" name="status">
+						<input type="submit" value="리셋">		
+					</form>
+				</li>
+				<li>
+					<form action="test.php" method="post">
+						<input type="hidden" value="lobby" name="status">
+						<input type="submit" value="로비">		
+					</form>
+				</li>
+			</ul>
+		</div>
 <?php
 	}
 ?>
