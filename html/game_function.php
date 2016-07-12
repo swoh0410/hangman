@@ -121,6 +121,16 @@
 		return ($id);
 	}
 	
+	function get_user_name_from_user_id ($user_id) {//pk로 유저 네임 찾기	
+		$conn = get_connection();
+		$id_query = sprintf("SELECT id FROM user_account WHERE user_account_id=%d;", $user_id);
+		$result = mysqli_query ($conn, $id_query);
+		$row = mysqli_fetch_assoc($result);
+		$id = $row['id'];
+		mysqli_close($conn);
+		return ($id);
+	}
+	
 	function get_game_status() {
 		$conn = get_connection();
 		$room_query = sprintf("SELECT turn, winner FROM game_room WHERE game_room_id=%d;", get_my_game_room_id());
@@ -152,9 +162,11 @@
 	
 	function get_my_position() {
 		$conn = get_connection();
-		$select_query = sprintf ('SELECT turn FROM hangman.game_room WHERE game_room_id = %d', get_my_game_room_id());
+		$select_query = sprintf ('SELECT user1_id FROM hangman.game_room WHERE game_room_id = %d', get_my_game_room_id());
 		$result = mysqli_query($conn, $select_query);
-		if(mysqli_num_rows($result) === 1){ // 찾아온 줄 이 있다면.
+		$row = mysqli_fetch_assoc($result)
+		$my_id = intval(get_user_id_from_user_name($_SESSION['id']));
+		if(intval($row['user1_id']) === $my_id){
 			return 1;
 		} else {
 			return 2;
@@ -171,7 +183,6 @@
 			$turn = intval($row['turn']); 
 		}		
 		mysqli_free_result($result);
-		
 		if($my_position === $turn){
 			
 			$turn = true;
