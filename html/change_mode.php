@@ -8,7 +8,6 @@
 		$_SESSION['mode'] = $_POST['mode'];
 		if ($_SESSION['mode'] === 'solo_game') { // solo_game 시작을 클릭했을때
 			reset_correct_answer();
-			
 			header("Location: index.php");
 		} else if ($_SESSION['mode'] === 'lobby') { //리셋했을때
 			

@@ -33,7 +33,7 @@
 							<ul>
 								<li>
 									<form action="change_mode.php" method="post">
-									<input type="hidden" value="solo_game" nam="mode">
+									<input type="hidden" value="solo_game" name="mode">
 									<input type="submit" value="솔로 게임">
 									</form>
 								</li>
