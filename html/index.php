@@ -11,7 +11,6 @@
 ?>
 </head>
 <body>
-`
 <?php include 'header.php'; ?>
 <div id="wrap">
 	<div id="content">							
