@@ -19,33 +19,33 @@
 			if(check_login()){
 		?>
 				<div id="content_l">
-					<?php //require 'solo_game.php'?>
+					<?php //require 'game_panel.php'?>
 						<?php
-							if (isset($_SESSION['status'])){
+							if (isset($_SESSION['mode'])){
 								// 세션이 있으면 아무 작업도 안함.
 							} else { // 처음 들어 오면 세션을 lobby로.
-								$_SESSION['status'] = 'lobby';								
+								$_SESSION['mode'] = 'lobby';								
 							}						
 							
-							if($_SESSION['status'] === 'lobby'){							
+							if($_SESSION['mode'] === 'lobby'){							
 						?>
 						<div class="please_start">
 							<form action="game_function.php" method="post">
-								<input type="hidden" value="solo_game" name="status">
+								<input type="hidden" value="solo_game" name="mode">
 								<input type="submit" value="솔로 게임">
 							</form>
 							<form action="game_function.php" method="post">
-								<input type="hidden" value="dual_game" name="status">
+								<input type="hidden" value="dual_game" name="mode">
 								<input type="submit" value="듀얼 게임">
 							</form>
 						</div>
 						<?php							
-							}else if($_SESSION['status'] === 'solo_game'){
-								require 'solo_game.php';
-							} else if($_SESSION['status'] === 'dual_game'){
-								require 'solo_game.php';
+							}else if($_SESSION['mode'] === 'solo_game'){
+								require 'game_panel.php';
+							} else if($_SESSION['mode'] === 'dual_game'){
+								require 'game_panel.php';
 							}else {
-								echo $_SESSION['status'];
+								echo $_SESSION['mode'];
 								die ('세션 에러');
 							}
 						?>

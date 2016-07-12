@@ -4,19 +4,18 @@
 	//게임 시작시, 사전에서 불러온 단어가 없을때, 단어 선정.
 	
 	
-	if(isset($_POST['status'])){ 
+	if(isset($_POST['mode'])){ 
 		
-		$status = $_POST['status'];
-		$_SESSION['status'] = $status;
-		if ($status === 'solo_game') { // solo_game 시작을 클릭했을때
+		$_SESSION['mode'] = $_POST['mode'];
+		if ($_SESSION['mode'] === 'solo_game') { // solo_game 시작을 클릭했을때
 			reset_correct_answer();
 			
 			header("Location: index.php");
-		} else if ($status === 'lobby') { //리셋했을때
+		} else if ($_SESSION['mode'] === 'lobby') { //리셋했을때
 			
 			header("Location: index.php");
-		}else if($status === 'dual_game'){ // dual_game 클릭 했을때 
-			if(start_game()){
+		}else if($_SESSION['mode'] === 'dual_game'){ // dual_game 클릭 했을때 
+			if(start_dual_game()){
 				$_SESSION['gaming_status'] = 'waiting';
 			}else{
 				$_SESSION['gaming_status'] = 'game_start';
@@ -95,7 +94,7 @@
 	
 	
 	
-	function start_game() {
+	function start_dual_game() {
 		//빈자리가 있는 방 찾기
 		$is_room_created = false;
 		$conn = get_connection();
