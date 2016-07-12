@@ -4,6 +4,7 @@
 <?php
 	include 'stat_db.php';
 	$stat_array = get_data();
+
 ?>
 <body>
 	<h1> USER NAME </h1>
