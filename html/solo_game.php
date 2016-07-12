@@ -35,7 +35,6 @@
 	$turn = 0;
 	$win = true;
 	//$wrong_input = array('e','p','a','q','j','p','a','q','j'); // 연습용
-
 	if ($status === 'waiting') {
 ?>
 <div id="panel_wrap">
