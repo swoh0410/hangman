@@ -164,7 +164,7 @@
 		$conn = get_connection();
 		$select_query = sprintf ('SELECT user1_id FROM hangman.game_room WHERE game_room_id = %d', get_my_game_room_id());
 		$result = mysqli_query($conn, $select_query);
-		$row = mysqli_fetch_assoc($result)
+		$row = mysqli_fetch_assoc($result);
 		$my_id = intval(get_user_id_from_user_name($_SESSION['id']));
 		if(intval($row['user1_id']) === $my_id){
 			return 1;
