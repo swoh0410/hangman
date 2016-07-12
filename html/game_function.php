@@ -125,19 +125,18 @@
 		
 		$result = mysqli_query ($conn, $room_query);
 		$row = mysqli_fetch_assoc($result);
-		$turn = $row['turn'];
-		$winner = $row['winner'];
+		$turn = intval($row['turn']);
+		$winner = intval($row['winner']);
 		
-		if ($winner != 0){//게임이 끝남
+		if ($winner !== 0){//게임이 끝남
 			$my_position = get_my_position();
-			
 			if ($winner == $my_position) {
 				return 'win';
 			} else {
 				return 'lose';
 			}
 		} else {
-			if ($turn == 0){
+			if ($turn === 0){
 				return 'waiting';//대기중
 			} else {//진행
 				if (is_my_turn()){
