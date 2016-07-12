@@ -27,10 +27,7 @@
 		$_SESSION['current'] = $current;
 		$_SESSION['wrong'] = array();
 		mysqli_close($conn);	
-	}/*else {
-		$a = implode($_SESSION['current'], ' ');
-		echo $a;
-	}*/
+	}
 	
 
 	function check_character($ans_array, $character, $current, $wrong){ 
@@ -195,11 +192,16 @@
 	}
 	
 	function get_my_game_room_id() {
-		if (isset($_SESSION['game_room_id'])) {
-			return $_SESSION['game_room_id'];
-		} else {
-			die('방번호 지정 에러');
+		if($_SESSION['mode'] === 'solo_game'){
+			
+		}else{
+			if (isset($_SESSION['game_room_id'])) {
+				return $_SESSION['game_room_id'];
+			} else {
+				die('방번호 지정 에러');
+			}
 		}
+	
 	}
 	function get_user_ids(){
 		$conn = get_connection();
