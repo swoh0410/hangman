@@ -206,11 +206,11 @@
 		$row = mysqli_fetch_assoc($result);
 		$turn = intval($row['turn']);
 		if ($turn === 1){//턴이 1이면 2로 변경
-			$update_query_query = sprintf ("UPDATE game_room SET turn=2 WHERE game_room_id=%d;", get_my_game_room_id());			
-			mysqli_query ($conn, $update_query_query);
+			$update_query = sprintf ("UPDATE game_room SET turn=2 WHERE game_room_id=%d;", get_my_game_room_id());			
+			mysqli_query ($conn, $update_query);
 		} else {
-			$update_query_query = sprintf ("UPDATE game_room SET turn=1 WHERE game_room_id=%d;", get_my_game_room_id());			
-			mysqli_query ($conn, $update_query_query);
+			$update_query = sprintf ("UPDATE game_room SET turn=1 WHERE game_room_id=%d;", get_my_game_room_id());			
+			mysqli_query ($conn, $update_query);
 		}
 		mysqli_close($conn);
 	}
