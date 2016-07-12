@@ -54,6 +54,7 @@
 			<div class="panel_box">
 				<div class="game_waiting">
 				상대 PLAYER를 기다리는 중입니다.
+				</div>
 			</div>
 		</div>
 	</div>
