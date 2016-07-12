@@ -26,7 +26,7 @@
 		
 		$_SESSION['current'] = $current;
 		$_SESSION['wrong'] = array();
-			
+		mysqli_close($conn);	
 	}/*else {
 		$a = implode($_SESSION['current'], ' ');
 		echo $a;
@@ -48,6 +48,8 @@
 		
 		if($match_found === false){
 			$char_check_result[1][] = $character;
+			//턴변경
+			change_turn();
 		}
 		$conn = get_connection();
 		$update_query = sprintf ("UPDATE game_room SET current='%s', wrong='%s' WHERE game_room_id=%d;", implode($char_check_result[0], ' '), implode($char_check_result[1], ' '), get_my_game_room_id());
@@ -145,18 +147,19 @@
 				}
 			}
 		}
-	
+		mysqli_close($conn);
 	}
 	
 	function get_my_position() {
 		$conn = get_connection();
-		$select_query = sprintf ('SELECT turn FROM hangman.game_room WHERE user1_id = %d', get_user_id_from_user_name($_SESSION['id']));
+		$select_query = sprintf ('SELECT turn FROM hangman.game_room WHERE game_room_id = %d', get_my_game_room_id());
 		$result = mysqli_query($conn, $select_query);
 		if(mysqli_num_rows($result) === 1){ // 찾아온 줄 이 있다면.
 			return 1;
 		} else {
 			return 2;
 		}
+		mysqli_close($conn);
 	}
 	function is_my_turn(){
 		$conn = get_connection();
@@ -165,16 +168,18 @@
 		$result = mysqli_query($conn, $select_query);
 		
 		while(NULL !==($row = mysqli_fetch_assoc($result))) {
-			$turn = $row['turn']; 
+			$turn = intval($row['turn']); 
 		}		
 		mysqli_free_result($result);
 		
 		if($my_position === $turn){
+			
 			$turn = true;
+			
 		}else{
 			$turn = false;
 		}
-		
+		mysqli_close($conn);
 		return $turn;
 	}
 	
@@ -190,7 +195,23 @@
 		$select_query = sprintf ('SELECT user1_id, user2_id FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
 		$result = mysqli_query($conn, $select_query);
 		$row = mysqli_fetch_assoc($result);
-		
+		mysqli_close($conn);
 		return array($row['user1_id'], $row['user2_id']);
+	}
+	
+	function change_turn() {
+		$conn = get_connection();
+		$select_query = sprintf ('SELECT turn FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
+		$result = mysqli_query($conn, $select_query);
+		$row = mysqli_fetch_assoc($result);
+		$turn = intval($row['turn']);
+		if ($turn === 1){//턴이 1이면 2로 변경
+			$update_query_query = sprintf ("UPDATE game_room SET turn=2 WHERE game_room_id=%d;", get_my_game_room_id());			
+			mysqli_query ($conn, $update_query_query);
+		} else {
+			$update_query_query = sprintf ("UPDATE game_room SET turn=1 WHERE game_room_id=%d;", get_my_game_room_id());			
+			mysqli_query ($conn, $update_query_query);
+		}
+		mysqli_close($conn);
 	}
 ?>
