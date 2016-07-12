@@ -104,13 +104,13 @@
 			<ul>
 				<li>
 					<form action="game_function.php" method="post">
-						<input type="hidden" value="solo_game" name="status">
+						<input type="hidden" value="solo_game" name="mode">
 						<input type="submit" value="리셋">		
 					</form>
 				</li>
 				<li>
 					<form action="game_function.php" method="post">
-						<input type="hidden" value="lobby" name="status">
+						<input type="hidden" value="lobby" name="mode">
 						<input type="submit" value="로비">		
 					</form>
 				</li>
@@ -167,13 +167,13 @@
 			<ul>
 				<li>
 					<form action="game_function.php" method="post">
-						<input type="hidden" value="solo_game" name="status">
+						<input type="hidden" value="solo_game" name="mode">
 						<input type="submit" value="리셋">		
 					</form>
 				</li>
 				<li>
 					<form action="game_function.php" method="post">
-						<input type="hidden" value="lobby" name="status">
+						<input type="hidden" value="lobby" name="mode">
 						<input type="submit" value="로비">		
 					</form>
 				</li>
@@ -240,13 +240,13 @@
 			<ul>
 				<li>
 					<form action="game_function.php" method="post">
-						<input type="hidden" value="solo_game" name="status">
+						<input type="hidden" value="solo_game" name="mode">
 						<input type="submit" value="리셋">		
 					</form>
 				</li>
 				<li>
 					<form action="game_function.php" method="post">
-						<input type="hidden" value="lobby" name="status">
+						<input type="hidden" value="lobby" name="mode">
 						<input type="submit" value="로비">		
 					</form>
 				</li>
