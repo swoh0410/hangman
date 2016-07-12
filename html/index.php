@@ -29,14 +29,20 @@
 							if($_SESSION['mode'] === 'lobby'){							
 						?>
 						<div class="please_start">
-							<form action="game_function.php" method="post">
-								<input type="hidden" value="solo_game" name="mode">
-								<input type="submit" value="솔로 게임">
-							</form>
-							<form action="game_function.php" method="post">
-								<input type="hidden" value="dual_game" name="mode">
-								<input type="submit" value="듀얼 게임">
-							</form>
+							<ul>
+								<li>
+									<form action="game_function.php" method="post">
+										<input type="hidden" value="solo_game" name="mode">
+										<input type="submit" value="솔로 게임">
+									</form>
+								</li>
+								<li>
+									<form action="game_function.php" method="post">
+										<input type="hidden" value="dual_game" name="mode">
+										<input type="submit" value="듀얼 게임">
+									</form>
+								</li>
+							</ul>
 						</div>
 						<?php							
 							}else if($_SESSION['mode'] === 'solo_game'){
