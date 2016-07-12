@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <html>
 <head>
@@ -11,7 +11,6 @@
 ?>
 </head>
 <body>
-`
 <?php include 'header.php'; ?>
 <div id="wrap">
 	<div id="content">							
@@ -30,14 +29,22 @@
 							if($_SESSION['mode'] === 'lobby'){							
 						?>
 						<div class="please_start">
-							<form action="change_mode.php" method="post">
-								<input type="hidden" value="solo_game" name="mode">
-								<input type="submit" value="솔로 게임">
-							</form>
-							<form action="change_mode.php" method="post">
-								<input type="hidden" value="dual_game" name="mode">
-								<input type="submit" value="듀얼 게임">
-							</form>
+
+							<ul>
+								<li>
+									<form action="change_mode.php" method="post">
+									<input type="hidden" value="solo_game" nam="mode">
+									<input type="submit" value="솔로 게임">
+									</form>
+								</li>
+								<li>
+									<form action="change_mode.php" method="post">
+									<input type="hidden" value="dual_game" name="mode">
+									<input type="submit" value="듀얼 게임">
+									</form>
+								</li>
+							</ul>
+
 						</div>
 						<?php							
 							}else if($_SESSION['mode'] === 'solo_game'){
