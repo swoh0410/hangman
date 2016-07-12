@@ -7,13 +7,20 @@
 	if(isset($_POST['status'])){ 
 		
 		$status = $_POST['status'];
-		
-		if ($status === 'solo_game') { //게임시작을 클릭했을때
+		$_SESSION['status'] = $status;
+		if ($status === 'solo_game') { // solo_game 시작을 클릭했을때
 			reset_correct_answer();
-			$_SESSION['status'] = $status;
+			
 			header("Location: index.php");
 		} else if ($status === 'lobby') { //리셋했을때
-			$_SESSION['status'] = $status;
+			
+			header("Location: index.php");
+		}else if($status === 'dual_game'){ // dual_game 클릭 했을때 
+			if(start_game()){
+				$_SESSION['gaming_status'] = 'waiting';
+			}else{
+				$_SESSION['gaming_status'] = 'game_start';
+			}
 			header("Location: index.php");
 		}
 	}
@@ -88,25 +95,43 @@
 	
 	
 	
-	
-	
-	//테스트용
-	//$ans = 'apple';
+	function start_game() {
+		//빈자리가 있는 방 찾기
+		$is_room_created = false;
+		$conn = get_connection();
+		$room_query = sprintf("SELECT game_room_id FROM game_room WHERE user2_id is NULL;");
+		$result = mysqli_query ($conn, $room_query);
+		if (mysqli_num_rows($result) > 0) {//대기자가 있는 경우
+			$row = mysqli_fetch_assoc($result);
+			$room = $row['game_room_id']; //방번호
+			$user2_query = sprintf ("UPDATE game_room SET user2_id=%d WHERE game_room_id=%d;", get_user_id_from_user_name($_SESSION['id']), $room);
+			//맞는 방번호에 user2_id 업데이트
+			mysqli_query ($conn, $user2_query);
+			//echo '조인';
+			$is_room_created = false;
+		} else {//없는경우 방생성
+			reset_correct_answer(); //단어 생성하기
+			$answer = implode($_SESSION['correct_answer'], ' '); //answer 변수 지정
+			$current = implode($_SESSION ['current'], ' '); //current 변수지정
+			$create_query = sprintf("INSERT INTO game_room (answer, current, user1_id) VALUES ('%s', '%s', %d);", $answer, $current, get_user_id_from_user_name($_SESSION['id']));
+			//game_room테이블에 answer, current, user1_id INSERT
+			mysqli_query($conn, $create_query);
+			//echo '방생성';
+			$is_room_created = true;
+		}
+		mysqli_close($conn);
+		
+		return $is_room_created;
+	}
 
-	/*$ans_array= str_split($ans);
-	print_r($ans_array);
-	foreach ($ans_array as $key => $value) {
-		$see = $value;
-		$see = '_ ';
-		echo $see;
-	}*/
-	
+	function get_user_id_from_user_name ($user_name) {//유저 네임으로  pk 찾기	
+		$conn = get_connection();
+		$id_query = sprintf("SELECT user_account_id FROM user_account WHERE id='%s';", $user_name);
+		$result = mysqli_query ($conn, $id_query);
+		$row = mysqli_fetch_assoc($result);
+		$id = $row['user_account_id'];
+		mysqli_close($conn);
+		return ($id);
+	}
 	
 ?>
-<!--
-	<input type = "button" onclick = <?php ?>>
-	<form action="test.php" method="post">
-	<input type="text" name="user_input">
-	<input type="submit" value="제출">
-	<form>
--->

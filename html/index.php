@@ -34,11 +34,17 @@
 								<input type="hidden" value="solo_game" name="status">
 								<input type="submit" value="솔로 게임">
 							</form>
+							<form action="test.php" method="post">
+								<input type="hidden" value="dual_game" name="status">
+								<input type="submit" value="듀얼 게임">
+							</form>
 						</div>
 						<?php							
 							}else if($_SESSION['status'] === 'solo_game'){
 								require 'solo_game.php';
-							} else {
+							} else if($_SESSION['status'] === 'dual_game'){
+								require 'solo_game.php';
+							}else {
 								echo $_SESSION['status'];
 								die ('세션 에러');
 							}
