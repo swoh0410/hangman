@@ -18,7 +18,7 @@
 			if(start_dual_game()){
 				$_SESSION['gaming_status'] = 'waiting';
 			}else{
-				$_SESSION['gaming_status'] = 'game_start';
+				$_SESSION['gaming_status'] = 'playing';
 			}
 			header("Location: index.php");
 		}
@@ -106,13 +106,24 @@
 			$user2_query = sprintf ("UPDATE game_room SET user2_id=%d WHERE game_room_id=%d;", get_user_id_from_user_name($_SESSION['id']), $room);
 			//맞는 방번호에 user2_id 업데이트
 			mysqli_query ($conn, $user2_query);
+			$answer_query = sprintf("SELECT answer, current, wrong FROM game_room WHERE game_room_id=%d;", $room);
+			$result = mysqli_query ($conn, $answer_query);
+			if($result == false) {
+				mysqli_error($conn);
+			}	
+			while($row = mysqli_fetch_assoc($result)) {
+				$_SESSION ['correct_answer'] = explode(' ', $row['answer']);
+				$_SESSION ['current'] = explode(' ', $row['current']);
+				$_SESSION ['wrong'] = explode(' ', $row['wrong']);
+			}			
 			//echo '조인';
 			$is_room_created = false;
 		} else {//없는경우 방생성
 			reset_correct_answer(); //단어 생성하기
 			$answer = implode($_SESSION['correct_answer'], ' '); //answer 변수 지정
 			$current = implode($_SESSION ['current'], ' '); //current 변수지정
-			$create_query = sprintf("INSERT INTO game_room (answer, current, user1_id) VALUES ('%s', '%s', %d);", $answer, $current, get_user_id_from_user_name($_SESSION['id']));
+			$wrong = implode($_SESSION['wrong'], ' ');
+			$create_query = sprintf("INSERT INTO game_room (answer, current, wrong, user1_id) VALUES ('%s', '%s', '%s', %d);", $answer, $current, $wrong, get_user_id_from_user_name($_SESSION['id']));
 			//game_room테이블에 answer, current, user1_id INSERT
 			mysqli_query($conn, $create_query);
 			//echo '방생성';
