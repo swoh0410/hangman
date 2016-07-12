@@ -32,6 +32,10 @@
 	//$_SESSION['mode'] = 'dual_game';
 	//$_SESSION['mode'] = 'dual_game';
 	//$_SESSION['mode'] = 'game_end';
+	if($_SESSION['mode'] === 'dual_game') {
+		$_SESSION ['current'] = get_current_and_wrong()[0];
+		$_SESSION ['wrong'] = get_current_and_wrong()[1];
+	}
 	$correct_answer = $_SESSION ['correct_answer']; // ex) ('a', 'p', 'p', 'l', 'e')
 	$current = $_SESSION ['current'];  // ex) ('a', ' ', ' ', 'l', ' ')
 	$wrong = $_SESSION['wrong'];  // ex) ('b', 't')
