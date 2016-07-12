@@ -25,6 +25,7 @@
 				</table>
 			</form>
 		</div>
+		<p><a href="index.php"><input type="button" value="홈으로"></a></p>
 	</div>
 </div>
 <?php include 'footer.php'; ?>

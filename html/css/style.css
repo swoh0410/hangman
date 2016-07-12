@@ -11,6 +11,8 @@ a {text-decoration:none;}
 #content_l {width:79%;min-height:100%;float:left;display:inline;border-right:1px solid #ddd;margin:0;padding:0;}
 * html #content_l {height: 100%;}
 #content_r {width:20%;min-height:100%;float:right;display:inline;}
+#content p {text-align:center;margin-top:20px;}
+#content p input[type='button']{padding:7px 15px;}
 #login {margin:10px;padding:20px;border:1px solid #ddd;border-radius:3px;}
 
 
