@@ -30,11 +30,11 @@
 							if($_SESSION['status'] === 'lobby'){							
 						?>
 						<div class="please_start">
-							<form action="test.php" method="post">
+							<form action="game_function.php" method="post">
 								<input type="hidden" value="solo_game" name="status">
 								<input type="submit" value="솔로 게임">
 							</form>
-							<form action="test.php" method="post">
+							<form action="game_function.php" method="post">
 								<input type="hidden" value="dual_game" name="status">
 								<input type="submit" value="듀얼 게임">
 							</form>
