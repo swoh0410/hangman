@@ -1,17 +1,21 @@
 <?php
 require_once '../includes/session.php';
 class SessionInfo {
-  private $id;
-  private $status;
-  private $answer ;
-  private $current;
+	private $id;
+	private $mode;
+	private $answer ;
+	private $current;
+	private $wrong;
+	private $turn;
+	private $winner;
 
   //SessionInfo 생성자
   
   function __construct($info_array){ 
 		$id = $infoArray['id'];
 		$password = $infoArray['password'];
-		$status = $infoArray['status'];
+		$mode = $infoArray['mode'];
+		$game_status = $infoArray['game_status'];
 		if(isset(info_array['answer'])){
 			$answer = $infoArray['answer'];
 		}
@@ -32,87 +36,78 @@ class SessionInfo {
 	
   
   // id GETTER
-  public function getId($id) {
-    if (property_exists($this, $id)) {
+  public function getId() {
       return $this->$id;
-    }
   }
   
-   // status GETTER
-  public function getStatus($status) {
-    if (property_exists($this, $status)) {
-      return $this->$status;
-    }
+   // mode GETTER
+  public function getMode() {
+	return $mode;
   }
   
-  // status SETTER
-  public function setStatus($status, $value) {
-    if (property_exists($this, $status)) {
-      $this->$status = $value;
-    }
-    return $this;
+  // mode SETTER
+  public function setMode($mode) {
+	$this->$mode = $mode;
   }
   
    // answer GETTER
-  public function getAnswer($answer) {
-    if (property_exists($this, $answer)) {
-      return $this->$answer;
-    }
+  public function getAnswer(){
+      return $answer;
   }
   
   // answer SETTER
-  public function setAnswer($answer, $value) {
-    if (property_exists($this, $answer)) {
-      $this->$answer = $value;
-    }
-    return $this;
+  public function setAnswer($answer) {
+      $this->$answer = $answer;
   }
   
    // current GETTER
-  public function getCurrent($current) {
-    if (property_exists($this, $current)) {
-      return $this->$current;
-    }
+  public function getCurrent() {
+      return $current;
   }
   
   // current SETTER
-  public function setCurrent($current, $value) {
-    if (property_exists($this, $current)) {
-      $this->$current = $value;
-    }
-    return $this;
+  public function setCurrent($current) {
+      $this->$current = $current;
   }
   
     // wrong GETTER
-  public function getCurrent($wrong) {
-    if (property_exists($this, $wrong)) {
-      return $this->$wrong;
-    }
+  public function getWrong() {
+      return $wrong;
   }
   
   // wrong SETTER
-  public function setCurrent($wrong, $value) {
-    if (property_exists($this, $wrong)) {
-      $this->$wrong = $value;
-    }
-    return $this;
+  public function setWrong($wrong) {
+      $this->$wrong = $wrong;
   }
-}
-
-     // Winner GETTER
-  public function getWinner($current) {
-    if (property_exists($this, $current)) {
-      return $this->$current;
+  
+     // turn GETTER
+  public function getTurn () {
+	return $turn;
+  }
+  
+  // turn SETTER
+  public function setTurn($turn) {
+	$this-> $turn = $turn;
+  }
+  
+  
+  
+  
+  
+  
+      // Winner GETTER
+  public function getWinner() {
+      return $winner;
     }
   }
   
   // Winner SETTER
-  public function setWinner($current, $value) {
-    if (property_exists($this, $current)) {
-      $this->$current = $value;
-    }
-    return $this;
+  public function setWinner($winner){
+	  $this -> $winner = $winner;
+	}
   }
-
-
+  
+  
+  
+}
 ?>
