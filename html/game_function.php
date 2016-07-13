@@ -2,7 +2,7 @@
 
 	
 	//게임 시작시, 사전에서 불러온 단어가 없을때, 단어 선정.
-	function reset_correct_answer() {
+	function get_random_word() {
 	
 		$conn = get_connection ();
 		$get_word_query = "SELECT word FROM vocabulary ORDER BY rand() LIMIT 1"; //랜덤으로 단어 하나 불러오는 query.
@@ -18,15 +18,7 @@
 		$row = mysqli_fetch_assoc($data);
 		$word = $row['word'];
 		mysqli_close($conn);
-	
-	
-		$_SESSION['correct_answer'] = str_split($word); //(a,p,p,l,e)
-		$current = create_empty_array (count($_SESSION['correct_answer'])); //(_,_,_,_,_)
-		
-		
-		$_SESSION['current'] = $current;
-		$_SESSION['wrong'] = array();
-		mysqli_close($conn);	
+		return $word;
 	}
 	
 
