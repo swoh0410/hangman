@@ -1,5 +1,5 @@
 <?php
-
+	require_once 'stat_db.php';
 	
 	//게임 시작시, 사전에서 불러온 단어가 없을때, 단어 선정.
 	function reset_correct_answer() {
@@ -233,7 +233,7 @@
 		$select_query = sprintf ('SELECT current, wrong FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
 		$result = mysqli_query($conn, $select_query);
 		$row = mysqli_fetch_assoc($result);
-	
+		mysqli_close($conn);
 		return array(explode(' ', $row['current']), explode(' ', $row['wrong']));		
 	}
 	
@@ -241,5 +241,19 @@
 		$conn = get_connection();
 		$update_query = sprintf ("UPDATE game_room SET winner=%d WHERE game_room_id=%d;", get_my_position(), get_my_game_room_id());
 		mysqli_query ($conn, $update_query);
+		$_SESSION['gaming_status'] = get_game_status();
+		//echo 'win_game : '.$_SESSION['gaming_status'];
+		
+		insert_stats($_SESSION['id']);
+		mysqli_close($conn);		
+	}
+	
+	function get_enemy_id() {		
+		if (get_user_ids()[0] === $_SESSION['id']){
+			return get_user_ids()[1];
+		} else {
+			return get_user_ids()[0];
+		}
+		mysqli_close($conn);
 	}
 ?>
