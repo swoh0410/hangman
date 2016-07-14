@@ -68,8 +68,8 @@
 		<div id="panel_wrap">
 		<div class="game_panel">
 			<ul class="user_info">
-				<li class="user_1">USER: <?php echo get_user_ids()[0]; ?></li>
-				<li class="user_2">USER: <?php echo get_user_ids()[1]; ?></li>
+				<li class="user_1">USER: <?php echo get_user_name_from_user_id (get_user_ids()[0]); ?></li>
+				<li class="user_2">USER: <?php echo get_user_name_from_user_id (get_user_ids()[1]); ?></li>
 			</ul>
 			<div class="panel_box">
 				<div class="user_output">
