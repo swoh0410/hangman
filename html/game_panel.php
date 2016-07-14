@@ -83,11 +83,13 @@
 					<form action = "change_mode.php" method = "post">
 						<ul>
 						<?php
+
 							if ($infoDto->getGamingStatus() === 'my_turn') {
 								printf ("<li><input type='text' name='user_input' size='35' autofocus></li> ");
+
 								printf ("<li><input type='submit' value='Entre'></li>");
 							} else {
-								printf ("<li><input type='text' name='user_input' size='35' autofocus disabled></li> ");
+								printf ("<li><input type='text' name='user_input' size='35' autofocus='true' disabled></li> ");
 								printf ("<li><input type='submit' value='Entre' disabled></li>");
 							}
 						?>
