@@ -136,12 +136,12 @@
 <?php			
 			if ($_SESSION['gaming_status'] === 'win') {
 ?>			
-				<?php echo get_user_ids()[0] ?> <span class="game_win">WIN</span> vs <?php echo get_user_ids()[1] ?> <span class="game_lose">LOSE</span>
+				<?php echo get_user_name_from_user_id (get_user_ids()[0]); ?> <span class="game_win">WIN</span> vs <?php echo get_user_name_from_user_id (get_user_ids()[1]); ?> <span class="game_lose">LOSE</span>
 			
 <?php
 			} else if ($_SESSION['gaming_status'] === 'lose') {
 ?>
-				<?php echo get_user_ids()[0] ?> <span class="game_lose">LOSE</span> vs <?php echo get_user_ids()[1] ?> <span class="game_win">WIN</span>
+				<?php echo get_user_name_from_user_id (get_user_ids()[1]); ?> <span class="game_lose">LOSE</span> vs <?php echo get_user_name_from_user_id (get_user_ids()[0]); ?> <span class="game_win">WIN</span>
 <?php
 			}
 ?>
