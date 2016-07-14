@@ -26,7 +26,7 @@ function add_stats($user_id, $is_win) { //이겼을때 stats테이블 insert/upd
 			$update_query = sprintf("UPDATE stats SET total=total+1, %s=%s+1 WHERE 
 			user_account_id=%d", $match_result, $match_result, $id); //stats_id가 같은 곳에 total, win update
 			mysqli_query($conn, $update_query);
-			$win_rate = create_win_rate($id); //win_rate 업데이트
+			$win_rate = calculate_win_rate($id); //win_rate 업데이트
 			update_win_rate($win_rate, $id);
 		} else {
 			die('기존 스탯 업테이트 에러');
@@ -35,7 +35,7 @@ function add_stats($user_id, $is_win) { //이겼을때 stats테이블 insert/upd
 		if ($_SESSION['gaming_status'] === 'win') {
 			$insert_query = sprintf("INSERT INTO stats (user_account_id, total, %s) VALUES (%d, 1, 1);", $match_result, $id); //유저 id, total=1, win=1 insert
 			mysqli_query($conn, $insert_query);
-			$win_rate = create_win_rate($id); //win_rate 업데이트
+			$win_rate = calculate_win_rate($id); //win_rate 업데이트
 			update_win_rate($win_rate, $id);
 		} else {
 			//echo $_SESSION['gaming_status'].'<br>';
@@ -45,21 +45,26 @@ function add_stats($user_id, $is_win) { //이겼을때 stats테이블 insert/upd
 	mysqli_close($conn);
 }
 
-
-
-
-
-function create_win_rate($id){
+function get_stats($id) {
 	$conn = get_connection ();
-	$select_query = sprintf('SELECT total, win FROM hangman.stats WHERE user_account_id = %d', $id);
+	$select_query = sprintf('SELECT total, win, lose, win_rate FROM hangman.stats WHERE user_account_id = %d', $id);
 	$result = mysqli_query($conn, $select_query);
 	if($result == false) {
 		echo 'cannot read stat data from DB!';
 		mysqli_error($conn);
 	}else{
-		$row = mysqli_fetch_assoc($result);		
-		$win_rate = (intval($row['win']) / intval($row['total'])) * 100;
+		$row = mysqli_fetch_assoc($result);				
 	}
+	return $row;
+}
+
+
+
+function calculate_win_rate($id){
+	$row = get_stats($id);
+		
+	$win_rate = (intval($row['win']) / intval($row['total'])) * 100;
+	
 	mysqli_close($conn);	
 	return $win_rate;
 }
