@@ -6,8 +6,20 @@
 <title>2조 PROJECT - HANGMAN GAME</title>
 <?php 
 	require_once '../includes/session.php'; 
+	require_once './SessionInfo.php'; 
 	start_session();
-	
+	if(isset($_SESSION['info_dto'])){
+		$infoDto = $_SESSION['info_dto'];
+		echo "dto있음";
+		echo "mode: " . $infoDto -> getMode();
+	}else{
+		echo "info Array 생성 <br>";
+		$info_array = Array();
+		$info_array['mode'] = 'lobby';
+		$infoDto = new SessionInfo($info_array);
+		$_SESSION['info_dto'] = $infoDto;
+		echo "infoDTO 만들었고 모드는: " . $infoDto -> getMode();
+	}
 ?>
 </head>
 <body>
@@ -16,17 +28,13 @@
 	<div id="content">							
 		<?php 
 			if(check_login()){
+				$infoDto -> setId($_SESSION['id']);
+				$infoDto -> setPassword($_SESSION['password']);
 		?>
 				<div id="content_l">
 					<?php //require 'game_panel.php'?>
-						<?php
-							if (isset($_SESSION['mode'])){
-								// 세션이 있으면 아무 작업도 안함.
-							} else { // 처음 들어 오면 세션을 lobby로.
-								$_SESSION['mode'] = 'lobby';								
-							}						
-							
-							if($_SESSION['mode'] === 'lobby'){							
+						<?php					
+							if($infoDto->getMode() === 'lobby'){							
 						?>
 						<div class="please_start">
 
@@ -47,12 +55,12 @@
 
 						</div>
 						<?php							
-							}else if($_SESSION['mode'] === 'solo_game'){
+							}else if($infoDto->getMode() === 'solo_game'){
 								require 'game_panel.php';
-							} else if($_SESSION['mode'] === 'dual_game'){
+							} else if($infoDto->getMode() === 'dual_game'){
 								require 'game_panel.php';
 							}else {
-								echo $_SESSION['mode'];
+								echo $infoDto->getMode();
 								die ('세션 에러');
 							}
 						?>
@@ -64,7 +72,7 @@
 						<table>
 							<tr>
 								<td>
-									<?php echo $_SESSION['id']; ?> 님 환영합니다!
+									<?php echo $infoDto->getId(); ?> 님 환영합니다!
 								</td>
 							</tr>
 							

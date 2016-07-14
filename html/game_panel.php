@@ -11,48 +11,44 @@
 	require_once '../includes/session.php'; 
 	require_once 'game_function.php';
 	//start_session();
-	$_SESSION['gaming_status'] = get_game_status();
-	echo $_SESSION['gaming_status'];
+	$infoDto = $_SESSION['info_dto'];
+	$infoDto->setGamingStatus(get_gaming_status());
+	echo $infoDto->getGamingStatus();
 	
 ?>
 
 <?php		
-	$displayAnswer = implode($_SESSION['correct_answer'], ' ');
+	$displayAnswer = implode(' ', $infoDto->getCorrectAnswer());
 	echo $displayAnswer.'<br><br>';
 	//$c = implode($_SESSION['current'], ' ');
 	//echo $c.'<br><br>';
-	//if(isset($_SESSION['wrong'])){
+	//if(isset($infoDto->getWrong())){
 	
 ?>
 </p>
 <?php 
 	// 현재의 상태 - 이 값을 통해서 화면을 표시하면 됨.
-	//$_SESSION['mode'] = 'waiting';
-	//$_SESSION['mode'] = 'solo_game';
-	//$_SESSION['mode'] = 'dual_game';
-	//$_SESSION['mode'] = 'dual_game';
-	//$_SESSION['mode'] = 'game_end';
-	if($_SESSION['mode'] === 'dual_game') {
-		$_SESSION ['current'] = get_current_and_wrong()[0];
-		$_SESSION ['wrong'] = get_current_and_wrong()[1];
+	if($infoDto->getMode() === 'dual_game') {
+		$infoDto->setCurrent(get_current_and_wrong()[0]);
+		$infoDto->setWrong(get_current_and_wrong()[1]);
 	}
-	$correct_answer = $_SESSION ['correct_answer']; // ex) ('a', 'p', 'p', 'l', 'e')
-	$current = $_SESSION ['current'];  // ex) ('a', ' ', ' ', 'l', ' ')
-	$wrong = $_SESSION['wrong'];  // ex) ('b', 't')
+	$correct_answer = $infoDto->getCorrectAnswer(); // ex) ('a', 'p', 'p', 'l', 'e')
+	$current = $infoDto->getCurrent();  // ex) ('a', ' ', ' ', 'l', ' ')
+	$wrong = $infoDto->getWrong();  // ex) ('b', 't')
 	//$turn = $_SESSION['turn']; // 0이면 내 turn, 1이면 상대방 turn
 	$turn = 0;
 	$win = true;
 	//$wrong_input = array('e','p','a','q','j','p','a','q','j'); // 연습용
 	
 
-	if ($_SESSION['mode'] === 'dual_game'){ //game_start로 상태 바꿈.
-		if ($_SESSION['gaming_status'] === 'waiting') {
+	if ($infoDto->getMode() === 'dual_game'){ //game_start로 상태 바꿈.
+		if ($infoDto->getGamingStatus() === 'waiting') {
 ?>		
 
 	<div id="panel_wrap">
 		<div class="game_panel">
 			<ul class="user_info">
-				<li class="user_1">USER: <?php echo $_SESSION['id']; ?></li>
+				<li class="user_1">USER: <?php echo $infoDto->getId(); ?></li>
 				<li class="user_2">상대 PLAYER를 기다리는 중입니다.</li>
 			</ul>
 			<div class="panel_box">
@@ -62,8 +58,8 @@
 			</div>
 		</div>
 	</div>
-<?php	}else if ($_SESSION['gaming_status'] === 'my_turn' || 
-					$_SESSION['gaming_status'] === 'enemy_turn'){
+<?php	}else if ($infoDto->getGamingStatus() === 'my_turn' || 
+					$infoDto->getGamingStatus() === 'enemy_turn'){
 ?>
 		<div id="panel_wrap">
 		<div class="game_panel">
@@ -87,7 +83,7 @@
 					<form action = "change_mode.php" method = "post">
 						<ul>
 						<?php
-							if ($_SESSION['gaming_status'] === 'my_turn') {
+							if ($infoDto->getGamingStatus() === 'my_turn') {
 								printf ("<li><input type='text' name='user_input' size='35' autofocus></li> ");
 								printf ("<li><input type='submit' value='Entre'></li>");
 							} else {
@@ -105,10 +101,10 @@
 				<li>틀린답</li>
 				<?php		
 				echo '<li>';			
-				if(count($_SESSION['wrong']) === 1){
-					echo $_SESSION['wrong'][0];
-				}else if(count($_SESSION['wrong']) > 1){
-					$c = implode($_SESSION['wrong'], ' ');
+				if(count($infoDto->getWrong()) === 1){
+					echo $infoDto->getWrong()[0]; 
+				}else if(count($infoDto->getWrong()) > 1){
+					$c = implode(' ', $infoDto->getWrong());
 					echo $c;
 				}
 				echo '</li>';
@@ -132,7 +128,7 @@
 			</ul>
 		</div>
 <?php
-		}else  if($_SESSION['gaming_status'] === 'game_end') {
+		}else  if($infoDto->getGamingStatus() === 'game_end') {
 		
 ?>
 		<div class="user_output">
@@ -168,10 +164,10 @@
 				<li>틀린답</li>
 				<?php		
 				echo '<li>';			
-				if(count($_SESSION['wrong']) === 1){
-					echo $_SESSION['wrong'][0];
-				}else if(count($_SESSION['wrong']) > 1){
-					$c = implode($_SESSION['wrong'], ' ');
+				if(count($infoDto->getWrong()) === 1){
+					echo $infoDto->getWrong()[0];
+				}else if(count($infoDto->getWrong()) > 1){
+					$c = implode(' ',$infoDto->getWrong());
 					echo $c;
 				}
 				echo '</li>';
@@ -197,12 +193,12 @@
 <?php
 		}
 	
-	} else if ($_SESSION['mode'] === 'solo_game') {
+	} else if ($infoDto->getMode() === 'solo_game') {
 ?>
 	<div id="panel_wrap">
 		<div class="game_panel">
 			<ul class="user_info_solo">
-				<li>USER: <?php echo $_SESSION['id']; ?></li>
+				<li>USER: <?php echo $infoDto->getId(); ?></li>
 			</ul>
 			<div class="panel_box">
 				<div class="user_output">
@@ -241,10 +237,10 @@
 				<li>틀린답</li>
 				<?php		
 				echo '<li>';			
-				if(count($_SESSION['wrong']) === 1){
-					echo $_SESSION['wrong'][0];
-				}else if(count($_SESSION['wrong']) > 1){
-					$c = implode($_SESSION['wrong'], ' ');
+				if(count($infoDto->getWrong()) === 1){
+					echo $infoDto->getWrong()[0];
+				}else if(count($infoDto->getWrong()) > 1){
+					$c = implode(' ',$infoDto->getWrong());
 					echo $c;
 				}
 				echo '</li>';

@@ -1,10 +1,12 @@
 <?php
 require_once '../includes/session.php';
+require_once 'game_function.php';
 class SessionInfo {
 	private $id;
 	private $mode;
+	private $gaming_status;
 	private $correct_answer ;
-	private $current;
+	private $currentWord;
 	private $wrong;
 	private $turn;
 	private $winner;
@@ -15,24 +17,40 @@ class SessionInfo {
   //SessionInfo 생성자
   
   function __construct($info_array){ 
-		$id = $infoArray['id'];
-		$password = $infoArray['password'];
-		$mode = $infoArray['mode'];
-		$game_status = $infoArray['game_status'];
-		if(isset(info_array['answer'])){
-			$correct_answer = $infoArray['answer'];
+		$this->mode = $info_array['mode'];
+		$this->wrong = array();
+		echo "컨스트럭터 에서 받은 모드: " .$info_array['mode'] . "<br>";
+		if(isset($info_array['id'])){
+			$this->id = $info_array['id'];
 		}
-		if(isset(info_array['current'])){
-			$current = $infoArray['current'];
+		if(isset($info_array['password'])){
+			$this->password = $info_array['password'];
 		}
-		if(isset(info_array['wrong'])){
-			$wrong = $infoArray['wrong'];
+		
+		if(isset($info_array['gaming_status'])){
+			$this->gaming_status = $info_array['gaming_status'];
 		}
-		if(isset(info_array['turn'])){
-			$turn = $infoArray['turn'];
+		if(isset($info_array['answer'])){
+			$this->correct_answer = $info_array['answer'];
 		}
-		if(isset(info_array['winner'])){
-			$winner = $inforArray['winner'];
+		if(isset($info_array['current'])){
+			$this->current = $info_array['current'];
+		}
+		
+		if(isset($info_array['turn'])){
+			$this->turn = $info_array['turn'];
+		}
+		if(isset($info_array['winner'])){
+			$this->winner = $inforArray['winner'];
+		}
+		if(isset($info_array['user1'])){
+			$this->correct_answer = $info_array['user1'];
+		}
+		if(isset($info_array['user2'])){
+			$this->correct_answer = $info_array['user2'];
+		}
+		if(isset($info_array['game_room_id'])){
+			$this->correct_answer = $info_array['game_room_id'];
 		}
 	}
 	//isMyTurn
@@ -40,71 +58,124 @@ class SessionInfo {
   
   // id GETTER
   public function getId() {
-      return $this->$id;
+      return $this->id;
   }
+  // id SETTER
+  public function setId($id){
+	  $this->id = $id;
+  }
+  
+    // password SETTER
+  public function setPassword($password){
+	  $this->password = $password;
+  }
+  
   
    // mode GETTER
   public function getMode() {
-	return $mode;
+	  
+	echo "getMODE 에 MODE: " . $this->mode . "<br>";
+	return $this->mode ;
   }
   
   // mode SETTER
   public function setMode($mode) {
-	$this->$mode = $mode;
+	$this->mode = $mode;
+  }
+  
+  // gaming_status GETTER
+  public function getGamingStatus(){
+	  return $this->gaming_status;
+  }
+  
+  //gaming_status SETTER
+  public function setGamingStatus($gaming_status){
+	  $this->gaming_status = $gaming_status;
   }
   
    // answer GETTER
   public function getCorrectAnswer(){
-      return $correct_answer;
+      return $this->correct_answer;
   }
   
   // answer SETTER
   public function setCorrectAnswer($answer) {
-      $this->$answer = $correct_answer;
+      $this->correct_answer = $answer;
   }
   
    // current GETTER
   public function getCurrent() {
-      return $current;
+      return $this->currentWord;
   }
   
   // current SETTER
   public function setCurrent($current) {
-      $this->$current = $current;
+      $this->currentWord = $current;
   }
   
     // wrong GETTER
   public function getWrong() {
-      return $wrong;
+      return $this->wrong;
   }
   
   // wrong SETTER
   public function setWrong($wrong) {
-      $this->$wrong = $wrong;
+      $this->wrong = $wrong;
   }
   
      // turn GETTER
   public function getTurn () {
-	return $turn;
+	return $this->turn;
   }
   
   // turn SETTER
   public function setTurn($turn) {
-	$this-> $turn = $turn;
+	$this->turn = $turn;
   }
   
   // Winner GETTER
   public function getWinner() {
-      return $winner;
+      return $this->winner;
 	}
 	
   // Winner SETTER
   public function setWinner($winner){
-	  $this -> $winner = $winner;
+	  $this->winner = $winner;
 	}
+  
+  
+  //User1 GETTER
+  public function getUser1 (){
+	  return $this->user1;
   }
-
-	public start_dual_game(){
+  
+  //User1 SETTER
+  public function setUser1 ($user1){
+	  $this->user1 = $user1;
+  }
+  
+  //User2 GETTER
+  public function getUser2 (){
+	  return $this->user2;
+  }
+  
+  //User1 SETTER
+  public function setUser2 ($user1){
+	  $this->user2 = $user2;
+  }
+  
+  //RoomId GETTER
+   public function getRoomId(){
+	   
+	  return $this->game_room_id;
+  }
+  
+  // RoomId SETTER
+  public function setRoomId($roomId){
+	  $this->game_room_id = $roomId;
+  }
+  
+	public function start_dual_game(){
 		//빈자리가 있는 방 찾기
 		$is_room_created = false;
 		$conn = get_connection();
@@ -122,7 +193,7 @@ class SessionInfo {
 			if($result == false) {
 				mysqli_error($conn);
 			}
-			$row = mysqli_fetch_assoc($result)
+			$row = mysqli_fetch_assoc($result);
 			setCorrectAnswer(explode(' ', $row['answer']));
 			setCurrent(explode(' ', $row['current']));
 			setWrong(explode(' ', $row['wrong']));
@@ -131,8 +202,8 @@ class SessionInfo {
 			$is_room_created = false;
 		} else {//없는경우 방생성
 			 //단어 생성하기
-		setCorrectAnswer(str_split(get_random_word())); 
-		$current = create_empty_array (count(getCorrectAnswer()));
+		setCorrectAnswer(str_split($this->get_random_word())); 
+		$current = $this->create_empty_array (count(getCorrectAnswer()));
 		setCurrent($current);
 		setWrong(array());			
 			
@@ -151,36 +222,31 @@ class SessionInfo {
 		return $is_room_created;
 	}
   
-	public play(){
+	public function play(){
 		refresh();
-		if (isset($_POST['user_input'])){ //'a'입력시
-			$user_input = $_POST['user_input'];
-			$result = check_character (getCorrectAnswer(), 
-			$user_input, getCurrent(), getWrong());
+		$result = $this->check_character (getCorrectAnswer(), 
+		$user_input, getCurrent(), getWrong());
 		
-			if (implode(getCorrectAnswer(), ' ') === implode(getCurrent, ' ')){
-				win_game();
-			}
-		
-		// header("Location: index.php"); 사용한 쪽에서 로케이션 해줘야함.
-		} 
+		if (implode(getCorrectAnswer(), ' ') === implode(getCurrent, ' ')){
+			$this->win_game();
+		}
 	}
 
-	public refresh (){
-	  if(isset(game_room_id)){
+	public function refresh (){
+	  if(isset($game_room_id)){
 		
 		$select_query = sprintf('SELECT answer, current, wrong, turn, winner, user1_id, user2_id from hangman.game_room where game_room_id = %d',$game_room_id);
 		$conn = get_connection();
 		$result = mysqli_query($conn,$select_query);
 		
 		if($row = mysqli_fetch_assoc($result)){
-			$this -> $answer = $row['answer'];
-			$this -> $current = $row['current'];
-			$this -> $wrong = $row['wrong'];
-			$this -> $turn = $row['turn'];
-			$this -> $winner = $row['winner'];
-			$this -> $user1_id = $row['user1_id'];
-			$this -> $user2_id = $row['user2_id'];
+			$this->correct_answer = $row['answer'];
+			$this->currentWord = $row['current'];
+			$this->wrong = $row['wrong'];
+			$this->turn = $row['turn'];
+			$this->winner = $row['winner'];
+			$this->user1_id = $row['user1_id'];
+			$this->user2_id = $row['user2_id'];
 		}else{
 			die ('리프레시 할때 데이터 못 가지고 옴.');
 		}
@@ -189,6 +255,7 @@ class SessionInfo {
 /*
 	getMode();
 	getCorrectAnswer();
+	
 	getCurrent();
 	getWrong();
 	getTurn();
@@ -196,8 +263,87 @@ class SessionInfo {
 	user1
 	user2
 */
+	function get_random_word() {
+	
+		$conn = get_connection ();
+		$get_word_query = "SELECT word FROM vocabulary ORDER BY rand() LIMIT 1"; //랜덤으로 단어 하나 불러오는 query.
+		$data = mysqli_query ($conn, $get_word_query);
+		
+		if ($data === false) {
+			echo mysqli_error($conn);
+			echo "vocabulary DB 에서 데이터를 불러올 수 없습니다.";
+			die;
+		
+		}	
+		
+		$row = mysqli_fetch_assoc($data);
+		$word = $row['word'];
+		mysqli_close($conn);
+		return $word;
+	}
+	
+	function check_character($ans_array, $character, $current, $wrong){ 
+		$match_found = false;
+		$char_check_result[0] = $current;
+		$char_check_result[1] = $wrong;
+		foreach($ans_array as $key => $value){
+			if($value === $character){
+				$current[$key] = $character;
+				$char_check_result[0] = $current;
+				$match_found = true;
+			}
+			
+		}
+		
+		if($match_found === false){
+			$char_check_result[1][] = $character;
+			//턴변경
+			$this->change_turn();
+		}
+		$conn = get_connection();
+		$update_query = sprintf ("UPDATE game_room SET current='%s', wrong='%s' WHERE game_room_id=%d;", implode($char_check_result[0], ' '), implode($char_check_result[1], ' '), get_my_game_room_id());
+		mysqli_query ($conn, $update_query);
+		return $char_check_result;
+	}
+	
+	function create_empty_array ($length){ 
+		for($i = 0; $i < $length; $i++){
 
-  
+			$current[] = '';
+		}
+		return $current;
+	}
+	
+	function change_turn() {
+		$conn = get_connection();
+		$select_query = sprintf ('SELECT turn FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
+		$result = mysqli_query($conn, $select_query);
+		$row = mysqli_fetch_assoc($result);
+		$turn = intval($row['turn']);
+		if ($turn === 1){//턴이 1이면 2로 변경
+			$update_query = sprintf ("UPDATE game_room SET turn=2 WHERE game_room_id=%d;", get_my_game_room_id());			
+			mysqli_query ($conn, $update_query);
+		} else {
+			$update_query = sprintf ("UPDATE game_room SET turn=1 WHERE game_room_id=%d;", get_my_game_room_id());			
+			mysqli_query ($conn, $update_query);
+		}
+		mysqli_close($conn);
+	}
+	
+	function win_game(){
+		$conn = get_connection();
+		$update_query = sprintf ("UPDATE game_room SET winner=%d WHERE game_room_id=%d;", get_my_position(), get_my_game_room_id());
+		mysqli_query ($conn, $update_query);
+	}
+	
+	function get_current_and_wrong() {
+		$conn = get_connection();
+		$select_query = sprintf ('SELECT current, wrong FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
+		$result = mysqli_query($conn, $select_query);
+		$row = mysqli_fetch_assoc($result);
+	
+		return array(explode(' ', $row['current']), explode(' ', $row['wrong']));		
+	}
   
 }
 ?>
