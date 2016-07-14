@@ -64,8 +64,8 @@
 		<div id="panel_wrap">
 		<div class="game_panel">
 			<ul class="user_info">
-				<li class="user_1">USER: <?php echo get_user_ids()[0]; ?></li>
-				<li class="user_2">USER: <?php echo get_user_ids()[1]; ?></li>
+				<li class="user_1">USER: <?php echo get_user_name_from_user_id (get_user_ids()[0]); ?></li>
+				<li class="user_2">USER: <?php echo get_user_name_from_user_id (get_user_ids()[1]); ?></li>
 			</ul>
 			<div class="panel_box">
 				<div class="user_output">
@@ -111,25 +111,10 @@
 				?>
 			</ul>
 		</div>
-		<div class="page_btn">
-			<ul>
-				<li>
-					<form action="change_mode.php" method="post">
-						<input type="hidden" value="solo_game" name="mode">
-						<input type="submit" value="리셋">		
-					</form>
-				</li>
-				<li>
-					<form action="change_mode.php" method="post">
-						<input type="hidden" value="lobby" name="mode">
-						<input type="submit" value="로비">		
-					</form>
-				</li>
-			</ul>
-		</div>
-<?php
-		}else  if($infoDto->getGamingStatus() === 'game_end') {
 		
+<?php
+		}else if($infoDto->getGamingStatus() === 'win' ||
+					$infoDto->getGamingStatus() === 'lose') {					
 ?>
 		<div class="user_output">
 			<ul>
@@ -145,15 +130,14 @@
 		<div class="panel_box">
 			<div class="game_result">
 <?php			
-			if ($win === true) {
-?>
-			
-				PLAYER 1 <span class="game_win">WIN</span> vs PLAYER 2 <span class="game_lose">LOSE</span>
+			if ($infoDto->getGamingStatus() === 'win') {
+?>			
+				<?php echo get_user_name_from_user_id (get_user_ids()[0]); ?> <span class="game_win">WIN</span> vs <?php echo get_user_name_from_user_id (get_user_ids()[1]); ?> <span class="game_lose">LOSE</span>
 			
 <?php
-			} else if ($win === false) {
+			} else if ($infoDto->getGamingStatus() === 'lose') {
 ?>
-				PLAYER 1 <span class="game_lose">LOSE</span> vs PLAYER 2 <span class="game_win">WIN</span>
+				<?php echo get_user_name_from_user_id (get_user_ids()[1]); ?> <span class="game_lose">LOSE</span> vs <?php echo get_user_name_from_user_id (get_user_ids()[0]); ?> <span class="game_win">WIN</span>
 <?php
 			}
 ?>
@@ -175,13 +159,7 @@
 			</ul>
 		</div>
 		<div class="page_btn">
-			<ul>
-				<li>
-					<form action="change_mode.php" method="post">
-						<input type="hidden" value="solo_game" name="mode">
-						<input type="submit" value="리셋">		
-					</form>
-				</li>
+			<ul>				
 				<li>
 					<form action="change_mode.php" method="post">
 						<input type="hidden" value="lobby" name="mode">

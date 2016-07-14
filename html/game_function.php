@@ -1,5 +1,5 @@
 <?php
-	
+
 	function get_user_id_from_user_name ($user_name) {//유저 네임으로  pk 찾기	
 		$conn = get_connection();
 		$id_query = sprintf("SELECT user_account_id FROM user_account WHERE id='%s';", $user_name);
@@ -104,9 +104,24 @@
 		return array($row['user1_id'], $row['user2_id']);
 	}
 	
+	function win_game(){
+		$conn = get_connection();
+		$update_query = sprintf ("UPDATE game_room SET winner=%d WHERE game_room_id=%d;", get_my_position(), get_my_game_room_id());
+		mysqli_query ($conn, $update_query);
+		$_SESSION['gaming_status'] = get_game_status();
+		//echo 'win_game : '.$_SESSION['gaming_status'];
+		
+		insert_stats($_SESSION['id']);
+		mysqli_close($conn);		
+	}
 	
-	
-	
-	
-	
+	function get_enemy_id() {		
+		if (get_user_ids()[0] === $_SESSION['id']){
+			return get_user_ids()[1];
+		} else {
+			return get_user_ids()[0];
+		}
+		mysqli_close($conn);
+	}
+
 ?>
