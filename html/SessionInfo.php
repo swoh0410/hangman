@@ -92,8 +92,8 @@ class SessionInfo {
 			} else {
 				return 'my_turn';
 			}
-		} else {
-			return $this->gaming_status;
+		} else if($this->getMode() === 'dual_game'){
+			return get_gaming_status();
 		}	
   }
   
