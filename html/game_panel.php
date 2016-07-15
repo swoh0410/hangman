@@ -168,6 +168,7 @@
 		}
 	
 	} else if ($infoDto->getMode() === 'solo_game') {
+		if($infoDto->getGamingStatus() === 'my_turn'){
 ?>
 	<div id="panel_wrap">
 		<div class="game_panel">
@@ -189,18 +190,11 @@
 				<div class="user_input">
 					<form action = "change_mode.php" method = "post">
 					<?php
-						if ($turn === 0) {
 							printf ("<ul>");
 							printf ("<li><input type='text' name='user_input' size='35' autofocus></li> ");
 							printf ("<li><input type='submit' value='Entre'></li>");
-							printf ("</ul>");
-						} else {
-							printf ("<ul>");
-							printf ("<li><input type='text' name='user_input' size='35' autofocus disabled></li> ");
-							printf ("<li><input type='submit' value='Entre' disabled></li>");
-							printf ("</ul>");
-							echo '<p>상대 PLAYER 차례입니다.</p>';
-						}
+							printf ("</ul>");							
+						
 					?>
 					</form>
 				</div>
@@ -211,12 +205,7 @@
 				<li>틀린답</li>
 				<?php		
 				echo '<li>';			
-				if(count($infoDto->getWrong()) === 1){
-					echo $infoDto->getWrong()[0];
-				}else if(count($infoDto->getWrong()) > 1){
-					$c = implode(' ',$infoDto->getWrong());
-					echo $c;
-				}
+				echo implode(' ', $infoDto->getWrong());
 				echo '</li>';
 				?>
 			</ul>
@@ -238,7 +227,12 @@
 			</ul>
 		</div>
 <?php
-		} 
+		} else if ($infoDto->getGamingStatus() === 'end'){
+			//여기는 솔로게임이 끝났을때
+		} else{
+			die('솔로게임 getGamingStatus 에러');
+		}
+	} 
 ?>
 </div>
 </body>

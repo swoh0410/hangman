@@ -85,7 +85,15 @@ class SessionInfo {
   
   // gaming_status GETTER
   public function getGamingStatus(){
-	  return $this->gaming_status;
+		if($this->getMode() === 'solo_game') {
+			if (implode('', $this->getCorrectAnswer()) === implode('', $this->getCurrent())){
+				return 'end';
+			} else {
+				return 'my_turn';
+			}
+		} else {
+			return $this->gaming_status;
+		}	
   }
   
   //gaming_status SETTER
@@ -234,27 +242,32 @@ class SessionInfo {
 	}
 
 	public function refresh (){
-	  if(isset($this->gameRoomId)){
-		
-		$select_query = sprintf('SELECT answer, current, wrong, turn, winner, user1_id, user2_id from hangman.game_room where game_room_id = %d',$this->gameRoomId);
-		$conn = get_connection();
-		$result = mysqli_query($conn,$select_query);
-		
-		if($row = mysqli_fetch_assoc($result)){
-			$this->correct_answer =str_split($row['answer']);
-			$this->currentWord = str_split($row['current']);
-			//echo "Row Current : " . $row['current'] . "<br>";
-			$this->wrong = str_split($row['wrong']);
-			$this->turn = $row['turn'];
-			$this->winner = $row['winner'];
-			$this->user1_id = $row['user1_id'];
-			$this->user2_id = $row['user2_id'];
-		}else{
-			die ('리프레시 할때 데이터 못 가지고 옴.');
+	  if($this->getMode() === 'solo_game'){//솔로게임이면
+		  
+		  return;
+	  }else {//듀얼게임이면
+			if(isset($this->gameRoomId)){
+			
+			$select_query = sprintf('SELECT answer, current, wrong, turn, winner, user1_id, user2_id from hangman.game_room where game_room_id = %d',$this->gameRoomId);
+			$conn = get_connection();
+			$result = mysqli_query($conn,$select_query);
+			
+			if($row = mysqli_fetch_assoc($result)){
+				$this->correct_answer =str_split($row['answer']);
+				$this->currentWord = str_split($row['current']);
+				//echo "Row Current : " . $row['current'] . "<br>";
+				$this->wrong = str_split($row['wrong']);
+				$this->turn = $row['turn'];
+				$this->winner = $row['winner'];
+				$this->user1_id = $row['user1_id'];
+				$this->user2_id = $row['user2_id'];
+			}else{
+				die ('리프레시 할때 데이터 못 가지고 옴.');
+			}
+		  }else{
+			  die ('gameRoomId 없음! refresh Error');
+		  }
 		}
-	  }else{
-		  die ('gameRoomId 없음! refresh Error');
-	  }
 	}
 /*
 	getMode();
@@ -348,6 +361,13 @@ class SessionInfo {
 	
 		return array(str_split($row['current']), str_split( $row['wrong']));		
 	}
-  
+	
+	function startSoloGame(){
+		$this->setCorrectAnswer(str_split($this->getRandomWord())); 
+		$current = $this->create_empty_array (count($this->getCorrectAnswer()));
+		$this->setCurrent($current);
+		$this->setWrong(array());
+		
+	}
 }
 ?>
