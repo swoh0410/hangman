@@ -12,7 +12,7 @@ class SessionInfo {
 	private $winner;
 	private $user1;
 	private $user2;
-	private $game_room_id;
+	private $gameRoomId;
 
   //SessionInfo 생성자
   
@@ -74,7 +74,7 @@ class SessionInfo {
    // mode GETTER
   public function getMode() {
 	  
-	echo "getMODE 에 MODE: " . $this->mode . "<br>";
+	//echo "getMODE 에 MODE: " . $this->mode . "<br>";
 	return $this->mode ;
   }
   
@@ -167,12 +167,12 @@ class SessionInfo {
   //RoomId GETTER
    public function getRoomId(){
 	   
-	  return $this->game_room_id;
+	  return $this->gameRoomId;
   }
   
   // RoomId SETTER
   public function setRoomId($roomId){
-	  $this->game_room_id = $roomId;
+	  $this->gameRoomId = $roomId;
   }
   
 	public function start_dual_game(){
@@ -185,7 +185,7 @@ class SessionInfo {
 			$row = mysqli_fetch_assoc($result);
 			$room = $row['game_room_id']; //방번호			
 			// 방이 다차면 첫번째 플레이어가 할 차례
-			$user2_query = sprintf ("UPDATE game_room SET user2_id=%d, turn=1 WHERE game_room_id=%d;", get_user_id_from_user_name(getId()), $room);
+			$user2_query = sprintf ("UPDATE game_room SET user2_id=%d, turn=1 WHERE game_room_id=%d;", get_user_id_from_user_name($this->getId()), $room);
 			//맞는 방번호에 user2_id 업데이트
 			mysqli_query ($conn, $user2_query);
 			$answer_query = sprintf("SELECT answer, current, wrong FROM game_room WHERE game_room_id=%d;", $room);
@@ -194,26 +194,26 @@ class SessionInfo {
 				mysqli_error($conn);
 			}
 			$row = mysqli_fetch_assoc($result);
-			setCorrectAnswer(explode(' ', $row['answer']));
-			setCurrent(explode(' ', $row['current']));
-			setWrong(explode(' ', $row['wrong']));
-			setRoomId($room);
+			$this->setCorrectAnswer(str_split($row['answer']));
+			$this->setCurrent(str_split($row['current']));
+			$this->setWrong(str_split($row['wrong']));
+			$this->setRoomId($room);
 			//echo '조인';
 			$is_room_created = false;
 		} else {//없는경우 방생성
 			 //단어 생성하기
-		setCorrectAnswer(str_split($this->get_random_word())); 
-		$current = $this->create_empty_array (count(getCorrectAnswer()));
-		setCurrent($current);
-		setWrong(array());			
+		$this->setCorrectAnswer(str_split($this->getRandomWord())); 
+		$current = $this->create_empty_array (count($this->getCorrectAnswer()));
+		$this->setCurrent($current);
+		$this->setWrong(array());			
 			
-			$answer = implode(getCorrectAnswer(), ' '); //answer 변수 지정
-			$current = implode(getCurrent(), ' '); //current 변수지정
-			$wrong = implode(getWrong, ' ');
+			$answer = implode('',$this->getCorrectAnswer()); //answer 변수 지정
+			$current = implode('',$this->getCurrent()); //current 변수지정
+			$wrong = implode('',$this->getWrong());
 			$create_query = sprintf("INSERT INTO game_room (answer, current, wrong, user1_id) VALUES ('%s', '%s', '%s', %d);", $answer, $current, $wrong, get_user_id_from_user_name($_SESSION['id']));
 			//game_room테이블에 answer, current, user1_id INSERT
 			mysqli_query($conn, $create_query);
-			setRoomId(mysqli_insert_id($conn)); //나중에 setRoomId 만들어야함
+			$this->setRoomId(mysqli_insert_id($conn)); //나중에 setRoomId 만들어야함
 			//echo '방생성';
 			$is_room_created = true;
 		}
@@ -222,27 +222,29 @@ class SessionInfo {
 		return $is_room_created;
 	}
   
-	public function play(){
-		refresh();
-		$result = $this->check_character (getCorrectAnswer(), 
-		$user_input, getCurrent(), getWrong());
-		
-		if (implode(getCorrectAnswer(), ' ') === implode(getCurrent, ' ')){
+	public function play($user_input){
+		$this->refresh();
+		$result = $this->checkCharacter($this->getCorrectAnswer(), 
+		$user_input, $this->getCurrent(), $this->getWrong());
+		$this->setCurrent($result[0]);
+		$this->setWrong($result[1]);
+		if (implode('', $this->getCorrectAnswer()) === implode('', $this->getCurrent())){
 			$this->win_game();
 		}
 	}
 
 	public function refresh (){
-	  if(isset($game_room_id)){
+	  if(isset($this->gameRoomId)){
 		
-		$select_query = sprintf('SELECT answer, current, wrong, turn, winner, user1_id, user2_id from hangman.game_room where game_room_id = %d',$game_room_id);
+		$select_query = sprintf('SELECT answer, current, wrong, turn, winner, user1_id, user2_id from hangman.game_room where game_room_id = %d',$this->gameRoomId);
 		$conn = get_connection();
 		$result = mysqli_query($conn,$select_query);
 		
 		if($row = mysqli_fetch_assoc($result)){
-			$this->correct_answer = $row['answer'];
-			$this->currentWord = $row['current'];
-			$this->wrong = $row['wrong'];
+			$this->correct_answer =str_split($row['answer']);
+			$this->currentWord = str_split($row['current']);
+			//echo "Row Current : " . $row['current'] . "<br>";
+			$this->wrong = str_split($row['wrong']);
 			$this->turn = $row['turn'];
 			$this->winner = $row['winner'];
 			$this->user1_id = $row['user1_id'];
@@ -250,6 +252,8 @@ class SessionInfo {
 		}else{
 			die ('리프레시 할때 데이터 못 가지고 옴.');
 		}
+	  }else{
+		  die ('gameRoomId 없음! refresh Error');
 	  }
 	}
 /*
@@ -263,7 +267,7 @@ class SessionInfo {
 	user1
 	user2
 */
-	function get_random_word() {
+	function getRandomWord() {
 	
 		$conn = get_connection ();
 		$get_word_query = "SELECT word FROM vocabulary ORDER BY rand() LIMIT 1"; //랜덤으로 단어 하나 불러오는 query.
@@ -282,7 +286,7 @@ class SessionInfo {
 		return $word;
 	}
 	
-	function check_character($ans_array, $character, $current, $wrong){ 
+	function checkCharacter($ans_array, $character, $current, $wrong){ 
 		$match_found = false;
 		$char_check_result[0] = $current;
 		$char_check_result[1] = $wrong;
@@ -301,7 +305,7 @@ class SessionInfo {
 			$this->change_turn();
 		}
 		$conn = get_connection();
-		$update_query = sprintf ("UPDATE game_room SET current='%s', wrong='%s' WHERE game_room_id=%d;", implode($char_check_result[0], ' '), implode($char_check_result[1], ' '), get_my_game_room_id());
+		$update_query = sprintf ("UPDATE game_room SET current='%s', wrong='%s' WHERE game_room_id=%d;", implode('',$char_check_result[0]), implode('',$char_check_result[1]), get_my_game_room_id());
 		mysqli_query ($conn, $update_query);
 		return $char_check_result;
 	}
@@ -309,7 +313,7 @@ class SessionInfo {
 	function create_empty_array ($length){ 
 		for($i = 0; $i < $length; $i++){
 
-			$current[] = '';
+			$current[] = '_';
 		}
 		return $current;
 	}
@@ -336,13 +340,13 @@ class SessionInfo {
 		mysqli_query ($conn, $update_query);
 	}
 	
-	function get_current_and_wrong() {
+	function getCurrentAndWrong() {
 		$conn = get_connection();
 		$select_query = sprintf ('SELECT current, wrong FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
 		$result = mysqli_query($conn, $select_query);
 		$row = mysqli_fetch_assoc($result);
 	
-		return array(explode(' ', $row['current']), explode(' ', $row['wrong']));		
+		return array(str_split($row['current']), str_split( $row['wrong']));		
 	}
   
 }

@@ -16,13 +16,13 @@ $wrong = Array();
 
 
 
-$return = check_character($ans_array,'a',$current);
+$return = checkCharacter(($ans_array,'a',$current);
 
-print_r(check_character($ans_array,'p',$return));
+print_r(checkCharacter(($ans_array,'p',$return));
 
 
 
-function check_character($ans_array, $character, $current){
+function checkCharacter(($ans_array, $character, $current){
 	foreach($ans_array as $key => $value){
 		$char_check_result = $current;
 		if($value === $character){

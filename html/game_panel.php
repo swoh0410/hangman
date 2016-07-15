@@ -12,14 +12,16 @@
 	require_once 'game_function.php';
 	//start_session();
 	$infoDto = $_SESSION['info_dto'];
+	$infoDto->refresh();
+	//echo "CURRENT: " . implode("",$infoDto->getCurrent()). "<br>";
 	$infoDto->setGamingStatus(get_gaming_status());
-	echo $infoDto->getGamingStatus();
+	//echo $infoDto->getGamingStatus();
 	
 ?>
 
 <?php		
 	$displayAnswer = implode(' ', $infoDto->getCorrectAnswer());
-	echo $displayAnswer.'<br><br>';
+	//echo $displayAnswer.'<br><br>';
 	//$c = implode($_SESSION['current'], ' ');
 	//echo $c.'<br><br>';
 	//if(isset($infoDto->getWrong())){
@@ -28,10 +30,7 @@
 </p>
 <?php 
 	// 현재의 상태 - 이 값을 통해서 화면을 표시하면 됨.
-	if($infoDto->getMode() === 'dual_game') {
-		$infoDto->setCurrent(get_current_and_wrong()[0]);
-		$infoDto->setWrong(get_current_and_wrong()[1]);
-	}
+	
 	$correct_answer = $infoDto->getCorrectAnswer(); // ex) ('a', 'p', 'p', 'l', 'e')
 	$current = $infoDto->getCurrent();  // ex) ('a', ' ', ' ', 'l', ' ')
 	$wrong = $infoDto->getWrong();  // ex) ('b', 't')
@@ -103,12 +102,7 @@
 				<li>틀린답</li>
 				<?php		
 				echo '<li>';			
-				if(count($infoDto->getWrong()) === 1){
-					echo $infoDto->getWrong()[0]; 
-				}else if(count($infoDto->getWrong()) > 1){
-					$c = implode(' ', $infoDto->getWrong());
-					echo $c;
-				}
+					echo implode(' ', $infoDto->getWrong());
 				echo '</li>';
 				?>
 			</ul>
