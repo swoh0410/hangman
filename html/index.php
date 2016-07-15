@@ -6,8 +6,9 @@
 <title>2조 PROJECT - HANGMAN GAME</title>
 <?php 
 	require_once '../includes/session.php'; 
-	require_once './SessionInfo.php'; 
+	require_once 'SessionInfo.php'; 
 	start_session();
+	require_once 'game_function.php'; 
 
 	if(isset($_SESSION['info_dto'])){
 		$infoDto = $_SESSION['info_dto'];
@@ -90,12 +91,13 @@
 					<div class="user_stat">
 						<?php
 							// stat 데이터 가져오기
-							include 'stat_db.php';
-							$array = get_stats($_SESSION['id']);
-							echo '총'.$array['total'].'번 중 |';
-							echo '승 : '.$array['win'].' |';
-							echo '패 : '.$array['lose'].' | ';
-							echo '승률 : '.$array['win_rate'];
+							$pk = get_user_id_from_user_name($infoDto->getId());
+							require_once 'stat_db.php';
+							$row = get_stats($pk);
+							echo '총'.$row['total'].'번 | ';
+							echo '승 : '.$row['win'].' | ';
+							echo '패 : '.$row['lose'].' | ';
+							echo '승률 : '.$row['win_rate'].'%';
 						?>
 					</div>
 				</div>	

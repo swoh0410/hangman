@@ -49,21 +49,17 @@ function get_stats($id) {
 	$conn = get_connection ();
 	$select_query = sprintf('SELECT total, win, lose, win_rate FROM hangman.stats WHERE user_account_id = %d', $id);
 	$result = mysqli_query($conn, $select_query);
-	if($result == false) {
+	
+	if($result === false) {
 		echo 'cannot read stat data from DB!';
 		mysqli_error($conn);
-	}else{
-
-		while($row = mysqli_fetch_assoc($result)) {
-				print_r($row);
-				$returnValue = $row;
-		}			
-
-		$row = mysqli_fetch_assoc($result);				
-
+	} else {
+		$row = mysqli_fetch_assoc($result);
 	}
-	return $row;
+	//die ('get_stats');
+	return $row;		
 }
+
 
 
 
