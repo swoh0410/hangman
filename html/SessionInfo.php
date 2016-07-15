@@ -294,7 +294,8 @@ class SessionInfo {
 		}	
 		
 		$row = mysqli_fetch_assoc($data);
-		$word = $row['word'];
+		$word = strtolower($row['word']);
+		
 		mysqli_close($conn);
 		return $word;
 	}
