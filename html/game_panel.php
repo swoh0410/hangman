@@ -68,7 +68,7 @@
 					<div class="user_stat">
 						<?php
 							// stat 데이터 가져오기
-							$pk = get_user_id_from_user_name($infoDto->getId());
+							$pk = get_user_ids()[0];
 							require_once 'stat_db.php';
 							$row = get_stats($pk);
 							echo '총 '.$row['total'].'번 | ';
@@ -83,7 +83,7 @@
 					<div class="user_stat">
 						<?php
 							// stat 데이터 가져오기
-							$pk = get_user_id_from_user_name($infoDto->getId());
+							$pk = get_user_ids()[1];
 							require_once 'stat_db.php';
 							$row = get_stats($pk);
 							echo '총 '.$row['total'].'번 | ';

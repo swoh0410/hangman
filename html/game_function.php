@@ -62,6 +62,7 @@
 		}
 		mysqli_close($conn);
 	}
+	
 	function is_my_turn(){
 		$conn = get_connection();
 		$my_position = get_my_position();				
@@ -93,8 +94,8 @@
 				die('방번호 지정 에러');
 			}
 		}
-	
 	}
+	
 	function get_user_ids(){
 		$conn = get_connection();
 		$select_query = sprintf ('SELECT user1_id, user2_id FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
@@ -103,8 +104,6 @@
 		mysqli_close($conn);
 		return array(intval($row['user1_id']), intval($row['user2_id']));
 	}
-	
-	
 	
 	function get_enemy_id() {		
 		if (get_user_ids()[0] === get_user_id_from_user_name($_SESSION['id'])){
