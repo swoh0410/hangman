@@ -206,7 +206,7 @@
 				<li>틀린답</li>
 				<?php		
 				echo '<li>';			
-				echo implode(' ', $infoDto->getWrong());				
+				echo implode(' ', $infoDto->getWrong());
 				echo '</li>';
 				?>
 			</ul>
