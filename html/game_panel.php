@@ -18,7 +18,7 @@
 	//echo $infoDto->getGamingStatus();
 	
 ?>
-<p>
+
 <?php		
 	$displayAnswer = implode(' ', $infoDto->getCorrectAnswer());
 	//echo $displayAnswer.'<br><br>';
@@ -27,7 +27,7 @@
 	//if(isset($infoDto->getWrong())){
 	
 ?>
-</p>
+
 <?php 
 	// 현재의 상태 - 이 값을 통해서 화면을 표시하면 됨.
 	
@@ -173,7 +173,7 @@
 	<div id="panel_wrap">
 		<div class="game_panel">
 			<ul class="user_info_solo">
-				<li>USER: <?php echo $infoDto->getId(); ?></li>
+				<li class="user_1">USER: <?php echo $infoDto->getId(); ?></li>
 			</ul>
 			<div class="panel_box">
 				<div class="user_output">
@@ -229,6 +229,38 @@
 <?php
 		} else if ($infoDto->getGamingStatus() === 'end'){
 			//여기는 솔로게임이 끝났을때
+?>
+
+		<div id="panel_wrap">
+			<div class="game_panel">
+				<ul class="user_info_solo">
+					<li class="user_1">USER: <?php echo $infoDto->getId(); ?></li>
+				</ul>
+				<div class="panel_box">
+					<div class="solo_game_over">
+					연습게임이 끝났습니다. 계속 하시겠습니까?
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page_btn">
+			<ul>
+				<li>
+					<form action="change_mode.php" method="post">
+						<input type="hidden" value="solo_game" name="mode">
+						<input type="submit" value="리셋">		
+					</form>
+				</li>
+				<li>
+					<form action="change_mode.php" method="post">
+						<input type="hidden" value="lobby" name="mode">
+						<input type="submit" value="로비">		
+					</form>
+				</li>
+			</ul>
+		</div>
+
+<?php		
 		} else{
 			die('솔로게임 getGamingStatus 에러');
 		}
