@@ -206,6 +206,7 @@
 				<?php		
 				echo '<li>';			
 				echo implode(' ', $infoDto->getWrong());
+				echo getWrong();
 				echo '</li>';
 				?>
 			</ul>
