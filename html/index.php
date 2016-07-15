@@ -88,13 +88,13 @@
 
 						</table>
 					</div>
-					<div class="user_stat">
+					<div class="user_stat_box">
 						<?php
 							// stat 데이터 가져오기
 							$pk = get_user_id_from_user_name($infoDto->getId());
 							require_once 'stat_db.php';
 							$row = get_stats($pk);
-							echo '총'.$row['total'].'번 | ';
+							echo '총 '.$row['total'].'번 | ';
 							echo '승 : '.$row['win'].' | ';
 							echo '패 : '.$row['lose'].' | ';
 							echo '승률 : '.$row['win_rate'].'%';

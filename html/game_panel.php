@@ -63,8 +63,36 @@
 		<div id="panel_wrap">
 		<div class="game_panel">
 			<ul class="user_info">
-				<li class="user_1">USER: <?php echo get_user_name_from_user_id (get_user_ids()[0]); ?></li>
-				<li class="user_2">USER: <?php echo get_user_name_from_user_id (get_user_ids()[1]); ?></li>
+				<li class="user_1">
+				USER: <?php echo get_user_name_from_user_id (get_user_ids()[0]); ?>
+					<div class="user_stat">
+						<?php
+							// stat 데이터 가져오기
+							$pk = get_user_id_from_user_name($infoDto->getId());
+							require_once 'stat_db.php';
+							$row = get_stats($pk);
+							echo '총 '.$row['total'].'번 | ';
+							echo '승 : '.$row['win'].' | ';
+							echo '패 : '.$row['lose'].' | ';
+							echo '승률 : '.$row['win_rate'].'%';
+						?>
+					</div>
+				</li>
+				<li class="user_2">
+				USER: <?php echo get_user_name_from_user_id (get_user_ids()[1]); ?>
+					<div class="user_stat">
+						<?php
+							// stat 데이터 가져오기
+							$pk = get_user_id_from_user_name($infoDto->getId());
+							require_once 'stat_db.php';
+							$row = get_stats($pk);
+							echo '총 '.$row['total'].'번 | ';
+							echo '승 : '.$row['win'].' | ';
+							echo '패 : '.$row['lose'].' | ';
+							echo '승률 : '.$row['win_rate'].'%';
+						?>
+					</div>
+				</li>
 			</ul>
 			<div class="panel_box">
 				<div class="user_output">
