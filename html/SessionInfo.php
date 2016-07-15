@@ -1,6 +1,7 @@
 <?php
 require_once '../includes/session.php';
 require_once 'game_function.php';
+require_once 'stat_db.php';
 class SessionInfo {
 	private $id;
 	private $mode;
@@ -231,11 +232,10 @@ class SessionInfo {
 	}
   
 	public function play($user_input){
-		$this->refresh();
+		
 		$result = $this->checkCharacter($this->getCorrectAnswer(), 
 		$user_input, $this->getCurrent(), $this->getWrong());
-		$this->setCurrent($result[0]);
-		$this->setWrong($result[1]);
+		$this->refresh();
 		if (implode('', $this->getCorrectAnswer()) === implode('', $this->getCurrent())){
 			$this->win_game();
 		}
@@ -351,6 +351,7 @@ class SessionInfo {
 		$conn = get_connection();
 		$update_query = sprintf ("UPDATE game_room SET winner=%d WHERE game_room_id=%d;", get_my_position(), get_my_game_room_id());
 		mysqli_query ($conn, $update_query);
+		insert_stats();
 	}
 	
 	function getCurrentAndWrong() {

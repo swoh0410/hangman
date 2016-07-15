@@ -5,7 +5,7 @@
 		$id_query = sprintf("SELECT user_account_id FROM user_account WHERE id='%s';", $user_name);
 		$result = mysqli_query ($conn, $id_query);
 		$row = mysqli_fetch_assoc($result);
-		$id = $row['user_account_id'];
+		$id = intval($row['user_account_id']);
 		mysqli_close($conn);
 		return ($id);
 	}
@@ -101,22 +101,13 @@
 		$result = mysqli_query($conn, $select_query);
 		$row = mysqli_fetch_assoc($result);
 		mysqli_close($conn);
-		return array($row['user1_id'], $row['user2_id']);
+		return array(intval($row['user1_id']), intval($row['user2_id']));
 	}
 	
-	function win_game(){
-		$conn = get_connection();
-		$update_query = sprintf ("UPDATE game_room SET winner=%d WHERE game_room_id=%d;", get_my_position(), get_my_game_room_id());
-		mysqli_query ($conn, $update_query);
-		$_SESSION['gaming_status'] = get_game_status();
-		//echo 'win_game : '.$_SESSION['gaming_status'];
-		
-		insert_stats($_SESSION['id']);
-		mysqli_close($conn);		
-	}
+	
 	
 	function get_enemy_id() {		
-		if (get_user_ids()[0] === $_SESSION['id']){
+		if (get_user_ids()[0] === get_user_id_from_user_name($_SESSION['id'])){
 			return get_user_ids()[1];
 		} else {
 			return get_user_ids()[0];
