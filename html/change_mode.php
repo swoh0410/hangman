@@ -9,7 +9,7 @@
 		$infoDto->setMode($_POST['mode']);
 		
 		if ($infoDto->getMode() === 'solo_game') { // solo_game 시작을 클릭했을때
-			reset_correct_answer();
+			$infoDto->reset_correct_answer();
 			header("Location: index.php");
 		} else if ($infoDto->getMode() === 'lobby') { //리셋했을때
 			
