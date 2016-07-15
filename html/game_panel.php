@@ -169,6 +169,7 @@
 	
 	} else if ($infoDto->getMode() === 'solo_game') {
 		if($infoDto->getGamingStatus() === 'my_turn'){
+			//echo implode(' ', $infoDto->getCorrectAnswer());
 ?>
 	<div id="panel_wrap">
 		<div class="game_panel">
@@ -205,8 +206,7 @@
 				<li>틀린답</li>
 				<?php		
 				echo '<li>';			
-				echo implode(' ', $infoDto->getWrong());
-				echo getWrong();
+				echo implode(' ', $infoDto->getWrong());				
 				echo '</li>';
 				?>
 			</ul>

@@ -232,10 +232,15 @@ class SessionInfo {
 	}
   
 	public function play($user_input){
-		
 		$result = $this->checkCharacter($this->getCorrectAnswer(), 
-		$user_input, $this->getCurrent(), $this->getWrong());
-		$this->refresh();
+				$user_input, $this->getCurrent(), $this->getWrong());
+		if($this->getMode() === 'solo_game'){
+			$this->setCurrent($result[0]);
+			$this->setWrong($result[1]);
+		} else {//듀얼게임
+			update_current_and_wrong($result[0], $result[1]);
+			$this->refresh();
+		}		
 		if (implode('', $this->getCorrectAnswer()) === implode('', $this->getCurrent())){
 			$this->win_game();
 		}
@@ -318,12 +323,15 @@ class SessionInfo {
 			//턴변경
 			$this->change_turn();
 		}
-		$conn = get_connection();
-		$update_query = sprintf ("UPDATE game_room SET current='%s', wrong='%s' WHERE game_room_id=%d;", implode('',$char_check_result[0]), implode('',$char_check_result[1]), get_my_game_room_id());
-		mysqli_query ($conn, $update_query);
+		
 		return $char_check_result;
 	}
 	
+	function update_current_and_wrong($current, $wrong) {
+		$conn = get_connection();
+		$update_query = sprintf ("UPDATE game_room SET current='%s', wrong='%s' WHERE game_room_id=%d;", implode('',$current), implode('',$wrong), get_my_game_room_id());
+		mysqli_query ($conn, $update_query);
+	}
 	function create_empty_array ($length){ 
 		for($i = 0; $i < $length; $i++){
 
@@ -349,10 +357,14 @@ class SessionInfo {
 	}
 	
 	function win_game(){
-		$conn = get_connection();
-		$update_query = sprintf ("UPDATE game_room SET winner=%d WHERE game_room_id=%d;", get_my_position(), get_my_game_room_id());
-		mysqli_query ($conn, $update_query);
-		insert_stats();
+		if ($this->getMode() === 'solo_game'){
+			return;
+		} else {
+			$conn = get_connection();
+			$update_query = sprintf ("UPDATE game_room SET winner=%d WHERE game_room_id=%d;", get_my_position(), get_my_game_room_id());
+			mysqli_query ($conn, $update_query);
+			insert_stats();
+		}
 	}
 	
 	function getCurrentAndWrong() {
