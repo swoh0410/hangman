@@ -238,7 +238,7 @@ class SessionInfo {
 			$this->setCurrent($result[0]);
 			$this->setWrong($result[1]);
 		} else {//듀얼게임
-			update_current_and_wrong($result[0], $result[1]);
+			$this->update_current_and_wrong($result[0], $result[1]);
 			$this->refresh();
 		}		
 		if (implode('', $this->getCorrectAnswer()) === implode('', $this->getCurrent())){
@@ -332,6 +332,7 @@ class SessionInfo {
 		$update_query = sprintf ("UPDATE game_room SET current='%s', wrong='%s' WHERE game_room_id=%d;", implode('',$current), implode('',$wrong), get_my_game_room_id());
 		mysqli_query ($conn, $update_query);
 	}
+	
 	function create_empty_array ($length){ 
 		for($i = 0; $i < $length; $i++){
 
