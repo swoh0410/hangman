@@ -7,7 +7,7 @@ a {text-decoration:none;}
 /* Layout */
 #wrap {width:100%;min-height:100%;padding:0;margin:-100px 0;position:relative;}
 * html #wrap {height: 100%;}
-#content {width:100%;margin:0;padding:100px 0;}
+#content {width:100%;margin:0;padding:0;}
 #content_l {width:79%;min-height:100%;float:left;display:inline;border-right:1px solid #ddd;margin:0;padding:0;}
 * html #content_l {height: 100%;}
 #content_r {width:20%;min-height:100%;float:right;display:inline;}
@@ -17,7 +17,7 @@ a {text-decoration:none;}
 
 
 /* Header & Footer */
-#header {width:100%;margin:0;padding:25px 0;position:relative;z-index:1;text-align:center;background:#2F2F2F;color:#fff;}
+#header {width:100%;margin-bottom:100px;padding:25px 0;position:relative;z-index:1;text-align:center;background:#2F2F2F;color:#fff;}
 #header a {color:#fff;}
 #footer {width:100%;left:0;bottom:0;margin:0;padding:40px 0;position:fixed;text-align:center;background:#E0E0E0;color:#000;}
 
@@ -52,6 +52,7 @@ a {text-decoration:none;}
 .user_info .user_2 {background:#ddd;}
 
 .panel_box {clear:both;width:100%;margin:0 auto;padding:50px 20px;text-align:center;position:relative;}
+.solo_game_over {margin:0 auto;border:1px solid #ddd;border-radius:3px;margin:50px;padding:60px 0;}
 
 .user_output {width:100%;margin:0;padding:70px 0;text-align:center;position:relative;}
 .user_output ul {display:inline-block;margin:0 auto;padding:0;}
