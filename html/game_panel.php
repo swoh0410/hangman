@@ -6,7 +6,7 @@
 </head>
 
 <body>
-<p>
+
 <?php
 	require_once '../includes/session.php'; 
 	require_once 'game_function.php';
@@ -15,7 +15,7 @@
 	echo $_SESSION['gaming_status'];
 	
 ?>
-
+<p>
 <?php		
 	$displayAnswer = implode($_SESSION['correct_answer'], ' ');
 	echo $displayAnswer.'<br><br>';

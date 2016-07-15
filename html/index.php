@@ -7,7 +7,6 @@
 <?php 
 	require_once '../includes/session.php'; 
 	start_session();
-	
 ?>
 </head>
 <body>
@@ -58,7 +57,6 @@
 						?>
 					
 				</div>
-				
 				<div id="content_r">		
 					<div id="login">
 						<table>
@@ -75,7 +73,19 @@
 									</form>
 								</td>
 							</tr>
+
 						</table>
+					</div>
+					<div class="user_stat">
+						<?php
+							// stat 데이터 가져오기
+							include 'stat_db.php';
+							$array = get_stats($_SESSION['id']);
+							echo '총'.$array['total'].'번 중 |';
+							echo '승 : '.$array['win'].' |';
+							echo '패 : '.$array['lose'].' | ';
+							echo '승률 : '.$array['win_rate'];
+						?>
 					</div>
 				</div>	
 		<?php		

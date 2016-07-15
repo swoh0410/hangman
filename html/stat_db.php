@@ -12,7 +12,6 @@ function get_data(){
 	}else{
 		while($row = mysqli_fetch_assoc($result)) {
 				print_r($row);
-				echo "gewgwe";
 				$returnValue = $row;
 		}			
 	}
