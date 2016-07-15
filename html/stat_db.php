@@ -53,7 +53,14 @@ function get_stats($id) {
 		echo 'cannot read stat data from DB!';
 		mysqli_error($conn);
 	}else{
+
+		while($row = mysqli_fetch_assoc($result)) {
+				print_r($row);
+				$returnValue = $row;
+		}			
+
 		$row = mysqli_fetch_assoc($result);				
+
 	}
 	return $row;
 }

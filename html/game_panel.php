@@ -6,7 +6,7 @@
 </head>
 
 <body>
-<p>
+
 <?php
 	require_once '../includes/session.php'; 
 	require_once 'game_function.php';
@@ -18,7 +18,7 @@
 	//echo $infoDto->getGamingStatus();
 	
 ?>
-
+<p>
 <?php		
 	$displayAnswer = implode(' ', $infoDto->getCorrectAnswer());
 	//echo $displayAnswer.'<br><br>';
