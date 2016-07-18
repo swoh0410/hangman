@@ -3,10 +3,10 @@ require_once '../includes/session.php';
 require_once 'game_function.php';
 
 function insert_stats() { //이겼을때 stats테이블 insert/update
-	$my_id = get_user_ids()[0];
-	$enemy_id = get_enemy_id();	
-	add_stats($my_id, true);
-	add_stats($enemy_id, false);
+   $my_id = get_user_id_from_user_name($_SESSION['id']);
+   $enemy_id = get_enemy_id();   
+   add_stats($my_id, true);
+   add_stats($enemy_id, false);
 }
 
 function add_stats($user_id, $is_win) { //이겼을때 stats테이블 insert/update
