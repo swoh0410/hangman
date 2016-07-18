@@ -203,15 +203,15 @@ class SessionInfo {
 				mysqli_error($conn);
 			}
 			$row = mysqli_fetch_assoc($result);
-			$this->setCorrectAnswer(str_split($row['answer']));
-			$this->setCurrent(str_split($row['current']));
-			$this->setWrong(str_split($row['wrong']));
+			$this->setCorrectAnswer(preg_split('//u', $row['answer'], -1, PREG_SPLIT_NO_EMPTY));
+			$this->setCurrent(preg_split('//u', $row['current'], -1, PREG_SPLIT_NO_EMPTY));
+			$this->setWrong(preg_split('//u', $row['wrong'], -1, PREG_SPLIT_NO_EMPTY));
 			$this->setRoomId($room);
 			//echo '조인';
 			$is_room_created = false;
 		} else {//없는경우 방생성
 			 //단어 생성하기
-		$this->setCorrectAnswer(str_split($this->getRandomWord())); 
+		$this->setCorrectAnswer(preg_split('//u', $this->getRandomWord(), -1, PREG_SPLIT_NO_EMPTY)); 
 		$current = $this->create_empty_array (count($this->getCorrectAnswer()));
 		$this->setCurrent($current);
 		$this->setWrong(array());			
@@ -258,10 +258,10 @@ class SessionInfo {
 			$result = mysqli_query($conn,$select_query);
 			
 			if($row = mysqli_fetch_assoc($result)){
-				$this->correct_answer =str_split($row['answer']);
-				$this->currentWord = str_split($row['current']);
+				$this->correct_answer = preg_split('//u', $row['answer'], -1, PREG_SPLIT_NO_EMPTY);
+				$this->currentWord = preg_split('//u', $row['current'], -1, PREG_SPLIT_NO_EMPTY);
 				//echo "Row Current : " . $row['current'] . "<br>";
-				$this->wrong = str_split($row['wrong']);
+				$this->wrong = preg_split('//u', $row['wrong'], -1, PREG_SPLIT_NO_EMPTY);
 				$this->turn = $row['turn'];
 				$this->winner = $row['winner'];
 				$this->user1_id = $row['user1_id'];
@@ -374,11 +374,12 @@ class SessionInfo {
 		$result = mysqli_query($conn, $select_query);
 		$row = mysqli_fetch_assoc($result);
 	
-		return array(str_split($row['current']), str_split( $row['wrong']));		
+		return array(preg_split('//u', $row['current'], -1, PREG_SPLIT_NO_EMPTY), 
+							preg_split('//u', $row['wrong'], -1, PREG_SPLIT_NO_EMPTY));		
 	}
 	
 	function startSoloGame(){
-		$this->setCorrectAnswer(str_split($this->getRandomWord())); 
+		$this->setCorrectAnswer(preg_split('//u', $this->getRandomWord(), -1, PREG_SPLIT_NO_EMPTY)); 
 		$current = $this->create_empty_array (count($this->getCorrectAnswer()));
 		$this->setCurrent($current);
 		$this->setWrong(array());
