@@ -3,6 +3,36 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/jquery.countdown.js"></script>
+
+<script>
+	$(document).ready(function(){
+		/*
+		window.onbeforeunload = function() {
+			return "그냥 나감";
+		};
+		
+		window.onunload = function() {
+			// 만약 게임중이면 징계먹이기
+			return;
+		};
+		*/
+		$('#timer').countdown(Date.now() + 30000, function(event) { 
+			var remainingSecondsString =  event.strftime('%-S');
+			$(this).text(remainingSecondsString); 
+			if (parseInt(remainingSecondsString) == 0) {
+				$(this).text('Time Over');
+				$('#form').submit();
+			} else {
+			$(this).css('color', 'red');
+			}
+		});
+	});
+
+
+</script>
 </head>
 
 <body>
@@ -57,7 +87,7 @@
 			</div>
 		</div>
 	</div>
-<?php	}else if ($infoDto->getGamingStatus() === 'my_turn' || 
+<?php	}else if ($infoDto->getGamingStatus() === 'my_turn' ||
 					$infoDto->getGamingStatus() === 'enemy_turn'){
 ?>
 		<div id="panel_wrap">
@@ -95,6 +125,9 @@
 				</li>
 			</ul>
 			<div class="panel_box">
+				<?php if ($infoDto->getGamingStatus() === 'my_turn') { ?>
+				<span id="timer" class="timer">Timer not started yet</span>
+				<?php } ?>
 				<div class="user_output">
 					<ul>
 					<?php 
@@ -107,7 +140,7 @@
 					</ul>
 				</div>
 				<div class="user_input">
-					<form action = "change_mode.php" method = "post">
+					<form id = "form" action = "change_mode.php" method = "post">
 						<ul>
 						<?php
 
@@ -205,6 +238,7 @@
 				<li class="user_1">USER: <?php echo $infoDto->getId(); ?></li>
 			</ul>
 			<div class="panel_box">
+			<!--<span id="timer" class="timer">Timer not started yet</span>-->
 				<div class="user_output">
 					<ul>
 					<?php 
