@@ -19,7 +19,7 @@
 			return;
 		};
 		*/
-		$('#timer').countdown(Date.now() + 30000, function(event) { 
+		$('#timer').countdown(Date.now() + 10000, function(event) { 
 			var remainingSecondsString =  event.strftime('%-S');
 			$(this).text(remainingSecondsString); 
 			if (parseInt(remainingSecondsString) == 0) {
@@ -29,9 +29,15 @@
 			$(this).css('color', 'red');
 			}
 		});
+		
+		
+		
 	});
-
-
+	
+	
+	
+	
+	
 </script>
 </head>
 
@@ -49,7 +55,7 @@
 	//echo $infoDto->getGamingStatus();
 	
 ?>
-
+<script> var clientStatus =  '<?php echo $infoDto->getGamingStatus(); ?>'; </script>
 <?php		
 	$displayAnswer = implode(' ', $infoDto->getCorrectAnswer());
 	//echo $displayAnswer.'<br><br>';
@@ -222,6 +228,7 @@
 				</li>
 			</ul>
 		</div>
+	</div>
 <?php
 		} else if ($infoDto->getGamingStatus() === 'end'){
 			//여기는 솔로게임이 끝났을때
@@ -255,7 +262,7 @@
 				</li>
 			</ul>
 		</div>
-		</div>
+		
 <?php		
 		} else{
 			die('솔로게임 getGamingStatus 에러');
@@ -263,5 +270,40 @@
 	} 
 ?>
 
+<script>
+	function ajaxStatus() {
+		var status = '';
+		$.ajax({		
+			url:'game_ajax.php',
+			async: false,
+			success : function(result){
+				status = result;
+				//alert(result + ' ' + clientStatus);
+			}
+		});
+		return status;
+	}	
+
+		
+	
+	function reloadIfNeeded() {
+		
+		var status = ajaxStatus();
+		//alert(status + '44' + clientStatus);
+		if (status == 'waiting' || status == 'enemy_turn'){
+			
+		} else if (status == 'my_turn'){
+			if (clientStatus == 'waiting' || clientStatus == 'enemy_turn'){				
+				
+				window.location.reload();
+			}
+		}
+		setTimeout (function() {
+			reloadIfNeeded();
+		}, 3000);
+	}
+	
+	reloadIfNeeded();
+</script>
 </body>
 <html>
