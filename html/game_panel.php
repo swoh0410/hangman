@@ -130,6 +130,10 @@
 		
 <?php
 		print_ui();
+?>
+		</div>
+
+<?php		
 		
 		}else if($infoDto->getGamingStatus() === 'win' ||
 					$infoDto->getGamingStatus() === 'lose') {					
@@ -251,13 +255,13 @@
 				</li>
 			</ul>
 		</div>
-
+		</div>
 <?php		
 		} else{
 			die('솔로게임 getGamingStatus 에러');
 		}
 	} 
 ?>
-</div>
+
 </body>
 <html>
