@@ -40,6 +40,7 @@
 <?php
 	require_once '../includes/session.php'; 
 	require_once 'game_function.php';
+	require_once 'temp.php';
 	//start_session();
 	$infoDto = $_SESSION['info_dto'];
 	$infoDto->refresh();
@@ -124,52 +125,12 @@
 					</div>
 				</li>
 			</ul>
-			<div class="panel_box">
-				<?php if ($infoDto->getGamingStatus() === 'my_turn') { ?>
-				<span id="timer" class="timer">Timer not started yet</span>
-				<?php } ?>
-				<div class="user_output">
-					<ul>
-					<?php 
-						foreach ($current as $key => $value) {
-							echo '<li>';
-							echo $value;
-							echo '</li>';
-						}
-					?>
-					</ul>
-				</div>
-				<div class="user_input">
-					<form id = "form" action = "change_mode.php" method = "post">
-						<ul>
-						<?php
-
-							if ($infoDto->getGamingStatus() === 'my_turn') {
-								printf ("<li><input type='text' name='user_input' size='35' autofocus></li> ");
-
-								printf ("<li><input type='submit' value='Entre'></li>");
-							} else {
-								printf ("<li><input type='text' name='user_input' size='35' autofocus='true' disabled></li> ");
-								printf ("<li><input type='submit' value='Entre' disabled></li>");
-							}
-						?>
-						</ul>
-					</form>
-				</div>
-			</div>
-		</div>
-		<div class="wrong_input">
-			<ul>
-				<li>틀린답</li>
-				<?php		
-				echo '<li>';			
-					echo implode(' ', $infoDto->getWrong());
-				echo '</li>';
-				?>
-			</ul>
-		</div>
+		</div>	
+			 
 		
 <?php
+		print_ui();
+		
 		}else if($infoDto->getGamingStatus() === 'win' ||
 					$infoDto->getGamingStatus() === 'lose') {					
 ?>
@@ -237,42 +198,10 @@
 			<ul class="user_info_solo">
 				<li class="user_1">USER: <?php echo $infoDto->getId(); ?></li>
 			</ul>
-			<div class="panel_box">
-			<!--<span id="timer" class="timer">Timer not started yet</span>-->
-				<div class="user_output">
-					<ul>
-					<?php 
-						foreach ($current as $key => $value) {
-							echo '<li>';
-							echo $value;
-							echo '</li>';
-						}
-					?>
-					</ul>
-				</div>
-				<div class="user_input">
-					<form action = "change_mode.php" method = "post">
-					<?php
-							printf ("<ul>");
-							printf ("<li><input type='text' name='user_input' size='35' autofocus></li> ");
-							printf ("<li><input type='submit' value='Entre'></li>");
-							printf ("</ul>");							
-						
-					?>
-					</form>
-				</div>
-			</div>
-		</div>
-		<div class="wrong_input">
-			<ul>
-				<li>틀린답</li>
-				<?php		
-				echo '<li>';			
-				echo implode(' ', $infoDto->getWrong());
-				echo '</li>';
-				?>
-			</ul>
-		</div>
+		</div>	
+<?php		
+		print_ui();
+?>		
 		<div class="page_btn">
 			<ul>
 				<li>
