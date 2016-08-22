@@ -10,7 +10,7 @@
 <script>
 	$(document).ready(function(){
 		
-		window.onbeforeunload = function() {
+		window.onbeforeunload = function() { 
 			return "그냥 나감";
 		};
 		
