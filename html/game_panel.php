@@ -9,7 +9,7 @@
 
 <script>
 	$(document).ready(function(){
-		/*
+		
 		window.onbeforeunload = function() {
 			return "그냥 나감";
 		};
@@ -18,7 +18,14 @@
 			// 만약 게임중이면 징계먹이기
 			return;
 		};
-		*/
+		
+		function disableF5(e) { 
+			if ((e.which || e.keyCode) == 116) {
+				e.preventDefault(); 
+			}
+		}
+		$(document).on("keydown", disableF5);
+		
 		$('#timer').countdown(Date.now() + 10000, function(event) { 
 			var remainingSecondsString =  event.strftime('%-S');
 			$(this).text(remainingSecondsString); 
