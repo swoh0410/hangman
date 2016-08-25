@@ -9,6 +9,7 @@
 
 <script>
 	$(document).ready(function(){
+		
 		/*
 		window.onbeforeunload = function() {
 			return "그냥 나감";
@@ -18,98 +19,128 @@
 			// 만약 게임중이면 징계먹이기
 			return;
 		};*/
-		
+		/*
 		function disableF5(e) { 
 			if ((e.which || e.keyCode) == 116) {
 				e.preventDefault(); 
 			}
 		}
 		$(document).on("keydown", disableF5);
+		*/
 		
+		startDualGame();
+		
+	});
+		
+	function startTimer() {
 		$('#timer').countdown(Date.now() + 10000, function(event) { 
 			var remainingSecondsString =  event.strftime('%-S');
 			$(this).text(remainingSecondsString); 
 			if (parseInt(remainingSecondsString) == 0) {
 				$(this).text('Time Over');
-				$('#form').submit();
+				inputAnwser();
 			} else {
-			$(this).css('color', 'red');
+				$(this).css('color', 'red');
 			}
-		});		
-	});
+		});	
+	}
+	
+	function startDualGame() {
+		alert('asas');
+		ajaxData('start_dual_game');
+		draw_screen();		
+	}	
+	
+	function inputAnwser(){
+		var text = document.getElementById('input_answer');
+		var anwser = text.value;
+		ajaxData('play', anwser);
+		draw_screen();
+	}
+	
 	var gameData = '';
+
 	function ajaxData(thisAction, thisChar) {
+	
 		$.ajax({		
 			url:'word_ajax.php',
 			type: 'POST',
 			async: false,
-			data : { action : thisAction, user_input : thisChar }
+			data : { action : thisAction, user_input : thisChar },
 			dataType: 'json',
 			success : function(result){
 				gameData = result;
-			}
+				//alert(JSON.stringify(result));
+			},
+			error: function(xhr) {
+				alert(JSON.stringify(xhr));
+			},
 		});
 		return gameData;
 	}
 	
-	function startDuelGame() {
-		ajaxData('start_duel_game');
-	}
+	var clientStatus =  '';
+	var correctAnswer = '';
+	var current = '';
+	var wrong = '';
+	var gameMode = '';
+	var gameStatus = '';
+	var userId = '';
 	
 	function fillCurrent(){
 		var current_list = document.getElementById('current_list');
 		current_list.innerHTML = '';
-		
-		var arr = current.split();
-		for (var i = 0; i < arr.length; i++){			
+
+		var arr = current;
+		for (var i = 0; i < arr.length; i++){
 			var li = document.createElement('li');
 			current_list.appendChild(li);
 			li.innerHTML = arr[i];
 		}
 	}
-
-	function inputAnwser(form){
-		var text = document.getElementById('input_answer');
-		var anwser = text.value;
-		ajaxData('play', anwser);
-	}
-	
-	
 	
 	function fillWrong(){
 		var wrong_list = document.getElementById('wrong_list');
 		wrong_list.innerHTML = '';
 		
 		var arr = wrong;
-		arr.join(", ");		
-		wrong_list.innerHTML = arr[i];		
+		//alert(JSON.stringify(arr));
+		//wrong_list.innerHTML = arr.join(', ');		
 	}
 	
 	function draw_screen(){
-		var clientStatus =  gameData['status']; 
-		var correctAnswer = gameData['correct_answer'];
-		var current = gameData['current'];
-		var wrong = gameData['wrong'];
-		var gameMode = gameData['mode'];
-		var gameStatus = gameData['status'];
-		var userId = gameData['user_id']
+		clientStatus =  gameData['status']; 
+		correctAnswer = gameData['correct_answer'];
+		current = gameData['current'];
+		wrong = gameData['wrong'];
+		//alert(JSON.stringify(wrong));
+		gameMode = gameData['mode'];
+		gameStatus = gameData['status'];
+		userId = gameData['user_id']
 		fillCurrent();
 		fillWrong();
 		
 		if (gameMode === 'dual_game'){
 			if (gameStatus === 'waiting') {
-			
+				document.getElementById('panel_wrap').style.display = 'none';
+				document.getElementById('panel_result').style.display = 'none';
+				document.getElementById('panel_waiting').style.display = '';
 			} else if (gameStatus === 'my_turn' || gameStatus === 'enemy_turn')	{
-				if (gameStatus === 'my_turn'){
-					document.getElementById('timer').style.disply = '';
+				document.getElementById('panel_waiting').style.display = 'none';
+				document.getElementById('panel_wrap').style.display = '';
+				if (gameStatus === 'my_turn'){					
+					document.getElementById('timer').style.display = '';
+					startTimer();
 					document.getElementById('input_answer').disabled = false;
 					document.getElementById('input_button').disabled = false;
 				} else{
-					document.getElementById('timer').style.disply = 'none';
+					drawIfNeeded();
+					document.getElementById('timer').style.display = 'none';
 					document.getElementById('input_answer').disabled = true;
 					document.getElementById('input_button').disabled = true;
 				}
 			} else if(gameStatus === 'win' || gameStatus === 'lose') {
+				document.getElementById('panel_result').style.display = 'none';
 				if (gameStatus === 'win'){
 				
 				} else if (gameStatus === 'lose') {
@@ -119,20 +150,31 @@
 		}
 	}
 	
+		
+	function drawIfNeeded() {
+		
+		
+		//alert(status + '44' + clientStatus);
+		if (gameStatus === 'my_turn') {
+			
+		} else if (gameStatus === 'enemy_turn' || gameStatus === 'waiting') {
+			ajaxData('fetch_status');
+			draw_screen();
+		}
+		setTimeout (function() {
+			drawIfNeeded();
+		}, 10000);
+	}
+	
 </script>
 </head>
 
 <body>
 
-<script> 
-	
-	
-	
-</script>
 
 	
 
-	<div id="panel_wrap">
+	<div id="panel_waiting">
 		<div class="game_panel">
 			<ul class="user_info">
 				<li class="user_1">USER: <span id = "user1_id"></span></li>
@@ -200,17 +242,12 @@
 			
 			</ul>
 		</div>
+	<div id = "panel_result">
 		<div class="panel_box">
 			<div class="game_result">
-<?php			
-			if ($infoDto->getGamingStatus() === 'win') {
-?>			
-				<?php echo get_user_name_from_user_id (get_user_ids()[0]); ?> <span class="game_win">WIN</span> vs <?php echo get_user_name_from_user_id (get_user_ids()[1]); ?> <span class="game_lose">LOSE</span>
+	
+				<span>유저1</span> <span class="game_win">WIN</span> vs <span>유저2</span> <span class="game_lose">LOSE</span>
 			
-<?php
-			} else if ($infoDto->getGamingStatus() === 'lose') {
-?>
-				<?php echo get_user_name_from_user_id (get_user_ids()[1]); ?> <span class="game_lose">LOSE</span> vs <?php echo get_user_name_from_user_id (get_user_ids()[0]); ?> <span class="game_win">WIN</span>
 
 			</div>
 		</div>
@@ -234,112 +271,12 @@
 				</li>
 			</ul>
 		</div>
-<?php
-
-	
-	} else if ($infoDto->getMode() === 'solo_game') {
-		if($infoDto->getGamingStatus() === 'my_turn'){
-			//echo implode(' ', $infoDto->getCorrectAnswer());
-?>
-	<div id="panel_wrap">
-		<div class="game_panel">
-			<ul class="user_info_solo">
-				<li class="user_1">USER: <?php echo $infoDto->getId(); ?></li>
-			</ul>
-		</div>
-<?php		
-		print_ui();
-?>		
-		<div class="page_btn">
-			<ul>
-				<li>
-					<form action="change_mode.php" method="post">
-						<input type="hidden" value="solo_game" name="mode">
-						<input type="submit" value="리셋">		
-					</form>
-				</li>
-				<li>
-					<form action="change_mode.php" method="post">
-						<input type="hidden" value="lobby" name="mode">
-						<input type="submit" value="로비">		
-					</form>
-				</li>
-			</ul>
-		</div>
 	</div>
-<?php
-		} else if ($infoDto->getGamingStatus() === 'end'){
-			//여기는 솔로게임이 끝났을때
-?>
-
-		<div id="panel_wrap">
-			<div class="game_panel">
-				<ul class="user_info_solo">
-					<li class="user_1">USER: <?php echo $infoDto->getId(); ?></li>
-				</ul>
-				<div class="panel_box">
-					<div class="solo_game_over">
-					연습게임이 끝났습니다. 계속 하시겠습니까?
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="page_btn">
-			<ul>
-				<li>
-					<form action="change_mode.php" method="post">
-						<input type="hidden" value="solo_game" name="mode">
-						<input type="submit" value="리셋">		
-					</form>
-				</li>
-				<li>
-					<form action="change_mode.php" method="post">
-						<input type="hidden" value="lobby" name="mode">
-						<input type="submit" value="로비">		
-					</form>
-				</li>
-			</ul>
-		</div>
-		
-<?php		
-		} else{
-			die('솔로게임 getGamingStatus 에러');
-		}
-	} 
-?>
-
 <script>
-	function ajaxStatus() {
-		var status = '';
-		$.ajax({		
-			url:'game_ajax.php',
-			async: false,
-			success : function(result){
-				status = result;
-				//alert(result + ' ' + clientStatus);
-			}
-		});
-		return status;
-	}	
 
-		
+
 	
-	function drawIfNeeded() {
-		
-		var status = ajaxStatus();
-		//alert(status + '44' + clientStatus);
-		if (status == 'my_turn') {
-			
-		} else if (status == 'enemy_turn') {
-			ajaxData('fetch_status');
-			draw_screen();
-		}
-		setTimeout (function() {
-			drawIfNeeded();
-		}, 3000);
-	}
 	
-	drawIfNeeded();
 </script>
 </body>
 <html>
