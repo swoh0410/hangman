@@ -28,7 +28,10 @@
 		$(document).on("keydown", disableF5);
 		*/
 		
-		startDualGame();
+		//startDualGame();
+		
+		drawIfNeeded();
+		
 		
 	});
 		
@@ -46,16 +49,16 @@
 	}
 	
 	function startDualGame() {
-		alert('asas');
+		//alert('asas');
 		ajaxData('start_dual_game');
-		draw_screen();		
+		drawIfNeeded();		
 	}	
 	
 	function inputAnwser(){
 		var text = document.getElementById('input_answer');
 		var anwser = text.value;
 		ajaxData('play', anwser);
-		draw_screen();
+		drawIfNeeded();
 	}
 	
 	var gameData = '';
@@ -70,7 +73,7 @@
 			dataType: 'json',
 			success : function(result){
 				gameData = result;
-				//alert(JSON.stringify(result));
+				alert(JSON.stringify(result));
 			},
 			error: function(xhr) {
 				alert(JSON.stringify(xhr));
@@ -134,7 +137,7 @@
 					document.getElementById('input_answer').disabled = false;
 					document.getElementById('input_button').disabled = false;
 				} else{
-					drawIfNeeded();
+					
 					document.getElementById('timer').style.display = 'none';
 					document.getElementById('input_answer').disabled = true;
 					document.getElementById('input_button').disabled = true;
@@ -152,18 +155,18 @@
 	
 		
 	function drawIfNeeded() {
-		
+		ajaxData('fetch_status');
+		draw_screen();
 		
 		//alert(status + '44' + clientStatus);
 		if (gameStatus === 'my_turn') {
 			
 		} else if (gameStatus === 'enemy_turn' || gameStatus === 'waiting') {
-			ajaxData('fetch_status');
-			draw_screen();
-		}
-		setTimeout (function() {
+			setTimeout (function() {
 			drawIfNeeded();
-		}, 10000);
+			}, 6000);
+		}
+		
 	}
 	
 </script>
