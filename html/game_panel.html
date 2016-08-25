@@ -35,63 +35,107 @@
 			} else {
 			$(this).css('color', 'red');
 			}
-		});
-		
-		
-		
+		});		
 	});
+	var gameData = '';
+	function ajaxData(thisAction, thisChar) {
+		$.ajax({		
+			url:'word_ajax.php',
+			type: 'POST',
+			async: false,
+			data : { action : thisAction, user_input : thisChar }
+			dataType: 'json',
+			success : function(result){
+				gameData = result;
+			}
+		});
+		return gameData;
+	}
+	
+	function startDuelGame() {
+		ajaxData('start_duel_game');
+	}
+	
+	function fillCurrent(){
+		var current_list = document.getElementById('current_list');
+		current_list.innerHTML = '';
+		
+		var arr = current.split();
+		for (var i = 0; i < arr.length; i++){			
+			var li = document.createElement('li');
+			current_list.appendChild(li);
+			li.innerHTML = arr[i];
+		}
+	}
+
+	function inputAnwser(form){
+		var text = document.getElementById('input_answer');
+		var anwser = text.value;
+		ajaxData('play', anwser);
+	}
 	
 	
 	
+	function fillWrong(){
+		var wrong_list = document.getElementById('wrong_list');
+		wrong_list.innerHTML = '';
+		
+		var arr = wrong;
+		arr.join(", ");		
+		wrong_list.innerHTML = arr[i];		
+	}
 	
+	function draw_screen(){
+		var clientStatus =  gameData['status']; 
+		var correctAnswer = gameData['correct_answer'];
+		var current = gameData['current'];
+		var wrong = gameData['wrong'];
+		var gameMode = gameData['mode'];
+		var gameStatus = gameData['status'];
+		var userId = gameData['user_id']
+		fillCurrent();
+		fillWrong();
+		
+		if (gameMode === 'dual_game'){
+			if (gameStatus === 'waiting') {
+			
+			} else if (gameStatus === 'my_turn' || gameStatus === 'enemy_turn')	{
+				if (gameStatus === 'my_turn'){
+					document.getElementById('timer').style.disply = '';
+					document.getElementById('input_answer').disabled = false;
+					document.getElementById('input_button').disabled = false;
+				} else{
+					document.getElementById('timer').style.disply = 'none';
+					document.getElementById('input_answer').disabled = true;
+					document.getElementById('input_button').disabled = true;
+				}
+			} else if(gameStatus === 'win' || gameStatus === 'lose') {
+				if (gameStatus === 'win'){
+				
+				} else if (gameStatus === 'lose') {
+				
+				}
+			}
+		}
+	}
 	
 </script>
 </head>
 
 <body>
 
-<?php
-	require_once '../includes/session.php'; 
-	require_once 'game_function.php';
-	require_once 'temp.php';
-	//start_session();
-	$infoDto = $_SESSION['info_dto'];
-	$infoDto->refresh();
-	//echo "CURRENT: " . implode("",$infoDto->getCurrent()). "<br>";
-	$infoDto->setGamingStatus(get_gaming_status());
-	//echo $infoDto->getGamingStatus();
+<script> 
 	
-?>
-<script> var clientStatus =  '<?php echo $infoDto->getGamingStatus(); ?>'; </script>
-<?php		
-	$displayAnswer = implode(' ', $infoDto->getCorrectAnswer());
-	//echo $displayAnswer.'<br><br>';
-	//$c = implode($_SESSION['current'], ' ');
-	//echo $c.'<br><br>';
-	//if(isset($infoDto->getWrong())){
 	
-?>
+	
+</script>
 
-<?php 
-	// 현재의 상태 - 이 값을 통해서 화면을 표시하면 됨.
 	
-	$correct_answer = $infoDto->getCorrectAnswer(); // ex) ('a', 'p', 'p', 'l', 'e')
-	$current = $infoDto->getCurrent();  // ex) ('a', ' ', ' ', 'l', ' ')
-	$wrong = $infoDto->getWrong();  // ex) ('b', 't')
-	//$turn = $_SESSION['turn']; // 0이면 내 turn, 1이면 상대방 turn
-	$turn = 0;
-	$win = true;
-	//$wrong_input = array('e','p','a','q','j','p','a','q','j'); // 연습용
-	
-
-	if ($infoDto->getMode() === 'dual_game'){ //game_start로 상태 바꿈.
-		if ($infoDto->getGamingStatus() === 'waiting') {
-?>		
 
 	<div id="panel_wrap">
 		<div class="game_panel">
 			<ul class="user_info">
-				<li class="user_1">USER: <?php echo $infoDto->getId(); ?></li>
+				<li class="user_1">USER: <span id = "user1_id"></span></li>
 				<li class="user_2">상대 PLAYER를 기다리는 중입니다.</li>
 			</ul>
 			<div class="panel_box">
@@ -101,65 +145,59 @@
 			</div>
 		</div>
 	</div>
-<?php	}else if ($infoDto->getGamingStatus() === 'my_turn' ||
-					$infoDto->getGamingStatus() === 'enemy_turn'){
-?>
+
 		<div id="panel_wrap">
 		<div class="game_panel">
 			<ul class="user_info">
 				<li class="user_1">
-				USER: <?php echo get_user_name_from_user_id (get_user_ids()[0]); ?>
+				USER: <span>유저1아이디</span>
 					<div class="user_stat">
-						<?php
-							// stat 데이터 가져오기
-							$pk = get_user_ids()[0];
-							require_once 'stat_db.php';
-							$row = get_stats($pk);
-							echo '총 '.$row['total'].'번 | ';
-							echo '승 : '.$row['win'].' | ';
-							echo '패 : '.$row['lose'].' | ';
-							echo '승률 : '.$row['win_rate'].'%';
-						?>
+						<span>승률</span>
 					</div>
 				</li>
 				<li class="user_2">
-				USER: <?php echo get_user_name_from_user_id (get_user_ids()[1]); ?>
+				USER: <span>유저2아이디</span>
 					<div class="user_stat">
-						<?php
-							// stat 데이터 가져오기
-							$pk = get_user_ids()[1];
-							require_once 'stat_db.php';
-							$row = get_stats($pk);
-							echo '총 '.$row['total'].'번 | ';
-							echo '승 : '.$row['win'].' | ';
-							echo '패 : '.$row['lose'].' | ';
-							echo '승률 : '.$row['win_rate'].'%';
-						?>
+						<span>승률</span>
 					</div>
 				</li>
 			</ul>
-		</div>	
-			 
-		
-<?php
-		print_ui();
-?>
+		</div>		
+		<div class="panel_box">
+			
+			<span id="timer" class="timer">Timer not started yet</span>
+			
+			<div class="user_output">
+				<ul id = "current_list">
+				
+				</ul>
+			</div>
+			<div class="user_input">
+				<form id = "form">
+					<ul>					
+						<li><input id = "input_answer" type='text' name='user_input' size='35' autofocus></li>
+						<li><input id = "input_button"type='button' value='Entre' onclick = "inputAnwser(this.form)"></li>
+					</ul>
+				</form>
+			</div>
+		</div>
+	
+	<div class="wrong_input">
+		<ul>
+			<li>틀린답</li>
+			
+			<li id = "wrong_list">			
+				
+			</li>
+			
+		</ul>
+	</div>
 		</div>
 
-<?php		
-		
-		}else if($infoDto->getGamingStatus() === 'win' ||
-					$infoDto->getGamingStatus() === 'lose') {					
-?>
+
 		<div class="user_output">
-			<ul>
-			<?php 
-				foreach ($current as $key => $value) {
-					echo '<li>';
-					echo $value;
-					echo '</li>';
-				}
-			?>
+			<ul id = "current_list">
+			
 			</ul>
 		</div>
 		<div class="panel_box">
@@ -173,24 +211,17 @@
 			} else if ($infoDto->getGamingStatus() === 'lose') {
 ?>
 				<?php echo get_user_name_from_user_id (get_user_ids()[1]); ?> <span class="game_lose">LOSE</span> vs <?php echo get_user_name_from_user_id (get_user_ids()[0]); ?> <span class="game_win">WIN</span>
-<?php
-			}
-?>
+
 			</div>
 		</div>
 		<div class="wrong_input">
 			<ul>
 				<li>틀린답</li>
-				<?php		
-				echo '<li>';			
-				if(count($infoDto->getWrong()) === 1){
-					echo $infoDto->getWrong()[0];
-				}else if(count($infoDto->getWrong()) > 1){
-					$c = implode(' ',$infoDto->getWrong());
-					echo $c;
-				}
-				echo '</li>';
-				?>
+						
+				<li id = "wrong_list">
+				
+				</li>
+				
 			</ul>
 		</div>
 		<div class="page_btn">
@@ -204,7 +235,7 @@
 			</ul>
 		</div>
 <?php
-		}
+
 	
 	} else if ($infoDto->getMode() === 'solo_game') {
 		if($infoDto->getGamingStatus() === 'my_turn'){
@@ -215,7 +246,7 @@
 			<ul class="user_info_solo">
 				<li class="user_1">USER: <?php echo $infoDto->getId(); ?></li>
 			</ul>
-		</div>	
+		</div>
 <?php		
 		print_ui();
 ?>		
@@ -293,24 +324,22 @@
 
 		
 	
-	function reloadIfNeeded() {
+	function drawIfNeeded() {
 		
 		var status = ajaxStatus();
 		//alert(status + '44' + clientStatus);
-		if (status == 'waiting' || status == 'enemy_turn'){
+		if (status == 'my_turn') {
 			
-		} else if (status == 'my_turn'){
-			if (clientStatus == 'waiting' || clientStatus == 'enemy_turn'){				
-				
-				window.location.reload();
-			}
+		} else if (status == 'enemy_turn') {
+			ajaxData('fetch_status');
+			draw_screen();
 		}
 		setTimeout (function() {
-			reloadIfNeeded();
+			drawIfNeeded();
 		}, 3000);
 	}
 	
-	reloadIfNeeded();
+	drawIfNeeded();
 </script>
 </body>
 <html>
