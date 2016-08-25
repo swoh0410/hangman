@@ -21,8 +21,8 @@ if (isset($_POST['action'])){
 $data = array();
 $data['correct_answer'] = $infoDto->getCorrectAnswer();
 $data['current'] = $infoDto->getCurrent();
-//$data['wrong'] = $infoDto->getWrong();
-$data['wrong'] = array('a', 'b');
+$data['wrong'] = $infoDto->getWrong();
+
 $data['mode'] = $infoDto->getMode();
 $data['status'] = $infoDto->getGamingStatus();
 $data['user_id'] = $infoDto->getId();

@@ -41,7 +41,7 @@
 			$(this).text(remainingSecondsString); 
 			if (parseInt(remainingSecondsString) == 0) {
 				$(this).text('Time Over');
-				inputAnwser();
+				inputAnwser(true);
 			} else {
 				$(this).css('color', 'red');
 			}
@@ -54,11 +54,16 @@
 		drawIfNeeded();		
 	}	
 	
-	function inputAnwser(){
+	function inputAnwser(timeover){
 		var text = document.getElementById('input_answer');
 		var anwser = text.value;
+		if (timeover === true) {
+			
+		} else {
+			$('#timer').countdown('stop');
+		}
 		ajaxData('play', anwser);
-		drawIfNeeded();
+		drawIfNeeded();		
 	}
 	
 	var gameData = '';
@@ -143,7 +148,7 @@
 					document.getElementById('input_button').disabled = true;
 				}
 			} else if(gameStatus === 'win' || gameStatus === 'lose') {
-				document.getElementById('panel_result').style.display = 'none';
+				document.getElementById('panel_result').style.display = '';
 				if (gameStatus === 'win'){
 				
 				} else if (gameStatus === 'lose') {
@@ -155,6 +160,7 @@
 	
 		
 	function drawIfNeeded() {
+		
 		ajaxData('fetch_status');
 		draw_screen();
 		
@@ -162,7 +168,7 @@
 		if (gameStatus === 'my_turn') {
 			
 		} else if (gameStatus === 'enemy_turn' || gameStatus === 'waiting') {
-			setTimeout (function() {
+			setTimeout (function() {			
 			drawIfNeeded();
 			}, 6000);
 		}
@@ -221,7 +227,7 @@
 				<form id = "form">
 					<ul>					
 						<li><input id = "input_answer" type='text' name='user_input' size='35' autofocus></li>
-						<li><input id = "input_button"type='button' value='Entre' onclick = "inputAnwser(this.form)"></li>
+						<li><input id = "input_button"type='button' value='Entre' onclick = "inputAnwser(false)"></li>
 					</ul>
 				</form>
 			</div>
