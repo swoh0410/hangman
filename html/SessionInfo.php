@@ -382,8 +382,7 @@ class SessionInfo {
 		$this->setCorrectAnswer(preg_split('//u', $this->getRandomWord(), -1, PREG_SPLIT_NO_EMPTY)); 
 		$current = $this->create_empty_array (count($this->getCorrectAnswer()));
 		$this->setCurrent($current);
-		$this->setWrong(array());
-		
+		$this->setWrong(array());		
 	}
 }
 ?>

@@ -105,13 +105,22 @@
 		return array(intval($row['user1_id']), intval($row['user2_id']));
 	}
 	
-	function get_enemy_id() {		
+	function get_enemy_id() {
 		if (get_user_ids()[0] === get_user_id_from_user_name($_SESSION['id'])){
 			return get_user_ids()[1];
 		} else {
 			return get_user_ids()[0];
 		}
 		mysqli_close($conn);
+	}
+	
+	function get_winner_position(){
+		$conn = get_connection();
+		$select_query = sprintf ('SELECT winner FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
+		$result = mysqli_query($conn, $select_query);
+		$row = mysqli_fetch_assoc($result);
+		mysqli_close($conn);
+		return intval($row['winner']);
 	}
 
 ?>

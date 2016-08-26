@@ -9,15 +9,17 @@
 
 <script>
 	$(document).ready(function(){
-		
-		window.onbeforeunload = function() { 
+
+		/*
+		window.onbeforeunload = function() {
+
 			return "그냥 나감";
 		};
 		
 		window.onunload = function() {
 			// 만약 게임중이면 징계먹이기
 			return;
-		};
+		};*/
 		
 		function disableF5(e) { 
 			if ((e.which || e.keyCode) == 116) {
