@@ -25,5 +25,5 @@ $data['wrong'] = $infoDto->getWrong();
 
 $data['mode'] = $infoDto->getMode();
 $data['status'] = $infoDto->getGamingStatus();
-$data['user_id'] = $infoDto->getId();
+$data['my_id'] = $infoDto->getId();
 echo json_encode($data);

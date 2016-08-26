@@ -57,6 +57,7 @@
 	function inputAnwser(timeover){
 		var text = document.getElementById('input_answer');
 		var anwser = text.value;
+		text.value = '';
 		if (timeover === true) {
 			
 		} else {
@@ -71,17 +72,17 @@
 	function ajaxData(thisAction, thisChar) {
 	
 		$.ajax({		
-			url:'word_ajax.php',
+			url:'ajaxData.php',
 			type: 'POST',
 			async: false,
 			data : { action : thisAction, user_input : thisChar },
 			dataType: 'json',
 			success : function(result){
 				gameData = result;
-				alert(JSON.stringify(result));
+				//alert(JSON.stringify(result));
 			},
 			error: function(xhr) {
-				alert(JSON.stringify(xhr));
+				//alert(JSON.stringify(xhr));
 			},
 		});
 		return gameData;
@@ -93,10 +94,16 @@
 	var wrong = '';
 	var gameMode = '';
 	var gameStatus = '';
-	var userId = '';
+	var myId = '';
+	var user1 = '';
+	var user2 = '';
+	var winner = '';
+	var loser = '';
+	var user1Rate = '';
+	var user2Rate = '';
 	
-	function fillCurrent(){
-		var current_list = document.getElementById('current_list');
+	function fillCurrent(id){
+		var current_list = document.getElementById(id);
 		current_list.innerHTML = '';
 
 		var arr = current;
@@ -107,13 +114,13 @@
 		}
 	}
 	
-	function fillWrong(){
-		var wrong_list = document.getElementById('wrong_list');
+	function fillWrong(id){
+		var wrong_list = document.getElementById(id);
 		wrong_list.innerHTML = '';
 		
 		var arr = wrong;
 		//alert(JSON.stringify(arr));
-		//wrong_list.innerHTML = arr.join(', ');		
+		wrong_list.innerHTML = arr.join(', ');		
 	}
 	
 	function draw_screen(){
@@ -124,36 +131,54 @@
 		//alert(JSON.stringify(wrong));
 		gameMode = gameData['mode'];
 		gameStatus = gameData['status'];
-		userId = gameData['user_id']
-		fillCurrent();
-		fillWrong();
-		
+		myId = gameData['my_id'];
+		user1 = userIdData['user_1'];
+		user2 = userIdData['user_2'];
+		winner = userIdData['winner'];
+		loser = userIdData['loser'];
+		user1Rate = userIdData['user_1_rate'];
+		user2Rate = userIdData['user_2_rate'];
+		fillCurrent('current_list');
+		fillWrong('wrong_list');
+
 		if (gameMode === 'dual_game'){
 			if (gameStatus === 'waiting') {
+				document.getElementById('my_id').innerHTML = myId;
 				document.getElementById('panel_wrap').style.display = 'none';
 				document.getElementById('panel_result').style.display = 'none';
 				document.getElementById('panel_waiting').style.display = '';
 			} else if (gameStatus === 'my_turn' || gameStatus === 'enemy_turn')	{
 				document.getElementById('panel_waiting').style.display = 'none';
 				document.getElementById('panel_wrap').style.display = '';
+				document.getElementById('user1').innerHTML = user1;
+				document.getElementById('user1_total').innerHTML = user1Rate['total'];
+				document.getElementById('user1_win').innerHTML = user1Rate['win'];
+				document.getElementById('user1_lose').innerHTML = user1Rate['lose'];
+				document.getElementById('user1_rate').innerHTML = user1Rate['win_rate'];
+				document.getElementById('user2').innerHTML = user2;
+				document.getElementById('user2_total').innerHTML = user2Rate['total'];
+				document.getElementById('user2_win').innerHTML = user2Rate['win'];
+				document.getElementById('user2_lose').innerHTML = user2Rate['lose'];
+				document.getElementById('user2_rate').innerHTML = user2Rate['win_rate'];
 				if (gameStatus === 'my_turn'){					
 					document.getElementById('timer').style.display = '';
 					startTimer();
 					document.getElementById('input_answer').disabled = false;
 					document.getElementById('input_button').disabled = false;
-				} else{
-					
+				} else{					
 					document.getElementById('timer').style.display = 'none';
 					document.getElementById('input_answer').disabled = true;
 					document.getElementById('input_button').disabled = true;
 				}
 			} else if(gameStatus === 'win' || gameStatus === 'lose') {
+				document.getElementById('panel_wrap').style.display = 'none';
+				document.getElementById('panel_waiting').style.display = 'none';
 				document.getElementById('panel_result').style.display = '';
-				if (gameStatus === 'win'){
-				
-				} else if (gameStatus === 'lose') {
-				
-				}
+				fillCurrent('final_current_list');
+				fillWrong('final_wrong_list');
+				ajaxUserId();
+				document.getElementById('winner').innerHTML = winner;
+				document.getElementById('loser').innerHTML = loser;
 			}
 		}
 	}
@@ -162,6 +187,7 @@
 	function drawIfNeeded() {
 		
 		ajaxData('fetch_status');
+		ajaxUserId();
 		draw_screen();
 		
 		//alert(status + '44' + clientStatus);
@@ -175,6 +201,26 @@
 		
 	}
 	
+
+	function ajaxUserId() {
+	
+		$.ajax({		
+			url:'ajaxIdData.php',
+			async: false,
+			dataType: 'json',
+			success : function(result){
+				userIdData = result;
+				//alert(JSON.stringify(result));
+			},
+			error: function(xhr) {
+				//alert(JSON.stringify(xhr));
+			},
+		});
+		return userIdData;
+	}
+	
+	
+	
 </script>
 </head>
 
@@ -186,7 +232,7 @@
 	<div id="panel_waiting">
 		<div class="game_panel">
 			<ul class="user_info">
-				<li class="user_1">USER: <span id = "user1_id"></span></li>
+				<li class="user_1">USER: <span id = "my_id"></span></li>
 				<li class="user_2">상대 PLAYER를 기다리는 중입니다.</li>
 			</ul>
 			<div class="panel_box">
@@ -201,22 +247,28 @@
 		<div class="game_panel">
 			<ul class="user_info">
 				<li class="user_1">
-				USER: <span>유저1아이디</span>
+				USER: <span id="user1">유저1아이디</span>
 					<div class="user_stat">
-						<span>승률</span>
+						<span>전체 : </span><span id="user1_total"></span><span>판 | </span>
+						<span>승 : </span><span id="user1_win"></span><span> | </span>
+						<span>패 : </span><span id="user1_lose"></span><span> | </span>
+						<span>승률 : </span><span id="user1_rate"></span><span>%</span>
 					</div>
 				</li>
 				<li class="user_2">
-				USER: <span>유저2아이디</span>
+				USER: <span id="user2">유저2아이디</span>
 					<div class="user_stat">
-						<span>승률</span>
+						<span>전체 : </span><span id="user2_total"></span><span>판 | </span>
+						<span>승 : </span><span id="user2_win"></span><span> | </span>
+						<span>패 : </span><span id="user2_lose"></span><span> | </span>
+						<span>승률 : </span><span id="user2_rate"></span><span>%</span>
 					</div>
 				</li>
 			</ul>
 		</div>		
 		<div class="panel_box">
-			<div>
-			<span id="timer" class="timer">Timer not started yet</span>
+			<div class="timer_box">
+				<span id="timer" class="timer">Timer not started yet</span>
 			</div>
 			<div class="user_output">
 				<ul id = "current_list">
@@ -245,17 +297,18 @@
 		</div>
 	</div>
 
-
-	<div class="user_output">
-		<ul id = "current_list">
-			
-		</ul>
-	</div>
 	<div id = "panel_result">
+		
+		<div class="user_output">
+			<ul id = "final_current_list">
+				
+			</ul>
+		</div>
+	
 		<div class="panel_box">
 			<div class="game_result">
 	
-				<span>유저1</span> <span class="game_win">WIN</span> vs <span>유저2</span> <span class="game_lose">LOSE</span>
+				<span id="winner">유저1</span> <span class="game_win">WIN</span> vs <span id="loser">유저2</span> <span class="game_lose">LOSE</span>
 			
 
 			</div>
@@ -264,7 +317,7 @@
 			<ul>
 				<li>틀린답</li>
 						
-				<li id = "wrong_list">
+				<li id = "final_wrong_list">
 				
 				</li>
 				
