@@ -63,6 +63,9 @@
 	function inputAnwser(timeover){
 		var text = document.getElementById('input_answer');
 		var anwser = text.value;
+		if (anwser == ''){
+			anwser = ' ';
+		}
 		text.value = '';
 		if (timeover === true) {
 			
@@ -310,7 +313,7 @@
 	
 		<div class="wrong_input">
 			<ul>
-				<li>틀린답</li>
+				<li>틀린답 : </li>
 				
 				<li id = "wrong_list">			
 					
@@ -338,7 +341,7 @@
 		</div>
 		<div class="wrong_input">
 			<ul>
-				<li>틀린답</li>
+				<li>틀린답 : </li>
 						
 				<li id = "final_wrong_list">
 				

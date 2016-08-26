@@ -217,7 +217,7 @@
 			<ul class="user_info_solo">
 				<li class="user_1">USER: <?php echo $infoDto->getId(); ?></li>
 			</ul>
-		</div>	
+		</div>
 <?php		
 		print_ui();
 ?>		

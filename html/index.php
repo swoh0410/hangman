@@ -12,15 +12,15 @@
 
 	if(isset($_SESSION['info_dto'])){
 		$infoDto = $_SESSION['info_dto'];
-		echo "dto있음";
-		echo "mode: " . $infoDto -> getMode();
+		//echo "dto있음";
+		//echo "mode: " . $infoDto -> getMode();
 	}else{
-		echo "info Array 생성 <br>";
+		//echo "info Array 생성 <br>";
 		$info_array = Array();
 		$info_array['mode'] = 'lobby';
 		$infoDto = new SessionInfo($info_array);
 		$_SESSION['info_dto'] = $infoDto;
-		echo "infoDTO 만들었고 모드는: " . $infoDto -> getMode();
+		//echo "infoDTO 만들었고 모드는: " . $infoDto -> getMode();
 	}
 
 ?>

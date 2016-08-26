@@ -8,7 +8,7 @@ a {text-decoration:none;}
 #wrap {width:100%;min-height:100%;padding:0;margin:-100px 0;position:relative;}
 * html #wrap {height: 100%;}
 #content {width:100%;margin:0;padding:0;}
-#content_l {width:79%;min-height:100%;float:left;display:inline;border-right:1px solid #ddd;margin:0;padding:0;}
+#content_l {width:79%;min-height:100%;float:left;display:inline;border-right:1px solid #ddd;margin:0;padding:0;background:#E0FFFF;}
 * html #content_l {height: 100%;}
 #content_r {width:20%;min-height:100%;float:right;display:inline;}
 #content p {text-align:center;margin-top:20px;}
@@ -63,7 +63,7 @@ a {text-decoration:none;}
 .user_input ul {width:100%;margin:0;padding:50px 0;text-align:center;}
 .user_input ul li {display:inline;float;left;}
 .user_input ul li input[type='text'] {padding:10px 10px;}
-.user_input ul li input[type='submit'] {padding:10px 20px;}
+.user_input ul li input[type='button'] {padding:10px 20px;}
 
 .wrong_input {width:100%;text-align:center;border-top:1px solid #ddd;padding-top:40px;}
 .wrong_input ul {display:inline-block;margin:0 auto;padding:0;}

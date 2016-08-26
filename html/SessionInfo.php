@@ -20,7 +20,7 @@ class SessionInfo {
   function __construct($info_array){ 
 		$this->mode = $info_array['mode'];
 		$this->wrong = array();
-		echo "컨스트럭터 에서 받은 모드: " .$info_array['mode'] . "<br>";
+		//echo "컨스트럭터 에서 받은 모드: " .$info_array['mode'] . "<br>";
 		if(isset($info_array['id'])){
 			$this->id = $info_array['id'];
 		}
