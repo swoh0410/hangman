@@ -39,7 +39,7 @@
 		$('#timer').countdown(Date.now() + 10000, function(event) { 
 			var remainingSecondsString =  event.strftime('%-S');
 			$(this).text(remainingSecondsString); 
-			if (parseInt(remainingSecondsString) == 0) {
+			if (event.type == 'finish') {
 				$(this).text('Time Over');
 				inputAnwser(true);
 			} else {
@@ -197,7 +197,7 @@
 		</div>
 	</div>
 
-		<div id="panel_wrap">
+	<div id="panel_wrap">
 		<div class="game_panel">
 			<ul class="user_info">
 				<li class="user_1">
@@ -215,9 +215,9 @@
 			</ul>
 		</div>		
 		<div class="panel_box">
-			
+			<div>
 			<span id="timer" class="timer">Timer not started yet</span>
-			
+			</div>
 			<div class="user_output">
 				<ul id = "current_list">
 				
@@ -233,24 +233,24 @@
 			</div>
 		</div>
 	
-	<div class="wrong_input">
-		<ul>
-			<li>틀린답</li>
-			
-			<li id = "wrong_list">			
+		<div class="wrong_input">
+			<ul>
+				<li>틀린답</li>
 				
-			</li>
+				<li id = "wrong_list">			
+					
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+
+
+	<div class="user_output">
+		<ul id = "current_list">
 			
 		</ul>
 	</div>
-		</div>
-
-
-		<div class="user_output">
-			<ul id = "current_list">
-			
-			</ul>
-		</div>
 	<div id = "panel_result">
 		<div class="panel_box">
 			<div class="game_result">
@@ -281,11 +281,6 @@
 			</ul>
 		</div>
 	</div>
-<script>
 
-
-	
-	
-</script>
 </body>
 <html>
