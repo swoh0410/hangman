@@ -59,7 +59,7 @@
 						</div>
 						<?php							
 							}else if($infoDto->getMode() === 'solo_game'){
-								require 'game_panel.php';
+								require 'game_panel.html';
 							} else if($infoDto->getMode() === 'dual_game'){
 								require 'game_panel.html';
 							}else {

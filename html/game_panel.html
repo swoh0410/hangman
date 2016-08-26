@@ -10,7 +10,7 @@
 <script>
 	$(document).ready(function(){
 		
-		/*
+		
 		window.onbeforeunload = function() {
 			return "그냥 나감";
 		};
@@ -18,21 +18,27 @@
 		window.onunload = function() {
 			// 만약 게임중이면 징계먹이기
 			return;
-		};*/
-		/*
+		}
+		
 		function disableF5(e) { 
-			if ((e.which || e.keyCode) == 116) {
+			if ((e.which || e.keyCode) == 116 || e.keyCode == 13) {
 				e.preventDefault(); 
 			}
 		}
 		$(document).on("keydown", disableF5);
-		*/
+		
 		
 		//startDualGame();
 		
-		drawIfNeeded();
+		ajaxData('fetch_status');
 		
+		if (gameData['mode'] === 'solo_game') {
+			var user2Menu = document.getElementById('user2_main');
+			user2Menu.parentNode.removeChild(user2Menu);
+			document.getElementById('user1_main').style.width = '100%';
+		}		
 		
+		drawIfNeeded();		
 	});
 		
 	function startTimer() {
@@ -141,12 +147,13 @@
 		fillCurrent('current_list');
 		fillWrong('wrong_list');
 
-		if (gameMode === 'dual_game'){
+		if (gameMode === 'dual_game'){			
 			if (gameStatus === 'waiting') {
 				document.getElementById('my_id').innerHTML = myId;
 				document.getElementById('panel_wrap').style.display = 'none';
 				document.getElementById('panel_result').style.display = 'none';
 				document.getElementById('panel_waiting').style.display = '';
+				document.getElementById('btn').style.display = 'none';
 			} else if (gameStatus === 'my_turn' || gameStatus === 'enemy_turn')	{
 				document.getElementById('panel_waiting').style.display = 'none';
 				document.getElementById('panel_wrap').style.display = '';
@@ -174,11 +181,27 @@
 				document.getElementById('panel_wrap').style.display = 'none';
 				document.getElementById('panel_waiting').style.display = 'none';
 				document.getElementById('panel_result').style.display = '';
+				document.getElementById('btn').style.display = '';
+				document.getElementById('reset').style.display = 'none';				
 				fillCurrent('final_current_list');
 				fillWrong('final_wrong_list');
 				ajaxUserId();
 				document.getElementById('winner').innerHTML = winner;
 				document.getElementById('loser').innerHTML = loser;
+			}
+		} else if (gameMode === 'solo_game') {
+			document.getElementById('panel_waiting').style.display = 'none';
+			document.getElementById('panel_result').style.display = 'none';
+			document.getElementById('panel_wrap').style.display = '';			
+			document.getElementById('stat').style.display = 'none';			
+			document.getElementById('user1').innerHTML = myId;
+			if (gameStatus === 'my_turn'){
+				startTimer();
+			} else if (gameStatus === 'end'){
+				document.getElementById('panel_wrap').style.display = '';
+				document.getElementById('panel_result').style.display = 'none';
+				document.getElementById('result').style.display = 'none';
+				document.getElementById('timer').innerHTML = '연습게임이 끝났습니다. 계속 하시겠습니까?';
 			}
 		}
 	}
@@ -246,16 +269,16 @@
 	<div id="panel_wrap">
 		<div class="game_panel">
 			<ul class="user_info">
-				<li class="user_1">
+				<li id="user1_main"class="user_1">
 				USER: <span id="user1">유저1아이디</span>
-					<div class="user_stat">
+					<div id="stat" class="user_stat">
 						<span>전체 : </span><span id="user1_total"></span><span>판 | </span>
 						<span>승 : </span><span id="user1_win"></span><span> | </span>
 						<span>패 : </span><span id="user1_lose"></span><span> | </span>
 						<span>승률 : </span><span id="user1_rate"></span><span>%</span>
-					</div>
+					</div>					
 				</li>
-				<li class="user_2">
+				<li id="user2_main"class="user_2">
 				USER: <span id="user2">유저2아이디</span>
 					<div class="user_stat">
 						<span>전체 : </span><span id="user2_total"></span><span>판 | </span>
@@ -305,7 +328,7 @@
 			</ul>
 		</div>
 	
-		<div class="panel_box">
+		<div id="result" class="panel_box">
 			<div class="game_result">
 	
 				<span id="winner">유저1</span> <span class="game_win">WIN</span> vs <span id="loser">유저2</span> <span class="game_lose">LOSE</span>
@@ -323,16 +346,23 @@
 				
 			</ul>
 		</div>
-		<div class="page_btn">
-			<ul>				
-				<li>
-					<form action="change_mode.php" method="post">
-						<input type="hidden" value="lobby" name="mode">
-						<input type="submit" value="로비">		
-					</form>
-				</li>
-			</ul>
-		</div>
+
+	</div>
+	<div id="btn" class="page_btn">
+		<ul>
+			<li id="reset">
+				<form action="change_mode.php" method="post">
+					<input type="hidden" value="solo_game" name="mode">
+					<input type="submit" value="리셋">		
+				</form>
+			</li>
+			<li>
+				<form action="change_mode.php" method="post">
+					<input type="hidden" value="lobby" name="mode">
+					<input type="submit" value="로비">		
+				</form>
+			</li>
+		</ul>
 	</div>
 
 </body>
