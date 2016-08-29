@@ -122,5 +122,18 @@
 		mysqli_close($conn);
 		return intval($row['winner']);
 	}
+	
+		
+
+	
+	function get_last_turn_time() {
+		$conn = get_connection();
+		$select_query = sprintf ('SELECT turn_time FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
+		$result = mysqli_query($conn, $select_query);
+		$row = mysqli_fetch_assoc($result);
+		
+		return convert_time_string($row['turn_time']);
+	}
+
 
 ?>

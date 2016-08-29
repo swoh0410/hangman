@@ -245,6 +245,17 @@ class SessionInfo {
 			$this->win_game();
 		}
 	}
+	
+	public function win_game(){
+		if ($this->getMode() === 'solo_game'){
+			return;
+		} else {
+			$conn = get_connection();
+			$update_query = sprintf ("UPDATE game_room SET winner=%d WHERE game_room_id=%d;", get_my_position(), get_my_game_room_id());
+			mysqli_query ($conn, $update_query);
+			insert_stats();
+		}
+	}
 
 	public function refresh (){
 	  if($this->getMode() === 'solo_game'){//솔로게임이면
@@ -357,16 +368,7 @@ class SessionInfo {
 		mysqli_close($conn);
 	}
 	
-	function win_game(){
-		if ($this->getMode() === 'solo_game'){
-			return;
-		} else {
-			$conn = get_connection();
-			$update_query = sprintf ("UPDATE game_room SET winner=%d WHERE game_room_id=%d;", get_my_position(), get_my_game_room_id());
-			mysqli_query ($conn, $update_query);
-			insert_stats();
-		}
-	}
+
 	
 	function getCurrentAndWrong() {
 		$conn = get_connection();
@@ -384,5 +386,8 @@ class SessionInfo {
 		$this->setCurrent($current);
 		$this->setWrong(array());		
 	}
+	
+	
+
 }
 ?>

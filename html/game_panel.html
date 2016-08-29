@@ -10,7 +10,7 @@
 <script>
 	$(document).ready(function(){
 		
-		
+		/*
 		window.onbeforeunload = function() {
 			return "그냥 나감";
 		};
@@ -26,7 +26,7 @@
 			}
 		}
 		$(document).on("keydown", disableF5);
-		
+		*/
 		
 		//startDualGame();
 		
@@ -110,6 +110,7 @@
 	var loser = '';
 	var user1Rate = '';
 	var user2Rate = '';
+	var time = '';
 	
 	function fillCurrent(id){
 		var current_list = document.getElementById(id);
@@ -147,6 +148,7 @@
 		loser = userIdData['loser'];
 		user1Rate = userIdData['user_1_rate'];
 		user2Rate = userIdData['user_2_rate'];
+		time = gameData['time'];
 		fillCurrent('current_list');
 		fillWrong('wrong_list');
 
@@ -172,11 +174,13 @@
 				document.getElementById('user2_rate').innerHTML = user2Rate['win_rate'];
 				if (gameStatus === 'my_turn'){					
 					document.getElementById('timer').style.display = '';
+					document.getElementById('enemy').style.display = 'none';
 					startTimer();
 					document.getElementById('input_answer').disabled = false;
 					document.getElementById('input_button').disabled = false;
 				} else{					
 					document.getElementById('timer').style.display = 'none';
+					document.getElementById('enemy').style.display = '';
 					document.getElementById('input_answer').disabled = true;
 					document.getElementById('input_button').disabled = true;
 				}
@@ -191,6 +195,12 @@
 				ajaxUserId();
 				document.getElementById('winner').innerHTML = winner;
 				document.getElementById('loser').innerHTML = loser;
+				if (gameStatus === 'win') {
+					alert('승리를 축하합니다!!!');
+				} else if (gameStatus === 'lose') {
+					alert('분발하세요!!!');
+				}
+				
 			}
 		} else if (gameMode === 'solo_game') {
 			document.getElementById('panel_waiting').style.display = 'none';
@@ -230,7 +240,7 @@
 
 	function ajaxUserId() {
 	
-		$.ajax({		
+		$.ajax({
 			url:'ajaxIdData.php',
 			async: false,
 			dataType: 'json',
@@ -244,9 +254,7 @@
 		});
 		return userIdData;
 	}
-	
-	
-	
+
 </script>
 </head>
 
@@ -295,6 +303,7 @@
 		<div class="panel_box">
 			<div class="timer_box">
 				<span id="timer" class="timer">Timer not started yet</span>
+				<span id="enemy">상대방 차레입니다. 잠시만 기다려주세요.</span>
 			</div>
 			<div class="user_output">
 				<ul id = "current_list">

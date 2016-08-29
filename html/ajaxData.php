@@ -18,12 +18,24 @@ if (isset($_POST['action'])){
 	}		
 }
 
+
+
 $data = array();
 $data['correct_answer'] = $infoDto->getCorrectAnswer();
 $data['current'] = $infoDto->getCurrent();
 $data['wrong'] = $infoDto->getWrong();
-
 $data['mode'] = $infoDto->getMode();
 $data['status'] = $infoDto->getGamingStatus();
 $data['my_id'] = $infoDto->getId();
+
+if ($data['status'] === 'enemy_turn' && $_POST['action'] === 'fetch_status') {
+	$last_turn_change = strtotime (get_last_turn_time());
+	$current_time = time();
+	$data['time'] = $current_time - $last_turn_change;
+	if ($data['time'] > 20) {
+		$infoDto->win_game();
+	}	
+}
+
+
 echo json_encode($data);
