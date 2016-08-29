@@ -67,7 +67,7 @@ a {text-decoration:none;}
 
 .wrong_input {width:100%;text-align:center;border-top:1px solid #ddd;padding-top:40px;}
 .wrong_input ul {display:inline-block;margin:0 auto;padding:0;}
-.wrong_input ul li {display:inline;float:left;padding:5px;border-bottom:1px dotted #ddd;font-size:16px;color:#ff0000;}
+.wrong_input ul li {display:inline;float:left;padding:5px;border-bottom:1px dotted #ddd;font-size:26px;color:#ff0000;}
 
 .page_btn {width:100%;margin:0;padding:20px 0;text-align:center;}
 .page_btn ul {display:inline-block;width:150px;margin:0;padding:0;}
@@ -82,5 +82,6 @@ a {text-decoration:none;}
 .game_lose {font-size:40px;color:#ff0000;}
 
 
-.timer_box {width:100%;margin:0 auto;padding:5px 5px;text-align:center;height:70px;}
+.timer_box {width:100%;margin:0 auto;padding:5px 5px;text-align:center;height:70px;font-size:40px;}
+
 

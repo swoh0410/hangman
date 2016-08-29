@@ -110,12 +110,12 @@
 							<table>
 								<tr>
 									<th>ID</th>
-									<td><input type="text" name="id"></td>
+									<td><input type="text" name="id" autocomplete="off"></td>
 									<td class="login_btn" rowspan="2"><input type="submit" name="login_btn" value="로그인"></td>
 								</tr>
 								<tr>
 									<th>PW</th>
-									<td><input type="password" name="password"></td>
+									<td><input type="password" name="password" autocomplete="off"></td>
 								</tr>
 							</table>
 						</form>

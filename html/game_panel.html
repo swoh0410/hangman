@@ -10,7 +10,7 @@
 <script>
 	$(document).ready(function(){
 		
-		/*
+		
 		window.onbeforeunload = function() {
 			return "그냥 나감";
 		};
@@ -26,7 +26,7 @@
 			}
 		}
 		$(document).on("keydown", disableF5);
-		*/
+		
 		
 		//startDualGame();
 		
@@ -38,7 +38,7 @@
 			document.getElementById('user1_main').style.width = '100%';
 		}		
 		
-		drawIfNeeded();		
+		drawIfNeeded();
 	});
 		
 	function startTimer() {
@@ -47,9 +47,15 @@
 			$(this).text(remainingSecondsString); 
 			if (event.type == 'finish') {
 				$(this).text('Time Over');
+				$(this).css('color', 'blue');
 				inputAnwser(true);
-			} else {
+			}
+			if (parseInt(remainingSecondsString) < 4) {
 				$(this).css('color', 'red');
+			} else if (parseInt(remainingSecondsString) == 10) {
+				$(this).css('color', 'blue');
+			} else {
+				$(this).css('color', 'blue');
 			}
 		});	
 	}
@@ -152,6 +158,7 @@
 		fillCurrent('current_list');
 		fillWrong('wrong_list');
 
+		
 		if (gameMode === 'dual_game'){			
 			if (gameStatus === 'waiting') {
 				document.getElementById('my_id').innerHTML = myId;
@@ -171,13 +178,14 @@
 				document.getElementById('user2_total').innerHTML = user2Rate['total'];
 				document.getElementById('user2_win').innerHTML = user2Rate['win'];
 				document.getElementById('user2_lose').innerHTML = user2Rate['lose'];
-				document.getElementById('user2_rate').innerHTML = user2Rate['win_rate'];
+				document.getElementById('user2_rate').innerHTML = user2Rate['win_rate'];				
 				if (gameStatus === 'my_turn'){					
 					document.getElementById('timer').style.display = '';
 					document.getElementById('enemy').style.display = 'none';
 					startTimer();
 					document.getElementById('input_answer').disabled = false;
 					document.getElementById('input_button').disabled = false;
+					document.getElementById('input_answer').focus();
 				} else{					
 					document.getElementById('timer').style.display = 'none';
 					document.getElementById('enemy').style.display = '';
@@ -206,15 +214,21 @@
 			document.getElementById('panel_waiting').style.display = 'none';
 			document.getElementById('panel_result').style.display = 'none';
 			document.getElementById('panel_wrap').style.display = '';			
-			document.getElementById('stat').style.display = 'none';			
+			document.getElementById('stat').style.display = 'none';	
 			document.getElementById('user1').innerHTML = myId;
+			document.getElementById('enemy').style.display = 'none';
 			if (gameStatus === 'my_turn'){
 				startTimer();
+				document.getElementById('input_answer').disabled = false;
+				document.getElementById('input_button').disabled = false;
+				document.getElementById('input_answer').focus();
 			} else if (gameStatus === 'end'){
 				document.getElementById('panel_wrap').style.display = '';
 				document.getElementById('panel_result').style.display = 'none';
 				document.getElementById('result').style.display = 'none';
-				document.getElementById('timer').innerHTML = '연습게임이 끝났습니다. 계속 하시겠습니까?';
+				document.getElementById('input_answer').disabled = true;
+				document.getElementById('input_button').disabled = true;
+				document.getElementById('timer').innerHTML = '연습게임이 끝났습니다.<br>한번 더 하시려면 하단의 \'리셋\' 버튼을<br>로비로 가시려면 \'로비\' 버튼을 클릭해주세요';
 			}
 		}
 	}
@@ -313,7 +327,7 @@
 			<div class="user_input">
 				<form id = "form">
 					<ul>					
-						<li><input id = "input_answer" type='text' name='user_input' size='35' autofocus></li>
+						<li><input id = "input_answer" type='text' name='user_input' size='35' autocomplete="off" autofocus></li>
 						<li><input id = "input_button"type='button' value='Entre' onclick = "inputAnwser(false)"></li>
 					</ul>
 				</form>
@@ -343,7 +357,7 @@
 		<div id="result" class="panel_box">
 			<div class="game_result">
 	
-				<span id="winner">유저1</span> <span class="game_win">WIN</span> vs <span id="loser">유저2</span> <span class="game_lose">LOSE</span>
+				<span id="winner">유저1</span> <span class="game_win"> WIN</span> vs <span id="loser">유저2</span> <span class="game_lose"> LOSE</span>
 			
 
 			</div>
