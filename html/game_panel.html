@@ -27,7 +27,13 @@
 		}
 		$(document).on("keydown", disableF5);
 		
-		
+		$("#input_answer").keyup(function(event){
+			if (!(event.keyCode >=37 && event.keyCode<=40)) {
+				var inputVal = $(this).val();
+				$(this).val(inputVal.replace(/[^a-z]/gi,''));    
+			}
+		});
+
 		//startDualGame();
 		
 		ajaxData('fetch_status');
@@ -162,10 +168,7 @@
 		if (gameMode === 'dual_game'){			
 			if (gameStatus === 'waiting') {
 				document.getElementById('my_id').innerHTML = myId;
-				document.getElementById('panel_wrap').style.display = 'none';
-				document.getElementById('panel_result').style.display = 'none';
 				document.getElementById('panel_waiting').style.display = '';
-				document.getElementById('btn').style.display = 'none';
 			} else if (gameStatus === 'my_turn' || gameStatus === 'enemy_turn')	{
 				document.getElementById('panel_waiting').style.display = 'none';
 				document.getElementById('panel_wrap').style.display = '';
@@ -194,7 +197,6 @@
 				}
 			} else if(gameStatus === 'win' || gameStatus === 'lose') {
 				document.getElementById('panel_wrap').style.display = 'none';
-				document.getElementById('panel_waiting').style.display = 'none';
 				document.getElementById('panel_result').style.display = '';
 				document.getElementById('btn').style.display = '';
 				document.getElementById('reset').style.display = 'none';				
@@ -211,21 +213,17 @@
 				
 			}
 		} else if (gameMode === 'solo_game') {
-			document.getElementById('panel_waiting').style.display = 'none';
-			document.getElementById('panel_result').style.display = 'none';
 			document.getElementById('panel_wrap').style.display = '';			
 			document.getElementById('stat').style.display = 'none';	
 			document.getElementById('user1').innerHTML = myId;
 			document.getElementById('enemy').style.display = 'none';
+			document.getElementById('btn').style.display = '';
 			if (gameStatus === 'my_turn'){
 				startTimer();
 				document.getElementById('input_answer').disabled = false;
 				document.getElementById('input_button').disabled = false;
 				document.getElementById('input_answer').focus();
 			} else if (gameStatus === 'end'){
-				document.getElementById('panel_wrap').style.display = '';
-				document.getElementById('panel_result').style.display = 'none';
-				document.getElementById('result').style.display = 'none';
 				document.getElementById('input_answer').disabled = true;
 				document.getElementById('input_button').disabled = true;
 				document.getElementById('timer').innerHTML = '연습게임이 끝났습니다.<br>한번 더 하시려면 하단의 \'리셋\' 버튼을<br>로비로 가시려면 \'로비\' 버튼을 클릭해주세요';
@@ -277,7 +275,7 @@
 
 	
 
-	<div id="panel_waiting">
+	<div id="panel_waiting" style="display:none;">
 		<div class="game_panel">
 			<ul class="user_info">
 				<li class="user_1">USER: <span id = "my_id"></span></li>
@@ -291,7 +289,7 @@
 		</div>
 	</div>
 
-	<div id="panel_wrap">
+	<div id="panel_wrap" style="display:none;">
 		<div class="game_panel">
 			<ul class="user_info">
 				<li id="user1_main"class="user_1">
@@ -327,7 +325,7 @@
 			<div class="user_input">
 				<form id = "form">
 					<ul>					
-						<li><input id = "input_answer" type='text' name='user_input' size='35' autocomplete="off" autofocus></li>
+						<li><input id = "input_answer" type='text' name='user_input' size='35' autocomplete="off"></li>
 						<li><input id = "input_button"type='button' value='Entre' onclick = "inputAnwser(false)"></li>
 					</ul>
 				</form>
@@ -346,7 +344,7 @@
 		</div>
 	</div>
 
-	<div id = "panel_result">
+	<div id = "panel_result" style="display:none;">
 		
 		<div class="user_output">
 			<ul id = "final_current_list">
@@ -374,7 +372,7 @@
 		</div>
 
 	</div>
-	<div id="btn" class="page_btn">
+	<div id="btn" class="page_btn" style="display:none;">
 		<ul>
 			<li id="reset">
 				<form action="change_mode.php" method="post">
