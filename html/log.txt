@@ -1,0 +1,62 @@
+char was: c
+finished play
+status: my_turn
+char was: l
+finished play
+status: my_turn
+char was: e
+finished play
+status: my_turn
+char was: a
+finished play
+status: my_turn
+char was: n
+finished play
+status: win
+win: {"correct_answer":["c","l","e","a","n"],"current":["c","l","e","a","n"],"wrong":[],"mode":"dual_game","status":"win","my_id":"1"}
+char was: w
+finished play
+status: my_turn
+char was: e
+finished play
+status: my_turn
+char was: l
+finished play
+status: win
+win: {"correct_answer":["w","e","l","l"],"current":["w","e","l","l"],"wrong":[],"mode":"dual_game","status":"win","my_id":"1"}
+char was:  
+finished play
+status: enemy_turn
+char was:  
+finished play
+status: enemy_turn
+char was:  
+finished play
+status: enemy_turn
+char was:  
+finished play
+status: enemy_turn
+char was:  
+finished play
+status: enemy_turn
+char was:  
+finished play
+status: enemy_turn
+char was:  
+finished play
+status: enemy_turn
+char was:  
+finished play
+status: enemy_turn
+char was: f
+finished play
+status: enemy_turn
+char was:  
+finished play
+status: enemy_turn
+char was:  
+finished play
+status: enemy_turn
+char was:  
+finished play
+status: enemy_turn
