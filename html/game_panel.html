@@ -88,7 +88,8 @@
 			$('#timer').countdown('stop');
 		}
 		ajaxData('play', answerChar);
-		drawIfNeeded(true);		
+		
+		drawIfNeeded(false);		
 	}
 	
 	var gameData = '';
@@ -111,10 +112,14 @@
 				gameStatus = gameData['status'];
 				myId = gameData['my_id'];
 				time = gameData['time'];
-				//alert(JSON.stringify(result));
+				if (thisAction == 'play') {
+					//alert('success ' + JSON.stringify(result));
+				}
 			},
 			error: function(xhr) {
-				//alert(JSON.stringify(xhr));
+				if (thisAction == 'play') {
+					alert('error: ' + JSON.stringify(xhr));
+				}
 			},
 		});
 		return gameData;
@@ -235,6 +240,7 @@
 		if (needToRefresh == true) {
 			ajaxData('fetch_status');	
 		}	
+		//alert(gameStatus);
 		if (gameStatus === 'my_turn' || gameStatus === 'enemy_turn') {		
 			if (needToRefreshPlayerData == false) {
 				ajaxUserId();
@@ -249,7 +255,7 @@
 		} else if (gameStatus === 'enemy_turn' || gameStatus === 'waiting') {
 			setTimeout (function() {			
 			drawIfNeeded(true);
-			}, 6000);
+			}, 5000);
 		}
 		
 	}
