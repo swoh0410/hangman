@@ -35,18 +35,18 @@
 		$("#input_answer").keyup(function(event){
 			
 			var inputVal = $(this).val();
-			$(this).val(inputVal.replace(/[^a-zA-Z]/g,''));    
+			$(this).val(inputVal.replace(/[^a-z]/g,''));    
 			
 		});
 
-		
-		if (gameData['mode'] === 'solo_game') {
+		ajaxData('fetch_status');
+		if (gameData['mode'] == 'solo_game') {
 			var user2Menu = document.getElementById('user2_main');
 			user2Menu.parentNode.removeChild(user2Menu);
 			document.getElementById('user1_main').style.width = '100%';
-		}		
+		}
 		
-		drawIfNeeded();
+		drawIfNeeded(false);
 	});
 		
 	function startTimer() {
@@ -68,12 +68,6 @@
 		});	
 	}
 	
-	function startDualGame() {
-		//alert('asas');
-		ajaxData('start_dual_game');
-		drawIfNeeded();		
-	}	
-	
 	function inputAnwser(timeover){
 		var text = document.getElementById('input_answer');
 		var answer = text.value;
@@ -94,7 +88,7 @@
 			$('#timer').countdown('stop');
 		}
 		ajaxData('play', answerChar);
-		drawIfNeeded();		
+		drawIfNeeded(true);		
 	}
 	
 	var gameData = '';
@@ -109,6 +103,14 @@
 			dataType: 'json',
 			success : function(result){
 				gameData = result;
+				clientStatus =  gameData['status']; 
+				correctAnswer = gameData['correct_answer'];
+				current = gameData['current'];
+				wrong = gameData['wrong'];
+				gameMode = gameData['mode'];
+				gameStatus = gameData['status'];
+				myId = gameData['my_id'];
+				time = gameData['time'];
 				//alert(JSON.stringify(result));
 			},
 			error: function(xhr) {
@@ -133,6 +135,7 @@
 	var user2Rate = '';
 	var time = '';
 	
+	
 	function fillCurrent(id){
 		var current_list = document.getElementById(id);
 		current_list.innerHTML = '';
@@ -155,24 +158,11 @@
 	}
 	
 	function draw_screen(){
-		clientStatus =  gameData['status']; 
-		correctAnswer = gameData['correct_answer'];
-		current = gameData['current'];
-		wrong = gameData['wrong'];
+
 		//alert(JSON.stringify(wrong));
-		gameMode = gameData['mode'];
-		gameStatus = gameData['status'];
-		myId = gameData['my_id'];
-		user1 = userIdData['user_1'];
-		user2 = userIdData['user_2'];
-		winner = userIdData['winner'];
-		loser = userIdData['loser'];
-		user1Rate = userIdData['user_1_rate'];
-		user2Rate = userIdData['user_2_rate'];
-		time = gameData['time'];
+		
 		fillCurrent('current_list');
 		fillWrong('wrong_list');
-
 		
 		if (gameMode === 'dual_game'){			
 			if (gameStatus === 'waiting') {
@@ -190,7 +180,7 @@
 				document.getElementById('user2_total').innerHTML = user2Rate['total'];
 				document.getElementById('user2_win').innerHTML = user2Rate['win'];
 				document.getElementById('user2_lose').innerHTML = user2Rate['lose'];
-				document.getElementById('user2_rate').innerHTML = user2Rate['win_rate'];				
+				document.getElementById('user2_rate').innerHTML = user2Rate['win_rate'];
 				if (gameStatus === 'my_turn'){					
 					document.getElementById('timer').style.display = '';
 					document.getElementById('enemy').style.display = 'none';
@@ -211,7 +201,7 @@
 				document.getElementById('reset').style.display = 'none';				
 				fillCurrent('final_current_list');
 				fillWrong('final_wrong_list');
-				ajaxUserId();
+				ajaxUserId();				
 				document.getElementById('winner').innerHTML = winner;
 				document.getElementById('loser').innerHTML = loser;
 				if (gameStatus === 'win') {
@@ -240,11 +230,17 @@
 		}
 	}
 	
-		
-	function drawIfNeeded() {
-		
-		ajaxData('fetch_status');
-		ajaxUserId();
+	var needToRefreshPlayerData = false;	
+	function drawIfNeeded(needToRefresh) {		
+		if (needToRefresh == true) {
+			ajaxData('fetch_status');	
+		}	
+		if (gameStatus === 'my_turn' || gameStatus === 'enemy_turn') {		
+			if (needToRefreshPlayerData == false) {
+				ajaxUserId();
+				needToRefreshPlayerData = true;
+			}
+		}		
 		draw_screen();
 		document.getElementsByTagName("BODY")[0].style.display = '';
 		//alert(status + '44' + clientStatus);
@@ -252,7 +248,7 @@
 			
 		} else if (gameStatus === 'enemy_turn' || gameStatus === 'waiting') {
 			setTimeout (function() {			
-			drawIfNeeded();
+			drawIfNeeded(true);
 			}, 6000);
 		}
 		
@@ -267,6 +263,12 @@
 			dataType: 'json',
 			success : function(result){
 				userIdData = result;
+				user1 = userIdData['user_1'];
+				user2 = userIdData['user_2'];
+				winner = userIdData['winner'];
+				loser = userIdData['loser'];
+				user1Rate = userIdData['user_1_rate'];
+				user2Rate = userIdData['user_2_rate'];
 				//alert(JSON.stringify(result));
 			},
 			error: function(xhr) {
@@ -301,7 +303,7 @@
 	<div id="panel_wrap" style="display:none;">
 		<div class="game_panel">
 			<ul class="user_info">
-				<li id="user1_main"class="user_1">
+				<li id="user1_main" class="user_1">
 				USER: <span id="user1">유저1아이디</span>
 					<div id="stat" class="user_stat">
 						<span>전체 : </span><span id="user1_total"></span><span>판 | </span>
@@ -310,7 +312,7 @@
 						<span>승률 : </span><span id="user1_rate"></span><span>%</span>
 					</div>					
 				</li>
-				<li id="user2_main"class="user_2">
+				<li id="user2_main" class="user_2">
 				USER: <span id="user2">유저2아이디</span>
 					<div class="user_stat">
 						<span>전체 : </span><span id="user2_total"></span><span>판 | </span>

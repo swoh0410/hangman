@@ -14,7 +14,7 @@ if (isset($_POST['action'])){
 		
 	} else if ($_POST['action'] === 'play') {
 		if(!(isset($_POST['user_input']))) {
-			$_POST['user_input'] = '?';
+			$_POST['user_input'] = '※';
 		}
 		$user_input = $_POST['user_input'];
 		$infoDto->play($user_input);		
