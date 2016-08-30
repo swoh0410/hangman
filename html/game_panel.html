@@ -8,6 +8,7 @@
 <script type="text/javascript" src="js/jquery.countdown.js"></script>
 
 <script>
+	document.getElementsByTagName("BODY")[0].style.display = 'none';
 	$(document).ready(function(){
 		
 		
@@ -24,13 +25,11 @@
 			if ((e.which || e.keyCode) == 116 || e.keyCode == 13) {
 				e.preventDefault(); 
 			}
+			if (e.keyCode == 13) {
+				inputAnwser(false);
+			}
 		}
-		$(document).on("keydown", disableF5);
-		
-		
-		//startDualGame();
-		
-		ajaxData('fetch_status');
+		$(document).on("keydown", disableF5);		
 		
 		if (gameData['mode'] === 'solo_game') {
 			var user2Menu = document.getElementById('user2_main');
@@ -68,9 +67,16 @@
 	
 	function inputAnwser(timeover){
 		var text = document.getElementById('input_answer');
-		var anwser = text.value;
-		if (anwser == ''){
-			anwser = ' ';
+		var answer = text.value;
+		if (answer == ''){
+			answerChar = ' ';
+		} else {
+		
+			answerChar = answer.charAt(0);
+			var regex = /^[a-z]$/;
+			if (answerChar.search(regex) === -1) { // invalid input
+				answerChar = ' ';
+			}
 		}
 		text.value = '';
 		if (timeover === true) {
@@ -78,7 +84,7 @@
 		} else {
 			$('#timer').countdown('stop');
 		}
-		ajaxData('play', anwser);
+		ajaxData('play', answerChar);
 		drawIfNeeded();		
 	}
 	
@@ -239,7 +245,7 @@
 		ajaxData('fetch_status');
 		ajaxUserId();
 		draw_screen();
-		
+		document.getElementsByTagName("BODY")[0].style.display = '';
 		//alert(status + '44' + clientStatus);
 		if (gameStatus === 'my_turn') {
 			
@@ -327,7 +333,7 @@
 			<div class="user_input">
 				<form id = "form">
 					<ul>					
-						<li><input id = "input_answer" type='text' name='user_input' size='35' autocomplete="off" autofocus></li>
+						<li><input id = "input_answer" type='text' name='user_input' size='35' maxlength="1" onkeyup="this.value = this.value.replace(/[^a-z]/g, '')" autocomplete="off" autofocus></li>
 						<li><input id = "input_button"type='button' value='Entre' onclick = "inputAnwser(false)"></li>
 					</ul>
 				</form>
@@ -390,6 +396,6 @@
 			</li>
 		</ul>
 	</div>
-
+	
 </body>
 <html>
