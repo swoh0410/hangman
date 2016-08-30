@@ -239,6 +239,16 @@ class SessionInfo {
 		if (preg_match('/^[a-z]$/', $user_input) === 0) { // a-z 가 아니면 잘못된 입력
 			$user_input = '※';
 		}
+		// 잘못된 입력에 대해서는 이후의 작업을 할 필요가 없음.
+		if ($user_input === '?') {
+			if($this->getMode() === 'solo_game') {
+				return;
+			} else {
+				$this->change_turn();
+				return;
+			}
+		}
+		
 		$result = $this->checkCharacter($this->getCorrectAnswer(), 
 				$user_input, $this->getCurrent(), $this->getWrong());
 		if($this->getMode() === 'solo_game'){
@@ -332,7 +342,7 @@ class SessionInfo {
 		foreach($current as $value){
 			if($value === $character){
 				$this->change_turn();
-				$char_check_result;
+				return $char_check_result;
 			}
 		}	
 		
@@ -346,6 +356,8 @@ class SessionInfo {
 	
 		if($match_found === false){	//턴변경
 			$char_check_result[1][] = $character;
+			$char_check_result[1] = array_unique($char_check_result[1]);
+			sort($char_check_result[1]);
 			$this->change_turn();
 		}
 		
