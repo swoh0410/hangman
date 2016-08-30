@@ -232,6 +232,13 @@ class SessionInfo {
 	}
   
 	public function play($user_input){
+		// 스트링 타입이 아니면 잘못된 입력
+		if (gettype($user_input) !== 'string') {
+			$user_input = '?';
+		}
+		if (preg_match('/^[a-zA-Z]$/', $user_input) === 0) { // a-z 가 아니면 잘못된 입력
+			$user_input = '?';
+		}
 		$result = $this->checkCharacter($this->getCorrectAnswer(), 
 				$user_input, $this->getCurrent(), $this->getWrong());
 		if($this->getMode() === 'solo_game'){
@@ -320,18 +327,25 @@ class SessionInfo {
 		$match_found = false;
 		$char_check_result[0] = $current;
 		$char_check_result[1] = $wrong;
+		
+		// 이미 나온 정답을 입력하면 턴 바뀌고 끝냄
+		foreach($current as $value){
+			if($value === $character){
+				$this->change_turn();
+				$char_check_result;
+			}
+		}	
+		
 		foreach($ans_array as $key => $value){
 			if($value === $character){
 				$current[$key] = $character;
 				$char_check_result[0] = $current;
 				$match_found = true;
 			}
-			
 		}
-		
-		if($match_found === false){
+	
+		if($match_found === false){	//턴변경
 			$char_check_result[1][] = $character;
-			//턴변경
 			$this->change_turn();
 		}
 		

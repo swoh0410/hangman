@@ -8,6 +8,7 @@
 <script type="text/javascript" src="js/jquery.countdown.js"></script>
 
 <script>
+	document.getElementsByTagName("BODY")[0].style.display = 'none';
 	$(document).ready(function(){
 		
 		
@@ -24,19 +25,20 @@
 			if ((e.which || e.keyCode) == 116 || e.keyCode == 13) {
 				e.preventDefault(); 
 			}
+			if (e.keyCode == 13) {
+				inputAnwser(false);
+			}
 		}
+
 		$(document).on("keydown", disableF5);
 		
 		$("#input_answer").keyup(function(event){
-			if (!(event.keyCode >=37 && event.keyCode<=40)) {
-				var inputVal = $(this).val();
-				$(this).val(inputVal.replace(/[^a-z]/gi,''));    
-			}
+			
+			var inputVal = $(this).val();
+			$(this).val(inputVal.replace(/[^a-zA-Z]/g,''));    
+			
 		});
 
-		//startDualGame();
-		
-		ajaxData('fetch_status');
 		
 		if (gameData['mode'] === 'solo_game') {
 			var user2Menu = document.getElementById('user2_main');
@@ -74,9 +76,16 @@
 	
 	function inputAnwser(timeover){
 		var text = document.getElementById('input_answer');
-		var anwser = text.value;
-		if (anwser == ''){
-			anwser = ' ';
+		var answer = text.value;
+		if (answer == ''){
+			answerChar = ' ';
+		} else {
+		
+			answerChar = answer.charAt(0);
+			var regex = /^[a-z]$/;
+			if (answerChar.search(regex) === -1) { // invalid input
+				answerChar = ' ';
+			}
 		}
 		text.value = '';
 		if (timeover === true) {
@@ -84,7 +93,7 @@
 		} else {
 			$('#timer').countdown('stop');
 		}
-		ajaxData('play', anwser);
+		ajaxData('play', answerChar);
 		drawIfNeeded();		
 	}
 	
@@ -237,7 +246,7 @@
 		ajaxData('fetch_status');
 		ajaxUserId();
 		draw_screen();
-		
+		document.getElementsByTagName("BODY")[0].style.display = '';
 		//alert(status + '44' + clientStatus);
 		if (gameStatus === 'my_turn') {
 			
@@ -324,8 +333,8 @@
 			</div>
 			<div class="user_input">
 				<form id = "form">
-					<ul>					
-						<li><input id = "input_answer" type='text' name='user_input' size='35' autocomplete="off"></li>
+					<ul>
+						<li><input id = "input_answer" type='text' name='user_input' size='35' autocomplete="off" maxlength="1"></li>
 						<li><input id = "input_button"type='button' value='Entre' onclick = "inputAnwser(false)"></li>
 					</ul>
 				</form>
@@ -388,6 +397,6 @@
 			</li>
 		</ul>
 	</div>
-
+	
 </body>
 <html>
