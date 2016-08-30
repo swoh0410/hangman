@@ -8,7 +8,7 @@
 <script type="text/javascript" src="js/jquery.countdown.js"></script>
 
 <script>
-	document.getElementsByTagName("BODY")[0].style.display = 'none';
+	document.getElementsByTagName("body")[0].style.display = 'none';
 	$(document).ready(function(){
 		
 		
@@ -77,11 +77,11 @@
 	function inputAnwser(timeover){
 		var text = document.getElementById('input_answer');
 		var answer = text.value;
-		if (answer == ''){
-			answerChar = ' ';
+		if (answer === '' && timeover === false){
+			return;
 		} else {
 		
-			answerChar = answer.charAt(0);
+			answerChar = answer.toLowerCase().charAt(0);
 			var regex = /^[a-z]$/;
 			if (answerChar.search(regex) === -1) { // invalid input
 				answerChar = ' ';
