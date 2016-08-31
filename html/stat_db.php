@@ -66,9 +66,8 @@ function get_stats($id) {
 function calculate_win_rate($id){
 	$row = get_stats($id);
 		
-	$win_rate = (intval($row['win']) / intval($row['total'])) * 100;
+	$win_rate = (intval($row['win']) / intval($row['total'])) * 100;	
 	
-	mysqli_close($conn);	
 	return $win_rate;
 }
 
