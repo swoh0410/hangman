@@ -137,7 +137,7 @@
 		<?php } ?>		
 	</div>
 	<div id="footer">
-		<span>Copyright 김종찬</span>
+		<span>Copyright © 2016 김종찬<br>All rights reserved</span>
 	</div>
 </div>
 
