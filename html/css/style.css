@@ -5,34 +5,37 @@ input[type='text'], input[type='submit'], input[type='password'] {padding:7px;}
 a {text-decoration:none;}
 
 /* Layout */
-#wrap {width:100%;min-height:100%;padding:0;margin:-100px 0;position:relative;}
+#wrap {margin:30px auto;width:1280px;height:768px;padding:0;position:relative;}
 * html #wrap {height: 100%;}
-#content {width:100%;margin:0;padding:0;}
-#content_l {width:79%;min-height:100%;float:left;display:inline;border-right:1px solid #ddd;margin:0;padding:0;background:#E0FFFF;}
+#content {width:100%;margin:0;padding:0;height:620px;border:1px solid #ddd;}
+#content_l {width:79%;height:100%;float:left;border-right:1px solid #ddd;margin:0;padding:0;background:#E0FFFF;}
 * html #content_l {height: 100%;}
-#content_r {width:20%;min-height:100%;float:right;display:inline;}
+#content_r {width:20%;min-height:100%;float:right;}
 #content p {text-align:center;margin-top:20px;}
 #content p input[type='button']{padding:7px 15px;}
-#login {margin:10px;padding:20px;border:1px solid #000;border-radius:3px;}
-
-
+#login {margin:5px;padding:5px;border:1px solid #000;border-radius:3px;}
+#login input[type='text'] {width:110px;}
+#login input[type='password'] {width:110px;}
+#login th {padding:0 3px 0 2px;}
 /* Header & Footer */
-#header {width:100%;margin-bottom:100px;padding:10px 0;position:relative;z-index:1;text-align:center;background:#2F2F2F;color:#fff;}
-#header a {color:#fff;}
-#footer {width:100%;left:0;bottom:0;margin:0;padding:40px 0;position:fixed;text-align:center;background:#E0E0E0;color:#000;}
-
+#header {width:100%;height:80px;padding:10px 0;position:relative;z-index:1;text-align:center;}
+#header a {color:black;}
+#footer {width:100%;margin:0;height:60px;padding:10px 0;clear:both;text-align:center;background:#E0E0E0;color:#000;border:1px solid #ddd;}
+#footer span {position:relative;top:20px;}
+#panel_result {height:485px;}
+#panel_result .user_output {width:100%;position:relative;top:100px;padding:40px 0;text-align:center;}
 /* Please_login */
 .login_btn {padding-left:3px;}
-.login_btn input[type='submit'] {padding:25px 15px;}
-.please_login {width:100%;margin:0;padding:0;height:900px;text-align:center;background:url('/images/hangman.png') left top no-repeat;text-align:center;}
-.please_login h1 {padding:20px;margin-top:650px;display:inline-block;background:#fff;}
-.please_start {width:100%;height:450px;margin:400px 0 0 0;padding:0;text-align:center;text-align:center;}
+.login_btn input[type='submit'] {padding:25px 10px;}
+.please_login {width:100%;margin:0;padding:0;height:620px;text-align:center;}
+.please_login h1 {padding:20px;margin-top:280px;}
+.please_start {width:100%;height:225px;margin:250px 0 0 0;padding:0;text-align:center;text-align:center;}
 .please_start ul {display:inline-block;margin:0 auto;}
 .please_start li {display:inline;float:left;margin:2px;}
 .please_start li input[type='submit'] {padding:25px 15px;}
 
 /* User Stats */
-.user_stat_box {margin:10px;padding:20px;border:1px solid #ddd;border-radius:3px;background:#f4f4f4;font-size:11px;}
+.user_stat_box {margin:10px;margin-right:18px;padding:20px 15px 20px 20px;border:1px solid #ddd;border-radius:3px;background:#f4f4f4;font-size:11px;}
 .user_stat {font-size:11px;padding:0;margin:7px 0 0 0;text-align:center;}
 
 /* Register */
@@ -46,19 +49,19 @@ a {text-decoration:none;}
 
 .game_panel {width:100%;padding:0 0 0 0;margin:0 auto;}
 .user_info_solo {text-align:center;font-size:20px;margin:0;padding:0;position:relative;}
-.user_info_solo li {padding:30px 0;}
+.user_info_solo li {padding:15px 0;}
 .user_info_solo .user_1 {background:#ededed;}
 .user_info {text-align:center;font-size:20px;margin:0;padding:0;position:relative;}
-.user_info li {display:inline;float:left;width:50%;padding:30px 0;margin:0;}
+.user_info li {display:inline;float:left;width:50%;padding:15px 0;margin:0;}
 .user_info .user_1 {background:#ededed;}
 .user_info .user_2 {background:#ddd;}
 
-.panel_box {clear:both;width:100%;margin:0 auto;padding:50px 20px;text-align:center;position:relative;}
+.panel_box {clear:both;width:100%;margin:0 auto;padding:0 20px;text-align:center;position:relative;}
 .solo_game_over {margin:0 auto;border:1px solid #ddd;border-radius:3px;margin:50px;padding:60px 0;}
 
-.user_output {width:100%;margin:0;padding:70px 0;text-align:center;position:relative;}
+.user_output {width:100%;padding:40px 0;text-align:center;position:relative;}
 .user_output ul {display:inline-block;margin:0 auto;padding:0;}
-.user_output ul li{display:inline;float:left;width:40px;height:50px;padding:7px;margin:5px;border:3px solid #000;font-size:30px;}
+.user_output ul li{display:inline;float:left;width:40px;height:50px;padding:7px 7px 0 7px;margin:5px;border:3px solid #000;font-size:30px;}
 
 .user_input {clear:both;position:relative;}
 .user_input ul {width:100%;margin:0;padding:50px 0;text-align:center;}
@@ -71,18 +74,19 @@ a {text-decoration:none;}
 .wrong_input ul li {display:inline;float:left;padding:5px;border-bottom:1px dotted #ddd;font-size:26px;color:#ff0000;}
 
 .page_btn {width:100%;margin:0;padding:20px 0;text-align:center;}
-.page_btn ul {display:inline-block;width:150px;margin:0;padding:0;}
+.page_btn ul {width:150px;margin:0 470px;padding:0;}
 .page_btn ul li {display:inline;float:left;margin:0 5px;}
 
 /* Game Waiting */
-.game_waiting {text-align:center;margin:0 auto;font-size:20px;text-align:center;}
+.game_waiting {text-align:center;margin:0 auto;font-size:20px;text-align:center;height:620px;}
+.game_waiting span {position:relative;top:230px;}
 
 /* Game over */
-.game_result {font-size:30px;font-weight:500;text-align:center;padding-bottom:70px;}
+.game_result {font-size:30px;font-weight:500;text-align:center;padding:70px 0 70px 0;}
 .game_win {font-size:40px;color:#0000ff;}
 .game_lose {font-size:40px;color:#ff0000;}
 
 
-.timer_box {width:100%;margin:0 auto;padding:5px 5px;text-align:center;height:70px;font-size:30px;}
+.timer_box {width:100%;margin:0 auto;padding:30px 5px 0 5px;text-align:center;height:50px;font-size:30px;}
 
 

@@ -230,7 +230,7 @@
 			} else if (gameStatus === 'end'){
 				document.getElementById('input_answer').disabled = true;
 				document.getElementById('input_button').disabled = true;
-				document.getElementById('timer').innerHTML = '연습게임이 끝났습니다.<br>한번 더 하시려면 하단의 \'리셋\' 버튼을<br>로비로 가시려면 \'로비\' 버튼을 클릭해주세요';
+				document.getElementById('timer').innerHTML = '연습게임이 끝났습니다. 한번 더 하시려면 하단의 \'리셋\' 버튼을<br>로비로 가시려면 \'로비\' 버튼을 클릭해주세요';
 			}
 		}
 	}
@@ -297,12 +297,12 @@
 			<ul class="user_info">
 				<li class="user_1">USER: <span id = "my_id"></span></li>
 				<li class="user_2">상대 PLAYER를 기다리는 중입니다.</li>
-			</ul>
-			<div class="panel_box">
+			</ul>			
+		</div>
+		<div class="waiting_box">
 				<div class="game_waiting">
-				상대 PLAYER를 기다리는 중입니다.
+					<span>상대 PLAYER를 기다리는 중입니다.</span>
 				</div>
-			</div>
 		</div>
 	</div>
 
