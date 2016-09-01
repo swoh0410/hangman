@@ -21,8 +21,11 @@
 ?>
 </head>
 <body>
-<?php include 'header.php'; ?>
+
 <div id="wrap">
+	<div id="header">
+	 <h1><a href="index.php">HANGMAN GAME</a></h1>
+	</div>
 	<div id="content">							
 		<?php 
 			if(check_login()){
@@ -101,8 +104,9 @@
 		?>		
 				<div id="content_r">
 					<div id="login">
-						<form action="login_process.php" method="post">
+						
 							<table>
+								<form action="login_process.php" method="post">
 								<tr>
 									<th>ID</th>
 									<td><input type="text" name="id" autocomplete="off"></td>
@@ -112,22 +116,30 @@
 									<th>PW</th>
 									<td><input type="password" name="password" autocomplete="off"></td>
 								</tr>
+								</form>
+								<form action="register_page.php" method="get">
+								<tr>
+									<th></th><td><input type="submit" value="회원가입"></td>
+								</tr>
+								</form>
 							</table>
-						</form>
-						<form action="register_page.php" method="get">
-							<input type="submit" value="회원가입">
-						</form>
+						
+						
+							
+						
 					</div>
 				</div>
 				<div id="content_l">
-					<div class="please_login">
-						<h1> 로그인을 해주세요! </h1>
-					</div>
+					
+					<span class="please_login"> <h1>로그인을 해주세요!</h1> <span>
+					
 				</div>
 		<?php } ?>		
 	</div>
+	<div id="footer">
+		<span>Copyright 김종찬</span>
+	</div>
 </div>
-<?php include 'footer.php'; ?>
 
 </body>
 </html>

@@ -233,10 +233,10 @@ class SessionInfo {
 	public function play($user_input){
 		// 스트링 타입이 아니면 잘못된 입력
 		if (gettype($user_input) !== 'string') {
-			$user_input = '※';
+			$user_input = '';
 		}
 		if (preg_match('/^[a-z]$/', $user_input) === 0) { // a-z 가 아니면 잘못된 입력
-			$user_input = '※';
+			$user_input = '';
 		}
 		// 잘못된 입력에 대해서는 이후의 작업을 할 필요가 없음.
 		if ($user_input === '?') {
