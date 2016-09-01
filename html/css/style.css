@@ -8,7 +8,7 @@ a {text-decoration:none;}
 #wrap {margin:30px auto;width:1280px;height:768px;padding:0;position:relative;}
 * html #wrap {height: 100%;}
 #content {width:100%;margin:0;padding:0;height:620px;border:1px solid #ddd;}
-#content_l {width:79%;height:100%;float:left;border-right:1px solid #ddd;margin:0;padding:0;background:#E0FFFF;}
+#content_l {width:79%;height:100%;float:left;border-right:1px solid #ddd;margin:0;padding:0;background:white;}
 * html #content_l {height: 100%;}
 #content_r {width:20%;min-height:100%;float:right;}
 #content p {text-align:center;margin-top:20px;}
@@ -18,9 +18,9 @@ a {text-decoration:none;}
 #login input[type='password'] {width:110px;}
 #login th {padding:0 3px 0 2px;}
 /* Header & Footer */
-#header {width:100%;height:80px;padding:10px 0;position:relative;z-index:1;text-align:center;}
-#header a {color:black;}
-#footer {width:100%;margin:0;height:60px;padding:10px 0;clear:both;text-align:center;background:#E0E0E0;color:#000;border:1px solid #ddd;}
+#header {width:100%;height:80px;padding:5px 0;position:relative;z-index:1;text-align:center;}
+#header a {font-size:40px; color:black;}
+#footer {width:100%;margin:0;height:60px;padding:10px 0;clear:both;text-align:center;background:white;color:#000;border:0px solid #ddd;}
 #footer span {position:relative;top:20px;}
 #panel_result {height:485px;}
 #panel_result .user_output {width:100%;position:relative;top:100px;padding:40px 0;text-align:center;}
@@ -69,9 +69,9 @@ a {text-decoration:none;}
 .user_input ul li input[type='text'] {padding:10px 10px;}
 .user_input ul li input[type='button'] {padding:10px 20px;}
 
-.wrong_input {width:100%;text-align:center;border-top:1px solid #ddd;padding-top:40px;}
+.wrong_input {width:100%;text-align:center;border-top:0px solid #ddd;padding-top:40px;}
 .wrong_input ul {display:inline-block;margin:0 auto;padding:0;}
-.wrong_input ul li {display:inline;float:left;padding:5px;border-bottom:1px dotted #ddd;font-size:26px;color:#ff0000;}
+.wrong_input ul li {display:inline;float:left;padding:5px;border-bottom:0px dotted #ddd;font-size:26px;color:#ff0000;}
 
 .page_btn {width:100%;margin:0;padding:20px 0;text-align:center;}
 .page_btn ul {width:150px;margin:0 470px;padding:0;}
