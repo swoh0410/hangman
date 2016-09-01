@@ -32,7 +32,7 @@
 		$("#input_answer").keyup(function(event){
 			
 			var inputVal = $(this).val();
-			$(this).val(inputVal.replace(/[^a-z]/g,''));    
+			$(this).val(inputVal.replace(/[^a-zA-Z]/g,''));    
 			
 		});
 
@@ -69,10 +69,9 @@
 		var answer = text.value;
 		if (answer === '' && timeover === false){
 			return;
-		} else {
-		
-			answerChar = answer.toLowerCase().charAt(0);
-			var regex = /^[a-z]$/;
+		} else {		
+			answerChar = answer.charAt(0);
+			var regex = /^[a-zA-Z]$/;
 			if (answerChar.search(regex) === -1) { // invalid input
 				answerChar = ' ';
 			}
