@@ -5,22 +5,17 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>2조 PROJECT - HANGMAN GAME</title>
 <?php 
-	require_once '../includes/session.php'; 
+	
 	require_once 'SessionInfo.php'; 
 	start_session();
-	require_once 'game_function.php'; 
 
 	if(isset($_SESSION['info_dto'])){
 		$infoDto = $_SESSION['info_dto'];
-		//echo "dto있음";
-		//echo "mode: " . $infoDto -> getMode();
 	}else{
-		//echo "info Array 생성 <br>";
 		$info_array = Array();
 		$info_array['mode'] = 'lobby';
 		$infoDto = new SessionInfo($info_array);
 		$_SESSION['info_dto'] = $infoDto;
-		//echo "infoDTO 만들었고 모드는: " . $infoDto -> getMode();
 	}
 
 ?>
