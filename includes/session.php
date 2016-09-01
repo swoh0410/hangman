@@ -21,7 +21,7 @@ function start_session() {
         $httponly);
  
     session_start();
-    session_regenerate_id(true); // session fixation 대비
+    session_regenerate_id(); // session fixation 대비
 }
 
  // start_session 호출된 후에 사용되어야 한다
