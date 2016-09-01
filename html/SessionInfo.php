@@ -1,5 +1,4 @@
 <?php
-require_once '../includes/session.php';
 require_once 'game_function.php';
 require_once 'stat_db.php';
 class SessionInfo {
