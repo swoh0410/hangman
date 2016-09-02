@@ -182,21 +182,23 @@ class SessionInfo {
   public function setRoomId($roomId){
 	  $this->gameRoomId = $roomId;
   }
-  
-	public function start_dual_game(){
-		//빈자리가 있는 방 찾기
-		$is_room_created = false;
-		$conn = get_connection();
-		$room_query = sprintf("SELECT game_room_id FROM game_room WHERE user2_id is NULL;");
-		$result = mysqli_query ($conn, $room_query);
-		if (mysqli_num_rows($result) > 0) {//대기자가 있는 경우
-			$row = mysqli_fetch_assoc($result);
-			$room = $row['game_room_id']; //방번호			
-			// 방이 다차면 첫번째 플레이어가 할 차례
-			$user2_query = sprintf ("UPDATE game_room SET user2_id=%d, turn=1 WHERE game_room_id=%d;", get_user_id_from_user_name($this->getId()), $room);
-			//맞는 방번호에 user2_id 업데이트
+ 
+public function start_dual_game2 ($room_num){
+	$conn = get_connection();
+	$room_query = sprintf("SELECT user1_id FROM game_room2 WHERE game_room_id = %d;", $room_num);
+	$result = mysqli_query ($conn, $room_query);
+	$row = mysqli_fetch_assoc($result);
+	
+	if ($row['user1_id'] !== NULL){//대기자 있음		
+		$user1_id = intval($row['user1_id']);
+		$my_id = get_user_id_from_user_name($this->getId());
+		if ($user1_id === $my_id){
+				$this->clear_room($room_num); // 바꿔야함
+				$this->start_dual_game2();
+		} else {
+			$user2_query = sprintf ("UPDATE game_room2 SET user2_id=%d, turn=1 WHERE game_room_id=%d;", get_user_id_from_user_name($this->getId()), $room_num);
 			mysqli_query ($conn, $user2_query);
-			$answer_query = sprintf("SELECT answer, current, wrong FROM game_room WHERE game_room_id=%d;", $room);
+			$answer_query = sprintf("SELECT answer, current, wrong FROM game_room2 WHERE game_room_id=%d;", $room_num);
 			$result = mysqli_query ($conn, $answer_query);
 			if($result == false) {
 				mysqli_error($conn);
@@ -205,9 +207,63 @@ class SessionInfo {
 			$this->setCorrectAnswer(preg_split('//u', $row['answer'], -1, PREG_SPLIT_NO_EMPTY));
 			$this->setCurrent(preg_split('//u', $row['current'], -1, PREG_SPLIT_NO_EMPTY));
 			$this->setWrong(preg_split('//u', $row['wrong'], -1, PREG_SPLIT_NO_EMPTY));
-			$this->setRoomId($room);
-			//echo '조인';
-			$is_room_created = false;
+			$this->setRoomId($room_num);
+		} 
+	} else {//대기자 없음
+		$this->setCorrectAnswer(preg_split('//u', $this->getRandomWord(), -1, PREG_SPLIT_NO_EMPTY));
+		$current = $this->create_empty_array (count($this->getCorrectAnswer()));
+		$this->setCurrent($current);
+		$this->setWrong(array());			
+		
+		$answer = implode('',$this->getCorrectAnswer()); //answer 변수 지정
+		$current = implode('',$this->getCurrent()); //current 변수지정
+		$wrong = implode('',$this->getWrong());
+		
+		$join_query = sprintf("UPDATE game_room2 SET answer = '%s', current = '%s', wrong = '%s', user1_id = %d WHERE game_room_id = %d;", $answer, $current, $wrong, get_user_id_from_user_name($this->getId()), $room_num);
+		mysqli_query($conn, $join_query);
+		$this->setRoomId($room_num);
+	}
+}
+ 
+	
+	
+	
+	
+	
+	
+	
+	public function start_dual_game(){
+		//빈자리가 있는 방 찾기
+		$is_room_created = false;
+		$conn = get_connection();
+		$room_query = sprintf("SELECT game_room_id, user1_id FROM game_room WHERE user2_id is NULL;");
+		$result = mysqli_query ($conn, $room_query);
+		if (mysqli_num_rows($result) > 0) {//대기자가 있는 경우
+			$row = mysqli_fetch_assoc($result);
+			$room = $row['game_room_id']; //방번호
+			$user1_id = intval($row['user1_id']); // 유저1 아이디
+			$my_id = get_user_id_from_user_name($this->getId());
+			if ($user1_id === $my_id){
+				$this->delete_room($room);
+				$this->start_dual_game();
+			} else {
+			// 방이 다차면 첫번째 플레이어가 할 차례
+				$user2_query = sprintf ("UPDATE game_room SET user2_id=%d, turn=1 WHERE game_room_id=%d;", get_user_id_from_user_name($this->getId()), $room);
+				//맞는 방번호에 user2_id 업데이트
+				mysqli_query ($conn, $user2_query);
+				$answer_query = sprintf("SELECT answer, current, wrong FROM game_room WHERE game_room_id=%d;", $room);
+				$result = mysqli_query ($conn, $answer_query);
+				if($result == false) {
+					mysqli_error($conn);
+				}
+				$row = mysqli_fetch_assoc($result);
+				$this->setCorrectAnswer(preg_split('//u', $row['answer'], -1, PREG_SPLIT_NO_EMPTY));
+				$this->setCurrent(preg_split('//u', $row['current'], -1, PREG_SPLIT_NO_EMPTY));
+				$this->setWrong(preg_split('//u', $row['wrong'], -1, PREG_SPLIT_NO_EMPTY));
+				$this->setRoomId($room);
+				//echo '조인';
+				$is_room_created = false;
+			}
 		} else {//없는경우 방생성
 			 //단어 생성하기
 		$this->setCorrectAnswer(preg_split('//u', $this->getRandomWord(), -1, PREG_SPLIT_NO_EMPTY)); 
@@ -254,7 +310,7 @@ class SessionInfo {
 			$this->setCurrent($result[0]);
 			$this->setWrong($result[1]);
 		} else {//듀얼게임
-			$this->update_current_and_wrong($result[0], $result[1]);
+			$this->update_current_and_wrong2($result[0], $result[1]);
 			$this->refresh();
 		}		
 		if (implode('', $this->getCorrectAnswer()) === implode('', $this->getCurrent())){
@@ -267,12 +323,29 @@ class SessionInfo {
 			return;
 		} else {
 			$conn = get_connection();
-			$update_query = sprintf ("UPDATE game_room SET winner=%d WHERE game_room_id=%d;", get_my_position(), get_my_game_room_id());
+			$update_query = sprintf ("UPDATE game_room2 SET winner=%d WHERE game_room_id=%d;", get_my_position(), get_my_game_room_id());
 			mysqli_query ($conn, $update_query);
+			mysqli_close($conn);
+			clear_room(get_my_game_room_id());
 			insert_stats();
+			
 		}
 	}
-
+	
+	public function delete_room($room_id){
+		$conn = get_connection();
+		$delete_query = sprintf ("DELETE FROM game_room WHERE game_room_id=%d;", $room_id);
+		mysqli_query ($conn, $delete_query);
+		mysqli_close($conn);
+	}
+	
+	public function clear_room($room_id){
+		$conn = get_connection();
+		$clear_query = sprintf("UPDATE game_room2 SET answer = NULL, current = NULL, wrong = NULL, turn = NULL, user1_id = NULL, user2_id = NULL, winner = NULL WHERE game_room_id = %d;", $room_id);
+		mysqli_query ($conn, $clear_query);
+		
+	}
+	
 	public function refresh (){
 	  if($this->getMode() === 'solo_game'){//솔로게임이면
 		  
@@ -280,7 +353,7 @@ class SessionInfo {
 	  }else {//듀얼게임이면
 			if(isset($this->gameRoomId)){
 			
-			$select_query = sprintf('SELECT answer, current, wrong, turn, winner, user1_id, user2_id from hangman.game_room where game_room_id = %d',$this->gameRoomId);
+			$select_query = sprintf('SELECT answer, current, wrong, turn, winner, user1_id, user2_id from hangman.game_room2 where game_room_id = %d', $this->gameRoomId);
 			$conn = get_connection();
 			$result = mysqli_query($conn,$select_query);
 			
@@ -365,7 +438,12 @@ class SessionInfo {
 	
 	function update_current_and_wrong($current, $wrong) {
 		$conn = get_connection();
-		$update_query = sprintf ("UPDATE game_room SET current='%s', wrong='%s' WHERE game_room_id=%d;", implode('',$current), implode('',$wrong), get_my_game_room_id());
+		$update_query = sprintf ("UPDATE game_room2 SET current='%s', wrong='%s' WHERE game_room_id=%d;", implode('',$current), implode('',$wrong), get_my_game_room_id());
+		mysqli_query ($conn, $update_query);
+	}
+	function update_current_and_wrong2($current, $wrong) {
+		$conn = get_connection();
+		$update_query = sprintf ("UPDATE game_room2 SET current='%s', wrong='%s' WHERE game_room_id=%d;", implode('',$current), implode('',$wrong), $this->getRoomId());
 		mysqli_query ($conn, $update_query);
 	}
 	
@@ -379,15 +457,15 @@ class SessionInfo {
 	
 	function change_turn() {
 		$conn = get_connection();
-		$select_query = sprintf ('SELECT turn FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
+		$select_query = sprintf ('SELECT turn FROM hangman.game_room2 WHERE game_room_id= %d', get_my_game_room_id());
 		$result = mysqli_query($conn, $select_query);
 		$row = mysqli_fetch_assoc($result);
 		$turn = intval($row['turn']);
 		if ($turn === 1){//턴이 1이면 2로 변경
-			$update_query = sprintf ("UPDATE game_room SET turn=2 WHERE game_room_id=%d;", get_my_game_room_id());			
+			$update_query = sprintf ("UPDATE game_room2 SET turn=2 WHERE game_room_id=%d;", get_my_game_room_id());			
 			mysqli_query ($conn, $update_query);
 		} else {
-			$update_query = sprintf ("UPDATE game_room SET turn=1 WHERE game_room_id=%d;", get_my_game_room_id());			
+			$update_query = sprintf ("UPDATE game_room2 SET turn=1 WHERE game_room_id=%d;", get_my_game_room_id());			
 			mysqli_query ($conn, $update_query);
 		}
 		mysqli_close($conn);
@@ -397,7 +475,7 @@ class SessionInfo {
 	
 	function getCurrentAndWrong() {
 		$conn = get_connection();
-		$select_query = sprintf ('SELECT current, wrong FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
+		$select_query = sprintf ('SELECT current, wrong FROM hangman.game_room2 WHERE game_room_id= %d', get_my_game_room_id());
 		$result = mysqli_query($conn, $select_query);
 		$row = mysqli_fetch_assoc($result);
 	

@@ -11,7 +11,7 @@
 	document.getElementsByTagName("body")[0].style.display = 'none';
 	$(document).ready(function(){
 		
-		
+		/*
 		window.onbeforeunload = function() {
 			return "그냥 나감";
 		};
@@ -28,7 +28,7 @@
 		}
 
 		$(document).on("keydown", disableF5);
-		
+		*/
 		$("#input_answer").keyup(function(event){
 			
 			var inputVal = $(this).val();
@@ -109,14 +109,14 @@
 				gameStatus = gameData['status'];
 				myId = gameData['my_id'];
 				time = gameData['time'];
-				if (thisAction == 'play') {
-					//alert('success ' + JSON.stringify(result));
-				}
+
+				alert('success ' + JSON.stringify(result));
+				
 			},
 			error: function(xhr) {
-				if (thisAction == 'play') {
-					//alert('error: ' + JSON.stringify(xhr));
-				}
+				
+				//alert('error: ' + JSON.stringify(xhr));
+				
 			},
 		});
 		return gameData;

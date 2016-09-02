@@ -17,8 +17,8 @@
 			header("Location: index.php");
 		}else if($infoDto->getMode() === 'dual_game'){ // dual_game 클릭 했을때 
 		
-			$infoDto -> start_dual_game();
-				//echo '111';
+			$infoDto -> start_dual_game2($_POST['room_num']);
+			
 		
 			header("Location: index.php");
 		}

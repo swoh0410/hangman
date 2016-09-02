@@ -11,7 +11,7 @@ $infoDto->refresh();
 
 if (isset($_POST['action'])){
 	if ($_POST['action'] === 'start_dual_game'){
-		$infoDto -> start_dual_game();
+		$infoDto -> start_dual_game2();
 	} else if ($_POST['action'] === 'fetch_status'){
 		
 	} else if ($_POST['action'] === 'play') {

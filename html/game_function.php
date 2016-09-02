@@ -22,7 +22,7 @@
 	
 	function get_gaming_status() {
 		$conn = get_connection();
-		$room_query = sprintf("SELECT turn, winner FROM game_room WHERE game_room_id=%d;", get_my_game_room_id());
+		$room_query = sprintf("SELECT turn, winner FROM game_room2 WHERE game_room_id=%d;", get_my_game_room_id());
 		$result = mysqli_query ($conn, $room_query);
 		$row = mysqli_fetch_assoc($result);
 		$turn = intval($row['turn']);
@@ -51,7 +51,7 @@
 	
 	function get_my_position() {
 		$conn = get_connection();
-		$select_query = sprintf ('SELECT user1_id FROM hangman.game_room WHERE game_room_id = %d', get_my_game_room_id());
+		$select_query = sprintf ('SELECT user1_id FROM hangman.game_room2 WHERE game_room_id = %d', get_my_game_room_id());
 		$result = mysqli_query($conn, $select_query);
 		$row = mysqli_fetch_assoc($result);
 		$my_id = intval(get_user_id_from_user_name($_SESSION['info_dto']->getId()));
@@ -66,7 +66,7 @@
 	function is_my_turn(){
 		$conn = get_connection();
 		$my_position = get_my_position();				
-		$select_query = sprintf ('SELECT turn FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
+		$select_query = sprintf ('SELECT turn FROM hangman.game_room2 WHERE game_room_id= %d', get_my_game_room_id());
 		$result = mysqli_query($conn, $select_query);
 		
 		while(NULL !==($row = mysqli_fetch_assoc($result))) {
@@ -98,7 +98,7 @@
 	
 	function get_user_ids(){
 		$conn = get_connection();
-		$select_query = sprintf ('SELECT user1_id, user2_id FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
+		$select_query = sprintf ('SELECT user1_id, user2_id FROM hangman.game_room2 WHERE game_room_id= %d', get_my_game_room_id());
 		$result = mysqli_query($conn, $select_query);
 		$row = mysqli_fetch_assoc($result);
 		mysqli_close($conn);
@@ -116,7 +116,7 @@
 	
 	function get_winner_position(){
 		$conn = get_connection();
-		$select_query = sprintf ('SELECT winner FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
+		$select_query = sprintf ('SELECT winner FROM hangman.game_room2 WHERE game_room_id= %d', get_my_game_room_id());
 		$result = mysqli_query($conn, $select_query);
 		$row = mysqli_fetch_assoc($result);
 		mysqli_close($conn);
@@ -128,12 +128,43 @@
 	
 	function get_last_turn_time() {
 		$conn = get_connection();
-		$select_query = sprintf ('SELECT turn_time FROM hangman.game_room WHERE game_room_id= %d', get_my_game_room_id());
+		$select_query = sprintf ('SELECT turn_time FROM hangman.game_room2 WHERE game_room_id= %d', get_my_game_room_id());
 		$result = mysqli_query($conn, $select_query);
 		$row = mysqli_fetch_assoc($result);
 		
 		return convert_time_string($row['turn_time']);
 	}
 
+	function get_start_button($need_num) {
+		for ($i = 1; $i < $need_num + 1; $i++) {
+			?>
+			<tr>
+				<td>
+					<span><?php echo $i; ?></span>
+				</td>
+				<td>
+					<form action="change_mode.php" method="post">
+						<input type="hidden" value="dual_game" name="mode">
+						<input type="button" value="대기 하기" onclick="joinRoom(<?php echo $i; ?>, this.form)">
+					</form>
+				</td>
+				<td>
+					<span id="<?php echo 'wating'.$i; ?>" class="waiting">대기자 : 없음</span>
+				</td>
+			</tr>
+			<?php
+		}
+	}
+	
+	function waiting_from_room ($room_num){
+		$conn = get_connection();
+		$room_query = sprintf("SELECT user1_id FROM game_room2 WHERE game_room_id = %d;", $room_num);
+		$result = mysqli_query ($conn, $room_query);
+		if (mysqli_num_rows($result) > 0) {
+			return false; //대기자 있음
+		} else {
+			return true; // 대기자 없음
+		}
+	}
 
 ?>
