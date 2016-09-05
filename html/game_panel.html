@@ -11,7 +11,7 @@
 	document.getElementsByTagName("body")[0].style.display = 'none';
 	$(document).ready(function(){
 		
-		
+		/*
 		window.onbeforeunload = function() {
 			return "그냥 나감";
 		};
@@ -28,7 +28,7 @@
 		}
 
 		$(document).on("keydown", disableF5);
-		
+		*/
 		$("#input_answer").keyup(function(event){
 			
 			var inputVal = $(this).val();
@@ -107,14 +107,14 @@
 				gameStatus = gameData['status'];
 				myId = gameData['my_id'];
 				time = gameData['time'];
-				if (thisAction == 'play') {
-					//alert('success ' + JSON.stringify(result));
-				}
+
+				alert('success ' + JSON.stringify(result));
+				
 			},
 			error: function(xhr) {
-				if (thisAction == 'play') {
-					//alert('error: ' + JSON.stringify(xhr));
-				}
+				
+				//alert('error: ' + JSON.stringify(xhr));
+				
 			},
 		});
 		return gameData;
@@ -181,7 +181,7 @@
 				document.getElementById('user2_win').innerHTML = user2Rate['win'];
 				document.getElementById('user2_lose').innerHTML = user2Rate['lose'];
 				document.getElementById('user2_rate').innerHTML = user2Rate['win_rate'];
-				if (gameStatus === 'my_turn'){					
+				if (gameStatus === 'my_turn'){
 					document.getElementById('timer').style.display = '';
 					document.getElementById('enemy').style.display = 'none';
 					startTimer();
@@ -246,7 +246,7 @@
 		document.getElementsByTagName("BODY")[0].style.display = '';
 		//alert(status + '44' + clientStatus);
 		if (gameStatus === 'my_turn') {
-			
+
 		} else if (gameStatus === 'enemy_turn' || gameStatus === 'waiting') {
 			setTimeout (function() {			
 			drawIfNeeded(true);

@@ -3,7 +3,43 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/jquery.countdown.js"></script>
 <title>2조 PROJECT - HANGMAN GAME</title>
+<script>
+	$(document).ready(function(){
+		ajaxRoomData(3);
+		
+	});
+	function joinRoom(roomNum, form) {
+		var element = document.createElement('input');
+		form.appendChild(element);
+		element.type = 'hidden';
+		element.value = roomNum;
+		element.name = 'room_num';
+		form.submit();
+	}
+	
+	function ajaxRoomData(roomNum) {
+		$.ajax({
+			url:'ajaxRoomData.php',
+			type: 'POST',
+			async: false,
+			data : { room_num : roomNum },
+			dataType: 'json',
+			success : function(result){
+				roomData = result;
+				alert('success ' + JSON.stringify(result));
+			},
+			error: function(xhr) {
+				alert(JSON.stringify(xhr));
+			},
+		});
+		return roomData;
+	}
+	
+</script>
 <?php 
 	
 	require_once 'SessionInfo.php'; 
@@ -17,6 +53,8 @@
 		$infoDto = new SessionInfo($info_array);
 		$_SESSION['info_dto'] = $infoDto;
 	}
+	echo $infoDto->getMode().'<br>';
+	echo $infoDto->getGamingStatus();
 
 ?>
 </head>
@@ -38,22 +76,23 @@
 							if($infoDto->getMode() === 'lobby'){							
 						?>
 						<div class="please_start">
-
-							<ul>
-								<li>
-									<form action="change_mode.php" method="post">
-									<input type="hidden" value="solo_game" name="mode">
-									<input type="submit" value="솔로 게임">
-									</form>
-								</li>
-								<li>
-									<form action="change_mode.php" method="post">
-									<input type="hidden" value="dual_game" name="mode">
-									<input type="submit" value="듀얼 게임">
-									</form>
-								</li>
-							</ul>
-
+							<table>
+								<tr>
+									<td>
+										<span>0</span>
+									</td>
+									<td>
+										<form action="change_mode.php" method="post">
+											<input type="hidden" value="solo_game" name="mode">
+											<input type="submit" value="솔로 게임">
+										</form>
+									</td>
+									<td>
+										<span></span>
+									</td>
+								</tr>
+								<?php get_start_button(3); ?>
+							</table>
 						</div>
 						<?php							
 							}else if($infoDto->getMode() === 'solo_game'){
