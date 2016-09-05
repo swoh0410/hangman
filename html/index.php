@@ -8,6 +8,10 @@
 <script type="text/javascript" src="js/jquery.countdown.js"></script>
 <title>2조 PROJECT - HANGMAN GAME</title>
 <script>
+	$(document).ready(function(){
+		ajaxRoomData(3);
+		
+	});
 	function joinRoom(roomNum, form) {
 		var element = document.createElement('input');
 		form.appendChild(element);
@@ -17,17 +21,19 @@
 		form.submit();
 	}
 	
-	function ajaxRoom(roomNum) {
+	function ajaxRoomData(roomNum) {
 		$.ajax({
-			url:'roomData.php',
-			type: 'GET',
+			url:'ajaxRoomData.php',
+			type: 'POST',
 			async: false,
 			data : { room_num : roomNum },
+			dataType: 'json',
 			success : function(result){
 				roomData = result;
+				alert('success ' + JSON.stringify(result));
 			},
 			error: function(xhr) {
-				//alert(JSON.stringify(xhr));
+				alert(JSON.stringify(xhr));
 			},
 		});
 		return roomData;
@@ -47,7 +53,8 @@
 		$infoDto = new SessionInfo($info_array);
 		$_SESSION['info_dto'] = $infoDto;
 	}
-	echo $infoDto->getMode();
+	echo $infoDto->getMode().'<br>';
+	echo $infoDto->getGamingStatus();
 
 ?>
 </head>

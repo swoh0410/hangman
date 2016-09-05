@@ -1626,3 +1626,235 @@ status: my_turn
 char was: f
 char was:  
 win: {"correct_answer":["s","t","u","f","f"],"current":["s","t","u","f","f"],"wrong":[],"mode":"dual_game","status":"win","my_id":"1"}
+char was: w
+finished play
+status: my_turn
+char was: o
+finished play
+status: my_turn
+char was: l
+finished play
+status: my_turn
+char was: f
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+win: {"correct_answer":["w","o","l","f"],"current":["w","o","l","f"],"wrong":[],"mode":"dual_game","status":"win","my_id":"1"}
+char was: c
+finished play
+status: my_turn
+char was: o
+finished play
+status: my_turn
+char was: n
+finished play
+status: my_turn
+char was: g
+finished play
+status: my_turn
+char was: r
+finished play
+status: my_turn
+char was: e
+finished play
+status: my_turn
+char was: s
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was: s
+finished play
+status: my_turn
+char was: t
+finished play
+status: my_turn
+char was: a
+finished play
+status: my_turn
+char was: e
+char was:  
+char was:  
+char was:  
+char was: f
+char was: f
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+finished play
+status: my_turn
+char was: l
+finished play
+status: my_turn
+char was: o
+finished play
+status: my_turn
+char was: a
+finished play
+status: my_turn
+char was: t
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was: w
+finished play
+status: my_turn
+char was: e
+finished play
+status: my_turn
+char was: a
+finished play
+status: my_turn
+char was: r
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was: h
+finished play
+status: my_turn
+char was: l
+finished play
+status: my_turn
+char was: a
+win: {"correct_answer":["h","a","l","l"],"current":["h","a","l","l"],"wrong":[],"mode":"dual_game","status":"win","my_id":"1"}
+win: {"correct_answer":["h","a","l","l"],"current":["h","a","l","l"],"wrong":[],"mode":"dual_game","status":"win","my_id":"1"}
+char was:  
+win: {"correct_answer":["h","a","l","l"],"current":["h","a","l","l"],"wrong":[],"mode":"dual_game","status":"win","my_id":"1"}
+win: {"correct_answer":["h","a","l","l"],"current":["h","a","l","l"],"wrong":[],"mode":"dual_game","status":"win","my_id":"1"}
+char was: c
+finished play
+status: my_turn
+char was: a
+finished play
+status: my_turn
+char was: r
+finished play
+status: my_turn
+char was: i
+finished play
+status: my_turn
+char was: e
+char was:  
+char was:  
+char was:  
+char was: s
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was:  
+char was: s
+finished play
+status: my_turn
+char was: u
+finished play
+status: my_turn
+char was: r
+finished play
+status: my_turn
+char was: g
+finished play
+status: my_turn
+char was: e
+finished play
+status: my_turn
+char was: y
+finished play
+status: win
+win: {"correct_answer":["s","u","r","g","e","r","y"],"current":["s","u","r","g","e","r","y"],"wrong":[],"mode":"dual_game","status":"win","my_id":"1"}
+char was: s
+finished play
+status: my_turn
+char was: c
+finished play
+status: my_turn
+char was: h
+finished play
+status: my_turn
+char was: o
+finished play
+status: my_turn
+char was: l
+char was:  
+char was:  
+char was:  
+finished play
+status: win
+win: {"correct_answer":["s","c","h","o","o","l"],"current":["s","c","h","o","o","l"],"wrong":[],"mode":"dual_game","status":"win","my_id":"1"}
+char was: d
+finished play
+status: my_turn
+char was: a
+finished play
+status: my_turn
+char was: z
+finished play
+status: enemy_turn
+char was: i
+finished play
+status: my_turn
+char was: q
+finished play
+status: enemy_turn
+char was: l
+finished play
+status: my_turn
+char was: y
+finished play
+status: win
+win: {"correct_answer":["d","a","i","l","y"],"current":["d","a","i","l","y"],"wrong":["q","z"],"mode":"dual_game","status":"win","my_id":"1"}
+char was: e
+finished play
+status: my_turn
+char was: n
+finished play
+status: my_turn
+char was: h
+finished play
+status: my_turn
+char was: a
+finished play
+status: my_turn
+char was: c
+finished play
+status: win
+win: {"correct_answer":["e","n","h","a","n","c","e"],"current":["e","n","h","a","n","c","e"],"wrong":[],"mode":"dual_game","status":"win","my_id":"1"}

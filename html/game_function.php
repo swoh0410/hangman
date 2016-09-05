@@ -30,7 +30,7 @@
 		
 		if ($winner !== 0){//게임이 끝남
 			$my_position = get_my_position();
-			if ($winner == $my_position) {
+			if ($winner === $my_position) {
 				return 'win';
 			} else {
 				return 'lose';
@@ -166,5 +166,17 @@
 			return true; // 대기자 없음
 		}
 	}
-
+	
+	function get_room_data($room_num) {
+		$conn = get_connection();
+		$room_query = sprintf("SELECT * FROM game_room2 WHERE game_room_id = %d;", $room_num);
+		$result = mysqli_query ($conn, $room_query);
+		$room = array();
+		$row = mysqli_fetch_assoc($result);
+		$room['room_id'] = intval($row['game_room_id']);
+		$room['user1_id'] = intval($row['user1_id']);
+		$room['user2_id'] = intval($row['user2_id']);
+		$room['winner'] = intval($row['winner']);
+		return $room;
+	}
 ?>
