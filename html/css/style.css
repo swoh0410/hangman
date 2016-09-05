@@ -5,7 +5,7 @@ input[type='text'], input[type='submit'], input[type='password'] {padding:7px;}
 a {text-decoration:none;}
 
 /* Layout */
-#wrap {margin:30px auto;width:1280px;height:768px;padding:0;position:relative;}
+#wrap {margin:30px auto;width:1280px;padding:0;position:relative;}
 * html #wrap {height: 100%;}
 #content {width:100%;margin:0;padding:0;height:620px;border:1px solid #ddd;}
 #content_l {width:79%;height:100%;float:left;border-right:1px solid #ddd;margin:0;padding:0;background:white;}
@@ -70,9 +70,9 @@ a {text-decoration:none;}
 .user_input ul li input[type='text'] {padding:10px 10px;}
 .user_input ul li input[type='button'] {padding:10px 20px;}
 
-.wrong_input {width:100%;text-align:center;border-top:0px solid #ddd;padding-top:40px;}
+.wrong_input {width:100%;text-align:center;border-top:0px solid #ddd;padding-top:25px;}
 .wrong_input ul {display:inline-block;margin:0 auto;padding:0;}
-.wrong_input ul li {display:inline;float:left;padding:5px;border-bottom:0px dotted #ddd;font-size:26px;color:#ff0000;}
+.wrong_input ul li {display:inline;float:left;padding:5px;border-bottom:0px dotted #ddd;font-size:15px;color:#ff0000;}
 
 .page_btn {width:100%;margin:0;padding:20px 0;text-align:center;}
 .page_btn ul {width:150px;margin:0 470px;padding:0;}
@@ -83,11 +83,14 @@ a {text-decoration:none;}
 .game_waiting span {position:relative;top:230px;}
 
 /* Game over */
-.game_result {font-size:30px;font-weight:500;text-align:center;padding:70px 0 70px 0;}
+.game_result {font-size:30px;font-weight:500;text-align:center;padding:70px 0 70px 0; margin-top:50px;}
 .game_win {font-size:40px;color:#0000ff;}
 .game_lose {font-size:40px;color:#ff0000;}
 
 
 .timer_box {width:100%;margin:0 auto;padding:30px 5px 0 5px;text-align:center;height:50px;font-size:30px;}
+#timer { font-size: 35px; } 
+#enemy { font-size: 15px; }
+#win_message { font-size: 50px; }
 
 

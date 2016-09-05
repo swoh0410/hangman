@@ -61,9 +61,7 @@
 <body>
 
 <div id="wrap">
-	<div id="header">
-	 <h1><a href="index.php">HANGMAN GAME</a></h1>
-	</div>
+
 	<div id="content">							
 		<?php 
 			if(check_login()){
