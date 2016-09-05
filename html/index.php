@@ -8,9 +8,9 @@
 <script type="text/javascript" src="js/jquery.countdown.js"></script>
 <title>2조 PROJECT - HANGMAN GAME</title>
 <script>
+	var roomNumber = 3;
 	$(document).ready(function(){
-		ajaxRoomData(3);
-		
+		drawIfNeededForIndex();
 	});
 	function joinRoom(roomNum, form) {
 		var element = document.createElement('input');
@@ -30,15 +30,40 @@
 			dataType: 'json',
 			success : function(result){
 				roomData = result;
-				alert('success ' + JSON.stringify(result));
+				//alert('success ' + JSON.stringify(result));
 			},
 			error: function(xhr) {
-				alert(JSON.stringify(xhr));
+				//alert(JSON.stringify(xhr));
 			},
 		});
 		return roomData;
 	}
 	
+	function drawScreenForIndex() {
+		for (var i = 1; i < roomNumber + 1; i++){
+			if(roomData[i]['user2_id'] == null && roomData[i]['user1_id'] != null) {
+				document.getElementById('wating' + i).innerHTML = '대기자 : ' + roomData[i]['user1_id'];
+				document.getElementById('join_btn' + i).value = '게임 참가';
+				document.getElementById('join_btn' + i).disabled = false;
+			} else if (roomData[i]['user2_id'] != null) {
+				document.getElementById('wating' + i).innerHTML = '게임 중 : ' + roomData[i]['user1_id'] + ' VS ' + roomData[i]['user2_id'];
+				document.getElementById('join_btn' + i).value = '게임 중';
+				document.getElementById('join_btn' + i).disabled = true;
+			} else if (roomData[i]['user1_id'] == null) {
+				document.getElementById('wating' + i).innerHTML = '대기자 : 없음';
+				document.getElementById('join_btn' + i).value = '대기 하기';
+				document.getElementById('join_btn' + i).disabled = false;
+			}
+		}
+	}
+	function drawIfNeededForIndex() {
+		ajaxRoomData(roomNumber);
+		drawScreenForIndex()
+		setTimeout (function() {			
+			drawIfNeededForIndex();
+		}, 5000);
+		
+	}
 </script>
 <?php 
 	
@@ -53,8 +78,8 @@
 		$infoDto = new SessionInfo($info_array);
 		$_SESSION['info_dto'] = $infoDto;
 	}
-	echo $infoDto->getMode().'<br>';
-	echo $infoDto->getGamingStatus();
+	//echo $infoDto->getMode().'<br>';
+	//echo $infoDto->getGamingStatus();
 
 ?>
 </head>

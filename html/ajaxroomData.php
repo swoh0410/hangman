@@ -11,7 +11,7 @@
 	for ($i = 1; $i < $room_num + 1; $i++){
 		$room_data[$i] = get_room_data($i);
 
-		if ($room_data[$i]['winner'] == true){
+		if ($room_data[$i]['winner'] > 0){
 			$infoDto->clear_room($i);
 		}
 	}
