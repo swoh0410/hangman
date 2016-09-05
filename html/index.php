@@ -64,7 +64,11 @@
 		}, 5000);
 		
 	}
+
+	
 </script>
+
+
 <?php 
 	
 	require_once 'SessionInfo.php'; 
@@ -162,6 +166,16 @@
 							echo '승률 : '.$row['win_rate'].'%';
 						?>
 					</div>
+					
+<script src='//uchat.co.kr/uchat.php' charset='UTF-8'></script>
+<script type='text/javascript'>
+u_chat({
+room:'hangman'
+, skin:'1'
+, width:'250'
+, height:'500'
+});
+</script>
 				</div>	
 		<?php		
 			} else {				
@@ -186,12 +200,11 @@
 									<th></th><td><input type="submit" value="회원가입"></td>
 								</tr>
 								</form>
-							</table>
-						
-						
-							
-						
+							</table>						
 					</div>
+					
+
+					
 				</div>
 				<div id="content_l">
 					
