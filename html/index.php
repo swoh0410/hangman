@@ -8,7 +8,7 @@
 <script type="text/javascript" src="js/jquery.countdown.js"></script>
 <title>2조 PROJECT - HANGMAN GAME</title>
 <script>
-	var roomNumber = 3;
+	var roomNumber = 5;
 	$(document).ready(function(){
 		drawIfNeededForIndex();
 	});
@@ -120,7 +120,7 @@
 										<span></span>
 									</td>
 								</tr>
-								<?php get_start_button(3); ?>
+								<?php get_start_button(5); ?>
 							</table>
 						</div>
 						<?php							
@@ -173,7 +173,7 @@ u_chat({
 room:'hangman'
 , skin:'1'
 , width:'250'
-, height:'500'
+, height:'440'
 });
 </script>
 				</div>	

@@ -191,11 +191,12 @@ public function start_dual_game2 ($room_num){
 	
 	if ($row['user1_id'] !== NULL){//대기자 있음		
 		$user1_id = intval($row['user1_id']);
-		$my_id = get_user_id_from_user_name($this->getId());
+		$my_id = get_user_id_from_user_name(get_user_id_from_user_name($this->getId()));
 		if ($user1_id === $my_id){
 				$this->clear_room($room_num); // 바꿔야함
 				$this->start_dual_game2($room_num);
 		} else {
+			$this->find_used_room_and_clear($this->getId());
 			$user2_query = sprintf ("UPDATE game_room2 SET user2_id=%d, turn=1 WHERE game_room_id=%d;", get_user_id_from_user_name($this->getId()), $room_num);
 			mysqli_query ($conn, $user2_query);
 			$answer_query = sprintf("SELECT answer, current, wrong FROM game_room2 WHERE game_room_id=%d;", $room_num);
@@ -208,12 +209,14 @@ public function start_dual_game2 ($room_num){
 			$this->setCurrent(preg_split('//u', $row['current'], -1, PREG_SPLIT_NO_EMPTY));
 			$this->setWrong(preg_split('//u', $row['wrong'], -1, PREG_SPLIT_NO_EMPTY));
 			$this->setRoomId($room_num);
+			mysqli_close($conn);
 		} 
 	} else {//대기자 없음
+		$this->find_used_room_and_clear(get_user_id_from_user_name($this->getId()));
 		$this->setCorrectAnswer(preg_split('//u', $this->getRandomWord(), -1, PREG_SPLIT_NO_EMPTY));
 		$current = $this->create_empty_array (count($this->getCorrectAnswer()));
 		$this->setCurrent($current);
-		$this->setWrong(array());			
+		$this->setWrong(array());
 		
 		$answer = implode('',$this->getCorrectAnswer()); //answer 변수 지정
 		$current = implode('',$this->getCurrent()); //current 변수지정
@@ -221,11 +224,19 @@ public function start_dual_game2 ($room_num){
 		
 		$join_query = sprintf("UPDATE game_room2 SET answer = '%s', current = '%s', wrong = '%s', user1_id = %d WHERE game_room_id = %d;", $answer, $current, $wrong, get_user_id_from_user_name($this->getId()), $room_num);
 		mysqli_query($conn, $join_query);
+		mysqli_close($conn);
 		$this->setRoomId($room_num);
+		
 	}
 }
- 
-	
+
+public function find_used_room_and_clear($id) {
+	$conn = get_connection();
+	$select_query = sprintf("SELECT game_room_id FROM game_room2 WHERE user1_id = %d || user2_id = %d;", $id, $id);
+	$result = mysqli_query ($conn, $select_query);
+	$row = mysqli_fetch_assoc($result);
+	$this->clear_room($row['game_room_id']);
+} 
 	
 	
 	
