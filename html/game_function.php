@@ -145,7 +145,7 @@
 				<td>
 					<form action="change_mode.php" method="post">
 						<input type="hidden" value="dual_game" name="mode">
-						<input type="button" value="대기 하기" onclick="joinRoom(<?php echo $i; ?>, this.form)">
+						<input id="<?php echo 'join_btn'.$i; ?>" type="button" value="대기 하기" onclick="joinRoom(<?php echo $i; ?>, this.form)">
 					</form>
 				</td>
 				<td>
@@ -174,8 +174,8 @@
 		$room = array();
 		$row = mysqli_fetch_assoc($result);
 		$room['room_id'] = intval($row['game_room_id']);
-		$room['user1_id'] = intval($row['user1_id']);
-		$room['user2_id'] = intval($row['user2_id']);
+		$room['user1_id'] = get_user_name_from_user_id($row['user1_id']);
+		$room['user2_id'] = get_user_name_from_user_id($row['user2_id']);
 		$room['winner'] = intval($row['winner']);
 		return $room;
 	}

@@ -11,7 +11,7 @@
 	document.getElementsByTagName("body")[0].style.display = 'none';
 	$(document).ready(function(){
 		
-		/*
+		
 		window.onbeforeunload = function() {
 			return "그냥 나감";
 		};
@@ -28,8 +28,7 @@
 		}
 
 		$(document).on("keydown", disableF5);
-		*/
-		
+
 		function disableEnter(e) { 
 			if (e.keyCode == 13) {
 				e.preventDefault(); 
@@ -38,6 +37,7 @@
 		}
 
 		$(document).on("keydown", disableEnter);
+
 		
 		$("#input_answer").keyup(function(event){
 			
