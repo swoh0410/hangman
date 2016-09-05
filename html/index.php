@@ -30,10 +30,10 @@
 			dataType: 'json',
 			success : function(result){
 				roomData = result;
-				alert('success ' + JSON.stringify(result));
+				//alert('success ' + JSON.stringify(result));
 			},
 			error: function(xhr) {
-				alert(JSON.stringify(xhr));
+				//alert(JSON.stringify(xhr));
 			},
 		});
 		return roomData;
