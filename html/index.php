@@ -8,7 +8,7 @@
 <script type="text/javascript" src="js/jquery.countdown.js"></script>
 <title>2조 PROJECT - HANGMAN GAME</title>
 <script>
-	var roomNumber = 3;
+	var roomNumber = 5;
 	$(document).ready(function(){
 		drawIfNeededForIndex();
 	});
@@ -64,7 +64,11 @@
 		}, 5000);
 		
 	}
+
+	
 </script>
+
+
 <?php 
 	
 	require_once 'SessionInfo.php'; 
@@ -114,7 +118,7 @@
 										<span></span>
 									</td>
 								</tr>
-								<?php get_start_button(3); ?>
+								<?php get_start_button(5); ?>
 							</table>
 						</div>
 						<?php							
@@ -160,6 +164,16 @@
 							echo '승률 : '.$row['win_rate'].'%';
 						?>
 					</div>
+					
+<script src='//uchat.co.kr/uchat.php' charset='UTF-8'></script>
+<script type='text/javascript'>
+u_chat({
+room:'hangman'
+, skin:'1'
+, width:'250'
+, height:'440'
+});
+</script>
 				</div>	
 		<?php		
 			} else {				
@@ -184,12 +198,11 @@
 									<th></th><td><input type="submit" value="회원가입"></td>
 								</tr>
 								</form>
-							</table>
-						
-						
-							
-						
+							</table>						
 					</div>
+					
+
+					
 				</div>
 				<div id="content_l">
 					
