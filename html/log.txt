@@ -643,3 +643,6 @@ char was: y
 finished play
 status: win
 win: {"correct_answer":["t","i","g","h","t","l","y"],"current":["t","i","g","h","t","l","y"],"wrong":[],"mode":"dual_game","status":"win","my_id":"1"}
+char was:  
+finished play
+status: my_turn
