@@ -45,15 +45,15 @@
 		if(roomData['mode'] == 'lobby') {
 			for (var i = 1; i < roomNumber + 1; i++){
 				if(roomData[i]['user2_id'] == null && roomData[i]['user1_id'] != null) {
-					document.getElementById('wating' + i).innerHTML = '대기자 : ' + roomData[i]['user1_id'];
+					document.getElementById('waiting' + i).innerHTML = '대기자 : ' + roomData[i]['user1_id'];
 					document.getElementById('join_btn' + i).value = '게임 참가';
 					document.getElementById('join_btn' + i).disabled = false;
 				} else if (roomData[i]['user2_id'] != null) {
-					document.getElementById('wating' + i).innerHTML = '게임 중 : ' + roomData[i]['user1_id'] + ' VS ' + roomData[i]['user2_id'];
+					document.getElementById('waiting' + i).innerHTML = '게임 중 : ' + roomData[i]['user1_id'] + ' VS ' + roomData[i]['user2_id'];
 					document.getElementById('join_btn' + i).value = '게임 중';
 					document.getElementById('join_btn' + i).disabled = true;
 				} else if (roomData[i]['user1_id'] == null) {
-					document.getElementById('wating' + i).innerHTML = '대기자 : 없음';
+					document.getElementById('waiting' + i).innerHTML = '대기자 : 없음';
 					document.getElementById('join_btn' + i).value = '대기 하기';
 					document.getElementById('join_btn' + i).disabled = false;
 				}
