@@ -24,6 +24,7 @@ a {text-decoration:none;}
 #footer span {position:relative;top:20px;}
 #panel_result {height:485px;}
 #panel_result .user_output {width:100%;position:relative;top:100px;padding:40px 0;text-align:center;}
+#panel_waiting {height:485px;}
 /* Please_login */
 .login_btn {padding-left:3px;}
 .login_btn input[type='submit'] {padding:25px 10px;}

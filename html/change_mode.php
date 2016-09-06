@@ -4,6 +4,10 @@
 	require_once './SessionInfo.php';
 	start_session();
 	$infoDto = $_SESSION['info_dto'];
+
+	if (isset($_POST['exit'])){
+		$exit = $_POST['exit'];
+	}
 	if(isset($_POST['mode'])){ 
 		//var_dump($infoDto);
 		$infoDto->setMode($_POST['mode']);
@@ -13,8 +17,12 @@
 			$infoDto->startSoloGame();
 			header("Location: index.php");
 		} else if ($infoDto->getMode() === 'lobby') { //리셋했을때
-			
-			header("Location: index.php");
+			if($exit == true){
+				$infoDto->clear_room($infoDto->getRoomId());
+				header("Location: index.php");
+			} else {
+				header("Location: index.php");
+			}			
 		}else if($infoDto->getMode() === 'dual_game'){ // dual_game 클릭 했을때 
 		
 			$infoDto -> start_dual_game2($_POST['room_num']);

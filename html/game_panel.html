@@ -178,7 +178,11 @@
 			if (gameStatus === 'waiting') {
 				document.getElementById('my_id').innerHTML = myId;
 				document.getElementById('panel_waiting').style.display = '';
+				document.getElementById('btn').style.display = '';
+				document.getElementById('reset').style.display = 'none';
+				document.getElementById('exit').value = true;
 			} else if (gameStatus === 'my_turn' || gameStatus === 'enemy_turn')	{
+				document.getElementById('btn').style.display = 'none';
 				document.getElementById('panel_waiting').style.display = 'none';
 				document.getElementById('panel_wrap').style.display = '';
 				document.getElementById('user1').innerHTML = user1;
@@ -417,8 +421,9 @@
 				</form>
 			</li>
 			<li>
-				<form action="change_mode.php" method="post">
+				<form id="lobby" action="change_mode.php" method="post">
 					<input type="hidden" value="lobby" name="mode">
+					<input id="exit"type="hidden" value="false" name="exit">
 					<input type="submit" value="로비">		
 				</form>
 			</li>

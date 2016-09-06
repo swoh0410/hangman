@@ -6,7 +6,7 @@
 <title>2조 PROJECT - HANGMAN GAME</title>
 </head>
 <body>
-<?php include 'header.php'; ?>
+
 <div id="wrap">
 	<div id="content">
 		<div class="register_page">
@@ -27,7 +27,10 @@
 		</div>
 		<p><a href="index.php"><input type="button" value="홈으로"></a></p>
 	</div>
+	<div id="footer">
+		<span>Copyright © 2016 김종찬<br>All rights reserved</span>
+	</div>
 </div>
-<?php include 'footer.php'; ?>
+
 </body>
 </html>

@@ -191,12 +191,12 @@ public function start_dual_game2 ($room_num){
 	
 	if ($row['user1_id'] !== NULL){//대기자 있음		
 		$user1_id = intval($row['user1_id']);
-		$my_id = get_user_id_from_user_name(get_user_id_from_user_name($this->getId()));
+		$my_id = get_user_id_from_user_name($this->getId());
 		if ($user1_id === $my_id){
-				$this->clear_room($room_num); // 바꿔야함
+				$this->clear_room($room_num);
 				$this->start_dual_game2($room_num);
 		} else {
-			$this->find_used_room_and_clear($this->getId());
+			$this->find_used_room_and_clear(get_user_id_from_user_name($this->getId()));
 			$user2_query = sprintf ("UPDATE game_room2 SET user2_id=%d, turn=1 WHERE game_room_id=%d;", get_user_id_from_user_name($this->getId()), $room_num);
 			mysqli_query ($conn, $user2_query);
 			$answer_query = sprintf("SELECT answer, current, wrong FROM game_room2 WHERE game_room_id=%d;", $room_num);
@@ -356,7 +356,6 @@ public function find_used_room_and_clear($id) {
 		$conn = get_connection();		
 		$clear_query = sprintf("UPDATE game_room2 SET answer = NULL, current = NULL, wrong = NULL, turn = NULL, user1_id = NULL, user2_id = NULL, winner = NULL WHERE game_room_id = %d;", $room_id);
 		mysqli_query ($conn, $clear_query);
-		mysqli_close($conn);
 	}
 	
 	public function refresh (){
