@@ -149,7 +149,7 @@
 					</form>
 				</td>
 				<td>
-					<span id="<?php echo 'wating'.$i; ?>" class="waiting">대기자 : 없음</span>
+					<span id="<?php echo 'waiting'.$i; ?>" class="waiting">대기자 : 없음</span>
 				</td>
 			</tr>
 			<?php
