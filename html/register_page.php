@@ -8,6 +8,9 @@
 <body>
 
 <div id="wrap">
+	<div id="header">
+		<h1><a href="index.php">HANGMAN GAME</a></h1>
+	</div>
 	<div id="content">
 		<div class="register_page">
 			<h1>회원 가입</h1>
@@ -28,7 +31,9 @@
 		<p><a href="index.php"><input type="button" value="홈으로"></a></p>
 	</div>
 	<div id="footer">
+
 		<span>Copyright © 2016 김종찬<br>All rights reserved</span>
+
 	</div>
 </div>
 
