@@ -21,6 +21,7 @@
 		form.submit();
 	}
 	
+	var roomData = '';
 	function ajaxRoomData(roomNum) {
 		$.ajax({
 			url:'ajaxRoomData.php',
