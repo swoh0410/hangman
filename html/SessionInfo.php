@@ -214,6 +214,7 @@ public function start_dual_game2 ($room_num){
 		} 
 	} else {//대기자 없음
 		$this->find_used_room_and_clear(get_user_id_from_user_name($this->getId()));
+		$this->clear_room($room_num, true);
 		$this->setCorrectAnswer(preg_split('//u', $this->getRandomWord(), -1, PREG_SPLIT_NO_EMPTY));
 		$current = $this->create_empty_array (count($this->getCorrectAnswer()));
 		$this->setCurrent($current);
@@ -233,14 +234,15 @@ public function start_dual_game2 ($room_num){
 
 public function find_used_room_and_clear($id) {
 	$conn = get_connection();
-	$select_query = sprintf("SELECT game_room_id FROM game_room2 WHERE user1_id = %d || user2_id = %d;", $id, $id);
+	$select_query = sprintf("SELECT game_room_id, winner FROM game_room2 WHERE user1_id = %d || user2_id = %d;", $id, $id);
 	$result = mysqli_query ($conn, $select_query);
 	$row = mysqli_fetch_assoc($result);
 	if ($row['game_room_id'] > 0) {
 		$this->clear_room($row['game_room_id'], true);
-	}	
+	} 
 } 
-	
+
+
 	
 	
 	
@@ -354,8 +356,18 @@ public function find_used_room_and_clear($id) {
 	}
 	
 	public function clear_room($room_id, $check){
-debug_log('clear');
+		debug_log('clear');
+		$conn = get_connection();
+		if ($check == true) {
+			$clear_query = sprintf("UPDATE game_room2 SET answer = NULL, current = NULL, wrong = NULL, turn = NULL, user1_id = NULL, user2_id = NULL, winner = NULL WHERE game_room_id = %d;", $room_id);
+			mysqli_query ($conn, $clear_query);
+		} else {
+			$clear_query2 = sprintf("UPDATE game_room2 SET answer = NULL, current = NULL, wrong = NULL, user1_id = NULL, user2_id = NULL WHERE game_room_id = %d;", $room_id);
+			mysqli_query ($conn, $clear_query2);
+		}
 	}
+	
+	
 	
 	public function refresh (){
 	  if($this->getMode() === 'solo_game'){//솔로게임이면

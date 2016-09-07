@@ -171,7 +171,7 @@
 							echo '승률 : '.$row['win_rate'].'%';
 						?>
 					</div>
-<!--			
+		
 <script src='//uchat.co.kr/uchat.php' charset='UTF-8'></script>
 <script type='text/javascript'>
 u_chat({
@@ -181,7 +181,7 @@ room:'hangman'
 , height:'440'
 });
 </script>
--->
+
 				</div>	
 		<?php		
 			} else {				
