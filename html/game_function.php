@@ -28,7 +28,7 @@
 		$turn = intval($row['turn']);
 		$winner = intval($row['winner']);
 		
-		if ($winner !== 0){//게임이 끝남
+		if ($winner > 0){//게임이 끝남
 			$my_position = get_my_position();
 			if ($winner === $my_position) {
 				return 'win';

@@ -16,9 +16,9 @@
 
 			$infoDto->startSoloGame();
 			header("Location: index.php");
-		} else if ($infoDto->getMode() === 'lobby') { //리셋했을때
+		} else if ($infoDto->getMode() === 'lobby') { //로비 클릭 했을때
 			if($exit == true){
-				$infoDto->clear_room($infoDto->getRoomId());
+				$infoDto->clear_room($infoDto->getRoomId(), false);
 				header("Location: index.php");
 			} else {
 				header("Location: index.php");

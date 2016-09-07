@@ -1,6 +1,7 @@
 <?php
 require_once 'game_function.php';
 require_once 'stat_db.php';
+require_once 'logging.php';
 class SessionInfo {
 	private $id;
 	private $mode;
@@ -193,7 +194,7 @@ public function start_dual_game2 ($room_num){
 		$user1_id = intval($row['user1_id']);
 		$my_id = get_user_id_from_user_name($this->getId());
 		if ($user1_id === $my_id){
-				$this->clear_room($room_num);
+				$this->clear_room($room_num, true);
 				$this->start_dual_game2($room_num);
 		} else {
 			$this->find_used_room_and_clear(get_user_id_from_user_name($this->getId()));
@@ -235,7 +236,9 @@ public function find_used_room_and_clear($id) {
 	$select_query = sprintf("SELECT game_room_id FROM game_room2 WHERE user1_id = %d || user2_id = %d;", $id, $id);
 	$result = mysqli_query ($conn, $select_query);
 	$row = mysqli_fetch_assoc($result);
-	$this->clear_room($row['game_room_id']);
+	if ($row['game_room_id'] > 0) {
+		$this->clear_room($row['game_room_id'], true);
+	}	
 } 
 	
 	
@@ -339,9 +342,7 @@ public function find_used_room_and_clear($id) {
 			$conn = get_connection();
 			$update_query = sprintf ("UPDATE game_room2 SET winner=%d WHERE game_room_id=%d;", get_my_position(), get_my_game_room_id());
 			mysqli_query ($conn, $update_query);
-			mysqli_close($conn);			
 			insert_stats();
-			//$this->clear_room(get_my_game_room_id());
 		}
 	}
 	
@@ -352,10 +353,8 @@ public function find_used_room_and_clear($id) {
 		mysqli_close($conn);
 	}
 	
-	public function clear_room($room_id){
-		$conn = get_connection();		
-		$clear_query = sprintf("UPDATE game_room2 SET answer = NULL, current = NULL, wrong = NULL, turn = NULL, user1_id = NULL, user2_id = NULL, winner = NULL WHERE game_room_id = %d;", $room_id);
-		mysqli_query ($conn, $clear_query);
+	public function clear_room($room_id, $check){
+debug_log('clear');
 	}
 	
 	public function refresh (){

@@ -38,15 +38,15 @@ $data['status'] = $infoDto->getGamingStatus();
 $data['my_id'] = $infoDto->getId();
 
 
-	
 if ($data['status'] === 'enemy_turn' && $_POST['action'] === 'fetch_status') {
-	$last_turn_change = strtotime (get_last_turn_time());
+	$last_turn_change = strtotime(get_last_turn_time());
 	$current_time = time();
 	$data['time'] = $current_time - $last_turn_change;
 	if ($data['time'] > 20) {
-		$infoDto->win_game();
-	}	
+		$infoDto -> win_game();
+	}
 }
+
 echo json_encode($data);
 if ($data['status'] == 'win') {
 	debug_log('win: '.json_encode($data));
