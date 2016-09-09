@@ -356,7 +356,7 @@ public function find_used_room_and_clear($id) {
 	}
 	
 	public function clear_room($room_id, $check){
-		debug_log('clear');
+		//debug_log('clear');
 		$conn = get_connection();
 		if ($check == true) {
 			$clear_query = sprintf("UPDATE game_room2 SET answer = NULL, current = NULL, wrong = NULL, turn = NULL, user1_id = NULL, user2_id = NULL, winner = NULL WHERE game_room_id = %d;", $room_id);
